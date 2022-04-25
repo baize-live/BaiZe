@@ -1,0 +1,89 @@
+DROP DATABASE IF EXISTS BaiZeDB;
+
+create database BaiZeDB;
+
+use BaiZeDB;
+
+-- 创建用户表
+DROP TABLE IF EXISTS User;
+
+create table User
+(
+    UID        int AUTO_INCREMENT COMMENT 'UID',
+    username   varchar(20) DEFAULT ' ' NOT NULL COMMENT '用户名',
+    password   varchar(30) DEFAULT ' ' NOT NULL COMMENT '密码',
+    email      varchar(30) DEFAULT ' ' NOT NULL COMMENT '电子邮件',
+    phone      varchar(20) DEFAULT ' ' COMMENT '手机',
+    nowStorage int         DEFAULT 0 COMMENT '当前存储',
+    maxStorage int         DEFAULT 1024 COMMENT '最大存储',
+    createTime datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    CONSTRAINT PriKeyUid PRIMARY KEY (UID),
+    CONSTRAINT UniqueEmail UNIQUE (email)
+) COMMENT '用户';
+
+alter table
+    User
+    AUTO_INCREMENT = 10000000;
+
+-- 创建文件表
+DROP TABLE IF EXISTS UserFile;
+
+create table UserFile
+(
+    UFID       int AUTO_INCREMENT COMMENT 'UFID',
+    UID        int COMMENT '用户ID',
+    fileName   varchar(20) DEFAULT ' ' NOT NULL COMMENT '文件名',
+    fileType   char(1)     DEFAULT '-' NOT NULL COMMENT '文件类型',
+    fileState  char(1)     DEFAULT 'Y' NOT NULL COMMENT '文件状态',
+    lastDir    varchar(20) DEFAULT ' ' NOT NULL COMMENT '上级目录',
+    createTime datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    CONSTRAINT PriKeyFid PRIMARY KEY (UFID),
+    CONSTRAINT UniqueName UNIQUE (UID, lastDir, fileName),
+    foreign key (UID) references User (UID)
+) COMMENT '普通文件';
+
+-- 创建管理员
+DROP TABLE IF EXISTS Admin;
+
+create table Admin
+(
+    AID         int AUTO_INCREMENT COMMENT 'AID',
+    username    varchar(20) DEFAULT ' ' NOT NULL COMMENT '用户名',
+    password    varchar(30) DEFAULT ' ' NOT NULL COMMENT '密码',
+    email       varchar(30) DEFAULT ' ' NOT NULL COMMENT '电子邮件',
+    permissions char(1)     DEFAULT '0' NOT NULL COMMENT '权限',
+    CONSTRAINT PriKeyAid PRIMARY KEY (AID)
+) COMMENT '管理员';
+
+alter table
+    Admin
+    AUTO_INCREMENT = 10000;
+
+-- 创建共享文件
+DROP TABLE IF EXISTS ShareFile;
+
+create table ShareFile
+(
+    SFID       int AUTO_INCREMENT COMMENT 'SFID',
+    fileName   varchar(20) DEFAULT ' ' NOT NULL COMMENT '文件名',
+    password   varchar(30) DEFAULT ' ' NOT NULL COMMENT '密码',
+    createTime datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    CONSTRAINT PriKeySFid PRIMARY KEY (SFID)
+) COMMENT '共享文件';
+
+-- 创建好友
+DROP TABLE IF EXISTS Friend;
+
+create table Friend
+(
+    NID        int AUTO_INCREMENT COMMENT 'NID',
+    UID1       int COMMENT '用户1',
+    UID2       int COMMENT '用户2',
+    group1     varchar(20) DEFAULT '默认分组' COMMENT '用户1中 用户2的身份',
+    group2     varchar(20) DEFAULT '默认分组' COMMENT '用户2中 用户1的身份',
+    createTime datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    CONSTRAINT PriKeyNid PRIMARY KEY (NID),
+    foreign key (UID1) references User (UID),
+    foreign key (UID2) references User (UID)
+) COMMENT '好友';
+

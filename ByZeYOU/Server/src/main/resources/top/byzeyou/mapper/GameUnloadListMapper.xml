@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.byzeyou.mapper.GameUnloadListMapper">
+
+    <select id="selectAll" resultType="top.byzeyou.bean.Game">
+        select *
+        from gameunloadlist;
+    </select>
+
+    <insert id="addGame">
+        insert into gameunloadlist (name, icon, installer, introduction)
+        values (#{name}, #{icon}, #{installer}, #{introduction});
+    </insert>
+
+</mapper>

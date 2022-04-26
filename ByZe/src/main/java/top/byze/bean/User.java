@@ -3,17 +3,17 @@ package top.byze.bean;
 public class User {
     private String uid;
     private String username;
-    private String password;
+    private final String password;
+    private final String email;
     private String phone;
-    private String email;
-    private String nowStorage;
-    private String maxStorage;
+    private String IDCard;
+    private String realName;
+    private String isOpenYou;
+    private String isOpenPan;
     private String createTime;
 
-    public User(String username, String password, String phone, String email) {
-        this.username = username;
+    public User(String password, String email) {
         this.password = password;
-        this.phone = phone;
         this.email = email;
     }
 
@@ -21,48 +21,32 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getIDCard() {
+        return IDCard;
     }
 
-    public String getNowStorage() {
-        return nowStorage;
+    public String getRealName() {
+        return realName;
     }
 
-    public void setNowStorage(String nowStorage) {
-        this.nowStorage = nowStorage;
+    public String getIsOpenPan() {
+        return isOpenPan;
     }
 
-    public String getMaxStorage() {
-        return maxStorage;
-    }
-
-    public void setMaxStorage(String maxStorage) {
-        this.maxStorage = maxStorage;
+    public String getIsOpenYou() {
+        return isOpenYou;
     }
 
     @Override
@@ -71,10 +55,12 @@ public class User {
                 "uid='" + uid + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", nowStorage='" + nowStorage + '\'' +
-                ", maxStorage='" + maxStorage + '\'' +
+                ", phone='" + phone + '\'' +
+                ", IDCard='" + IDCard + '\'' +
+                ", realName='" + realName + '\'' +
+                ", isOpenYou='" + isOpenYou + '\'' +
+                ", isOpenPan='" + isOpenPan + '\'' +
                 ", createTime='" + createTime + '\'' +
                 '}';
     }

@@ -1,33 +1,56 @@
 DROP DATABASE IF EXISTS BaiZeDB;
-
 create database BaiZeDB;
-
 use BaiZeDB;
 
 -- 创建用户表
 DROP TABLE IF EXISTS User;
-
 create table User
 (
     UID        int AUTO_INCREMENT COMMENT 'UID',
-    username   varchar(20) DEFAULT ' ' NOT NULL COMMENT '用户名',
-    password   varchar(30) DEFAULT ' ' NOT NULL COMMENT '密码',
-    email      varchar(30) DEFAULT ' ' NOT NULL COMMENT '电子邮件',
-    phone      varchar(20) DEFAULT ' ' COMMENT '手机',
-    nowStorage int         DEFAULT 0 COMMENT '当前存储',
-    maxStorage int         DEFAULT 1024 COMMENT '最大存储',
+    username   varchar(20) NOT NULL COMMENT '用户名',
+    password   varchar(30) NOT NULL COMMENT '密码',
+    email      varchar(30) NOT NULL COMMENT '电子邮件',
+    phone      varchar(20) DEFAULT NULL COMMENT '手机',
+    IDCard     varchar(20) DEFAULT NULL COMMENT '身份证号',
+    realName   varchar(20) DEFAULT NULL COMMENT '真实姓名',
+    isOpenYou  char        DEFAULT '0' COMMENT '是否开通游戏账号',
+    isOpenPan  char        DEFAULT '0' COMMENT '是否开通网盘账号',
     createTime datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     CONSTRAINT PriKeyUid PRIMARY KEY (UID),
     CONSTRAINT UniqueEmail UNIQUE (email)
 ) COMMENT '用户';
-
 alter table
     User
     AUTO_INCREMENT = 10000000;
 
+-- 创建用户网盘数据表
+# 用来记录用户所有网盘相关的数据
+DROP TABLE IF EXISTS PanData;
+create table PanData
+(
+    PID        int AUTO_INCREMENT COMMENT 'PID',
+    UID        int COMMENT '用户ID',
+    grade      char DEFAULT '0' COMMENT '会员等级',
+    nowStorage int  DEFAULT 0 COMMENT '当前存储',
+    maxStorage int  DEFAULT 1024 COMMENT '最大存储',
+    CONSTRAINT PriKeyUid PRIMARY KEY (PID),
+    foreign key (UID) references User (UID)
+) COMMENT '网盘数据';
+
+-- 创建用户网盘数据表
+# 用来记录用户所有与游戏相关的数据
+DROP TABLE IF EXISTS YouData;
+create table YouData
+(
+    YID        int AUTO_INCREMENT COMMENT 'YID',
+    UID        int COMMENT '用户ID',
+    username   varchar(20) DEFAULT ' ' NOT NULL COMMENT '游戏id',
+    CONSTRAINT PriKeyUid PRIMARY KEY (YID),
+    foreign key (UID) references User (UID)
+) COMMENT '游戏数据';
+
 -- 创建文件表
 DROP TABLE IF EXISTS UserFile;
-
 create table UserFile
 (
     UFID       int AUTO_INCREMENT COMMENT 'UFID',
@@ -44,7 +67,6 @@ create table UserFile
 
 -- 创建管理员
 DROP TABLE IF EXISTS Admin;
-
 create table Admin
 (
     AID         int AUTO_INCREMENT COMMENT 'AID',
@@ -54,14 +76,12 @@ create table Admin
     permissions char(1)     DEFAULT '0' NOT NULL COMMENT '权限',
     CONSTRAINT PriKeyAid PRIMARY KEY (AID)
 ) COMMENT '管理员';
-
 alter table
     Admin
     AUTO_INCREMENT = 10000;
 
 -- 创建共享文件
 DROP TABLE IF EXISTS ShareFile;
-
 create table ShareFile
 (
     SFID       int AUTO_INCREMENT COMMENT 'SFID',
@@ -73,7 +93,6 @@ create table ShareFile
 
 -- 创建好友
 DROP TABLE IF EXISTS Friend;
-
 create table Friend
 (
     NID        int AUTO_INCREMENT COMMENT 'NID',
@@ -89,7 +108,6 @@ create table Friend
 
 -- 创建 verify
 DROP TABLE IF EXISTS Verify;
-
 create table Verify
 (
     VID        int AUTO_INCREMENT COMMENT 'VID',

@@ -24,7 +24,6 @@ public class ServletHOME extends HttpServlet {
 
     private void doWork(HttpServletRequest req, HttpServletResponse res) {
         String business = req.getParameter("business");
-
         if (business == null) {
             doException();
             return;

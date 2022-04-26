@@ -26,8 +26,8 @@
     </select>
 
     <insert id="addUser">
-        insert into user(username, password, phone, email)
-        values (#{username}, #{password}, #{phone}, #{email});
+        insert into user(username, password, email)
+        values (#{username}, #{password}, #{email});
     </insert>
 
     <delete id="delAll">

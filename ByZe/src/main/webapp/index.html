@@ -2,48 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MainPage</title>
-    <!-- TODO： 加一个图标-->
-    <!--导入JS代码-->
-    <!--axios异步请求-->
+    <title>BaiZe</title>
+    <link href="./css/index.css" rel="stylesheet">
     <script src="./js/axios.js"></script>
-    <!--Vue代码 先导入这个文件-->
     <script src="./js/vue.js"></script>
 </head>
 
 <body>
 
-<a href="./login.html">登录/注册</a> <br>
-<a href="./pan.html">白泽网盘</a> <br>
-<a href="./you.html">白泽游戏</a> <br>
-<!--天气-->
-<div id="weather">
-    <label><input type="text" v-model="city" value="查询天气"></label>
-    <input @click="getWeather" @keyup.enter="getWeather" type="button" value="搜索">
-    <h1>城市为:{{ city }}</h1>
-    <p>温度:{{ wendu + "℃" }}</p>
-    <p>提醒:{{ ganmao }}</p>
-    <p>未来五天天气预测</p>
-    <ul>
-        <li v-for="data in forecast">
-            {{ data["date"] }} {{ data["high"] }} {{ data["fengli"] }}
-            {{ data["low"] }} {{ data["fengxiang"] }} {{ data["type"] }}
-        </li>
-    </ul>
-    <p>昨天天气
-        {{ yesterday["date"] }} {{ yesterday["high"] }} {{ yesterday["fengli"] }}
-        {{ yesterday["low"] }}{{ yesterday["fengxiang"] }} {{ yesterday["type"] }}
-    </p>
-</div>
-<!--时间-->
-<div id="time">
-    <button @click='showTime' v-text="button"></button>
-    <label v-show="isShow" v-text="label"></label>
-</div>
-<!--笑话-->
-<div id="jokeAxios">
-    <input @click="getJoke" type="button" value="获取笑话">
-    <p>{{ joke }}</p>
+<div>
+    <div class="content">
+        <div class="main">
+            <!-- 时间-->
+            <div class="date-time-view" id="time">
+                <label class="time" v-text="time"></label> <br>
+                <label class="date" v-text="date"></label> <br>
+            </div>
+            <br>
+            <!-- 城市天气-->
+            <div class="small-weather" id="weather">
+                <div class="city-name">{{ city }}</div>
+                <div class="city-temp">{{ forecast["type"] }}</div>
+                <div class="cur-temp">{{ forecast["low"] }} ~ {{forecast["high"] }}</div>
+            </div>
+
+            <a href="./login.html">登录/注册</a> <br>
+            <a href="./pan.html">白泽网盘</a> <br>
+            <a href="./you.html">白泽游戏</a> <br>
+            <a href="./person.html">关于作者</a> <br>
+
+            <!--笑话-->
+            <div id="jokeAxios">
+                <input @click="getJoke" type="button" value="获取笑话"> <p>{{ joke }}</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="js/index.js"></script>

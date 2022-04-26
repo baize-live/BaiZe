@@ -87,3 +87,34 @@ create table Friend
     foreign key (UID2) references User (UID)
 ) COMMENT '好友';
 
+-- 创建 verify
+DROP TABLE IF EXISTS Verify;
+
+create table Verify
+(
+    VID        int AUTO_INCREMENT COMMENT 'VID',
+    email      varchar(30) DEFAULT ' ' NOT NULL COMMENT '电子邮件',
+    verifyCode varchar(6)  DEFAULT ' ' NOT NULL COMMENT '验证码',
+    createTime datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    CONSTRAINT PriKeyNid PRIMARY KEY (VID)
+) COMMENT '验证码';
+
+-- 创建定时时间
+create event clearVerifyOver5min on schedule every 60 second
+    STARTS '2022-01-01 00:00:00'
+    do
+    delete
+    from Verify
+    where createTime < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 300 second);
+
+# # 关闭事件  clearVerifyOver5min ---> eventName
+# alter event clearVerifyOver5min disable;
+# # 开启事件
+# alter event clearVerifyOver5min enable;
+# # 删除事件
+# drop event if exists clearVerifyOver5min;
+# # 查看事件
+# show events;
+
+# insert into Verify (email, verifyCode) value ('192176794@qq.com', '123456');
+# insert into Verify (email, verifyCode) value ('164613454@qq.com', '123456');

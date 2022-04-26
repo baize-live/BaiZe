@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import top.byze.bean.User;
 import top.byze.mapper.UserMapper;
+import top.byze.mapper.VerifyMapper;
+import top.byze.utils.MailUtil;
 import top.byze.utils.MyBatis;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +22,6 @@ public class Register {
     public Register(HttpServletRequest req, HttpServletResponse res) {
         this.req = req;
         this.res = res;
-        this.res.setContentType("text/html;charset=utf-8");
         try {
             writer = this.res.getWriter();
         } catch (IOException e) {
@@ -28,45 +29,52 @@ public class Register {
         }
     }
 
-//    private boolean checkVerification() {
-//        boolean flag = false;
-//        try {
-//            MyBatis myBatis = new MyBatis();
-//            SqlSession sqlSession = myBatis.getSqlSession();
-//            // 获取 verificationMapper 接口的代理对象
-//            VerificationMapper verificationMapper = sqlSession.getMapper(VerificationMapper.class);
-//            String email = this.req.getParameter("email");
-//            String verificationCode = this.req.getParameter("verificationCode");
-//            flag = verificationMapper.checkVerification(email, verificationCode);
-//            myBatis.closeSqlSession();
-//        } catch (Exception e) {
-//            log.error("检查验证码异常");
-//            log.error(e.toString());
-//        }
-//        return flag;
-//    }
-
-    private static String generateVerificationCode() {
-        return "123456";
+    private boolean checkVerifyCode(String email, String verifyCode) {
+        boolean flag = false;
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            // 获取 verificationMapper 接口的代理对象
+            VerifyMapper verifyMapper = sqlSession.getMapper(VerifyMapper.class);
+            flag = verifyMapper.checkVerifyCode(email, verifyCode);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            log.error("检查验证码异常");
+        }
+        return flag;
     }
 
-    private void addUser() {
+    private void saveVerifyCode(String email, String verifyCode) {
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            // 获取 verifyMapper 接口的代理对象
+            VerifyMapper verifyMapper = sqlSession.getMapper(VerifyMapper.class);
+            verifyMapper.saveVerifyCode(email, verifyCode);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            log.error("保存验证码异常");
+        }
+    }
+
+    private void addUser(String username, String password, String email) {
         try {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
             // 获取 UserMapper 接口的代理对象
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            String username = this.req.getParameter("username");
-            String password = this.req.getParameter("password");
-            String email = this.req.getParameter("email");
             User user = new User(username, password, "", email);
             userMapper.addUser(user);
             // 关闭资源
             myBatis.closeSqlSession();
         } catch (Exception e) {
             log.error("添加用户异常");
-            log.error(e.toString());
         }
+    }
+
+    private String generateVerifyCode() {
+        // TODO: 重写生成验证码
+        return "123456";
     }
 
     public void checkEmail() {
@@ -78,57 +86,48 @@ public class Register {
             boolean isExist = userMapper.checkEmail(this.req.getParameter("email"));
             if (isExist) {
                 log.error("此邮箱已被注册");
-                if (writer != null) {
-                    writer.println("0");
-                }
+                writer.println("0");
             } else {
                 log.info("此邮箱未被注册");
-                if (writer != null) {
-                    writer.println("1");
-                }
+                writer.println("1");
             }
         } catch (Exception e) {
-            log.error("出异常了");
-            log.error(e.toString());
+            log.error("这里有异常");
         }
         myBatis.closeSqlSession();
         writer.close();
     }
 
-//    public void register() {
-//        if (checkVerification()) {
-//            addUser();
-//            log.info(this.req.getParameter("email") + " 注册成功");
-//            writer.println("1");
-//        } else {
-//            writer.println("0");
-//        }
-//        writer.close();
-//    }
+    public void register() {
+        String email = this.req.getParameter("email");
+        String username = this.req.getParameter("username");
+        String password = this.req.getParameter("password");
+        String verifyCode = this.req.getParameter("verifyCode");
+        if (checkVerifyCode(email, verifyCode)) {
+            addUser(username, password, email);
+            log.info(this.req.getParameter("email") + " 注册成功");
+            writer.println("1");
+        } else {
+            writer.println("0");
+            log.error(this.req.getParameter("email") + " 验证码错误");
+        }
+        writer.close();
+    }
 
-//    public void sendVerificationCode() {
-//        // 获取注册码
-//        String email = this.req.getParameter("email");
-//        String verificationCode = generateVerificationCode();
-//        // 保存在数据库
-//        MyBatis myBatis = new MyBatis();
-//        SqlSession sqlSession = myBatis.getSqlSession();
-//        VerificationMapper verificationMapper = sqlSession.getMapper(VerificationMapper.class);
-//        try {
-//            Verification verification = new Verification(email, verificationCode);
-//            verificationMapper.addVerification(verification);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            log.error("验证码生成失败");
-//        }
-//        // 发送邮件
-//        try {
-//            new MailUtil(email, verificationCode).sendMain();
-//            writer.println("1");
-//        } catch (Exception e) {
-//            log.error("验证码发送异常");
-//            writer.println("0");
-//        }
-//    }
-
+    public void sendVerifyCode() {
+        // 获取注册码
+        String email = this.req.getParameter("email");
+        String verifyCode = generateVerifyCode();
+        saveVerifyCode(email, verifyCode);
+        // 发送邮件
+        try {
+            new MailUtil(email, verifyCode).sendMain();
+            writer.println("1");
+            log.info("验证码发送成功");
+        } catch (Exception e) {
+            log.error("验证码发送异常");
+            writer.println("0");
+        }
+        writer.close();
+    }
 }

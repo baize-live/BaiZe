@@ -114,7 +114,7 @@ new Vue({
             } else if (this.verifyCode == "") {
                 console.log("请输入验证码");
             } else {
-                let data = "business=" + this.business.register + "&username=" + this.username + "&password=" + this.password + "&email=" + this.email + "&verificationCode=" + this.verifyCode;
+                let data = "business=" + this.business.register + "&username=" + this.username + "&password=" + this.password + "&email=" + this.email + "&verifyCode=" + this.verifyCode;
                 axios.post(this.url, data)
                     .then(function (res) {
                         if (res.data == "1") {
@@ -141,9 +141,9 @@ new Vue({
     data: {
         email: "",
         password: "",
-        url: basePath + "/Service",
+        url: basePath + "/byzehome",
         business: {
-            login: "101",
+            login: "104",
         }
     },
     methods: {

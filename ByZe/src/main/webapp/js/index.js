@@ -1,57 +1,46 @@
 // 时间
 let time = new Vue({
     el: "#time",
+    created() {
+        this.updateTime();
+    },
     data: {
-        button: "显示时间",
-        label: "2022-01-01 00:00:00",
-        isShow: false,
+        time: "00:00",
+        date: "2022-01-01"
     },
     methods: {
-        showTime: function () {
-            if (this.isShow === false) {
-                this.button = "隐藏时间";
-                this.changeTime();
-            } else {
-                this.button = "显示时间";
-            }
-            this.isShow = !this.isShow;
-        },
-        changeTime: function () {
-            let date = new Date(); //日期对象
-            let now;
-            now = date.getFullYear() + "-";
-            now = now + (date.getMonth() + 1) + "-";
-            now = now + date.getDate() + " ";
-            now = now + date.getHours() + ":";
-            now = now + date.getMinutes() + ":";
-            now = now + date.getSeconds();
-            this.label = now;
-            setInterval(this.changeTime, 1000);
+        updateTime: function () {
+            let now = new Date(); //日期对象
+            let map = {1: "一", 2: "二", 3: "三", 4: "四", 5: "五", 6: "六", 7: "日"}
+            this.time = now.getHours() + ":" + now.getMinutes();
+            this.date = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() +
+                "   星期" + map[now.getDay()];
+            setInterval(this.updateTime, 1000);
         }
     }
-
-
 });
-// 天气的异步请求
+
+// 天气
 let weather = new Vue({
     el: "#weather",
+    created() {
+        this.getWeather();
+    },
     data: {
-        city: "北京",
+        city: "天津",
         forecast: [],
-        ganmao: "",
-        wendu: "",
-        yesterday: [],
     },
     methods: {
+        // TODO : 添加 修改城市
+        modifyCity: function (city) {
+            this.city = city;
+        },
         getWeather: function () {
             let that = this;
             axios.get("http://wthrcdn.etouch.cn/weather_mini?city=" + this.city).then(
                 function (res) {
                     let weather = res.data.data
-                    that.forecast = weather.forecast
-                    that.ganmao = weather.ganmao
-                    that.wendu = weather.wendu
-                    that.yesterday = weather.yesterday
+                    that.forecast = weather.forecast[0]
                 },
                 function (err) {
                     console.log(err)
@@ -60,6 +49,7 @@ let weather = new Vue({
         }
     },
 })
+
 // 笑话的异步请求
 let joke = new Vue({
     el: "#jokeAxios",
@@ -96,3 +86,5 @@ console.log(
     "▓▓▓▓█████░░░░░░░░\n" +
     "████▀░░░▀▀██████▀\n"
 )
+
+

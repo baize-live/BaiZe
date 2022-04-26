@@ -10,6 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @WebServlet(name = "HOME", value = "/byzehome")
 public class ServletHOME extends HttpServlet {
+    // 业务类型
+    private static class Business {
+        final static String CHECK_EMAIL = "101";
+        final static String SEND_VERIFICATION_CODE = "102";
+        final static String REGISTER = "103";
+        final static String LOGIN = "104";
+    }
+    // 前端数据异常
     private void doException() {
         log.error("前端数据异常");
     }
@@ -23,16 +31,16 @@ public class ServletHOME extends HttpServlet {
         }
         switch (business) {
             case Business.LOGIN:
-                new top.byze.service.Login(req, res).response();
+                new top.byze.service.Login(req, res).login();
                 break;
             case Business.REGISTER:
-//                new top.byze.service.Register(req, res).register();
+                new top.byze.service.Register(req, res).register();
                 break;
             case Business.CHECK_EMAIL:
                 new top.byze.service.Register(req, res).checkEmail();
                 break;
             case Business.SEND_VERIFICATION_CODE:
-//                new top.byze.service.Register(req, res).sendVerificationCode();
+                new top.byze.service.Register(req, res).sendVerifyCode();
                 break;
             default:
                 log.error("前端数据异常");
@@ -50,11 +58,5 @@ public class ServletHOME extends HttpServlet {
         doWork(req, res);
     }
 
-    // 业务类型
-    private static class Business {
-        final static String CHECK_EMAIL = "101";
-        final static String SEND_VERIFICATION_CODE = "102";
-        final static String REGISTER = "103";
-        final static String LOGIN = "104";
-    }
+
 }

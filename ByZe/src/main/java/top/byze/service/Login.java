@@ -19,7 +19,6 @@ public class Login {
     public Login(HttpServletRequest req, HttpServletResponse res) {
         this.req = req;
         this.res = res;
-        this.res.setContentType("text/html;charset=utf-8");
         try {
             writer = this.res.getWriter();
         } catch (IOException e) {
@@ -27,7 +26,7 @@ public class Login {
         }
     }
 
-    public void response() {
+    public void login() {
         MyBatis myBatis = new MyBatis();
         SqlSession sqlSession = myBatis.getSqlSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);

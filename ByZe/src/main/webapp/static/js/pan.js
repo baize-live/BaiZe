@@ -1,3 +1,4 @@
+
 const basePath = 'http://localhost:8080/ByZe'
 
 new Vue({
@@ -18,8 +19,8 @@ new Vue({
             let data = "business=" + this.business.hello;
             axios.post(this.url, data).then(
                 function (res) {
-                    console.log(res.data);
-                    that.shu = res.data;
+                    // console.log(res.data);
+                    // that.shu = res.data;
                 },
                 function (err) {
                     console.log(err)

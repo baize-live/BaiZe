@@ -10,6 +10,7 @@ import top.byze.utils.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -46,6 +47,66 @@ public class Login {
         SessionUtil.set(user, this.req);
     }
 
+    private boolean isOpenPan(String email) {
+        boolean flag = false;
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            // 获取 UserMapper 接口的代理对象
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            flag = userMapper.isOpenPan(email);
+            // 关闭资源
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            log.error("检查是否开通网盘异常");
+        }
+        return flag;
+    }
+
+    private boolean isOpenYou(String email) {
+        boolean flag = false;
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            // 获取 UserMapper 接口的代理对象
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            flag = userMapper.isOpenYou(email);
+            // 关闭资源
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            log.error("检查是否开通游戏异常");
+        }
+        return flag;
+    }
+
+    private void openPan(String email) {
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            // 获取 UserMapper 接口的代理对象
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            userMapper.openPan(email);
+            // 关闭资源
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            log.error("开通网盘异常");
+        }
+    }
+
+    private void openYou(String email) {
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            // 获取 UserMapper 接口的代理对象
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            userMapper.openYou(email);
+            // 关闭资源
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            log.error("开通游戏异常");
+        }
+    }
+
     // 查找用户
     public static boolean findUser(String email, String password) {
         boolean flag = false;
@@ -80,6 +141,46 @@ public class Login {
             log.error("登录异常");
         }
         writer.close();
+    }
+
+    public void isOpenPan() {
+        // 查询数据库 判断是否开启白泽库
+        HttpSession session = this.req.getSession();
+        User user = (User) session.getAttribute("user");
+        boolean flag = isOpenPan(user.getEmail());
+        if (flag) {
+            writer.println(Res.TRUE);
+            log.info(user.getEmail() + "网盘已经开通");
+        } else {
+            writer.println(Res.FALSE);
+            log.info(user.getEmail() + "网盘暂未开通");
+        }
+    }
+
+    public void isOpenYou() {
+        // 查询数据库 判断是否开启白泽库
+        HttpSession session = this.req.getSession();
+        User user = (User) session.getAttribute("user");
+        boolean flag = isOpenYou(user.getEmail());
+        if (flag) {
+            writer.println(Res.TRUE);
+            log.info(user.getEmail() + "游戏已经开通");
+        } else {
+            writer.println(Res.FALSE);
+            log.info(user.getEmail() + "游戏暂未开通");
+        }
+    }
+
+    public void openPan() {
+        HttpSession session = this.req.getSession();
+        User user = (User) session.getAttribute("user");
+        openPan(user.getEmail());
+    }
+
+    public void openYou() {
+        HttpSession session = this.req.getSession();
+        User user = (User) session.getAttribute("user");
+        openYou(user.getEmail());
     }
 
     public void logout() {

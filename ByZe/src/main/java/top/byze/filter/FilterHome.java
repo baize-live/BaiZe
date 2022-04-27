@@ -7,14 +7,14 @@ import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
 @Slf4j
-@WebFilter(value = "/byzehome")
+@WebFilter(value = {"/byzehome", "/login.html"})
 public class FilterHome implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
         log.info("one request to byzehome");
         FilterTool.setEncode(req, res);
-        filterChain.doFilter(req, res);
+        FilterTool.redirectIndex(req, res, filterChain);
     }
 
     @Override

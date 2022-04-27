@@ -14,7 +14,7 @@ public class FilterPan implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
         log.info("one request to byzepan");
         FilterTool.setEncode(req, res);
-        FilterTool.setRedirect(req, res, filterChain);
+        FilterTool.redirectLogin(req, res, filterChain);
     }
 
     @Override

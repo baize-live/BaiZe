@@ -11,10 +11,19 @@ public interface UserMapper {
 
     List<User> selectAll();
 
+    boolean isOpenPan(@Param("email") String email);
+
+    boolean isOpenYou(@Param("email") String email);
+
+    void openPan(@Param("email") String email);
+
+    void openYou(@Param("email") String email);
+
     boolean checkEmail(@Param("email") String email);
 
     boolean findUser(@Param("email") String email, @Param("password") String password);
 
     void addUser(@Param("username") String username, @Param("password") String password, @Param("email") String email);
+
 
 }

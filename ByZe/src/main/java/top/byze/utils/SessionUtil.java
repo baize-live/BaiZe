@@ -12,9 +12,8 @@ public class SessionUtil {
         req.getSession().setAttribute("user", user);
     }
 
-//    public static User getUser(HttpServletRequest req) {
-//        HttpSession session = req.getSession();
-//        String email = ((User) session.getAttribute("user")).getEmail();
-//
-//    }
+    public static User getUser(HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        return ((User) session.getAttribute("user"));
+    }
 }

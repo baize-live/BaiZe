@@ -25,10 +25,34 @@
         ]]>
     </select>
 
+    <select id="isOpenPan" resultType="boolean">
+        select isOpenPan
+        from user
+        where email = #{email}
+    </select>
+
+    <select id="isOpenYou" resultType="boolean">
+        select isOpenYou
+        from user
+        where email = #{email}
+    </select>
+
     <insert id="addUser">
         insert into user(username, password, email)
         values (#{username}, #{password}, #{email});
     </insert>
+
+    <update id="openPan">
+        update user
+        set isOpenPan = '1'
+        where email = #{email};
+    </update>
+
+    <update id="openYou">
+        update user
+        set isOpenYou = '1'
+        where email = #{email};
+    </update>
 
     <delete id="delAll">
         delete

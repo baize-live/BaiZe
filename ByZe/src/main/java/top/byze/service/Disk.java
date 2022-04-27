@@ -2,7 +2,10 @@ package top.byze.service;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.SqlSession;
 import top.byze.bean.User;
+import top.byze.mapper.UserMapper;
+import top.byze.utils.MyBatis;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,17 +34,12 @@ public class Disk {
         }
     }
 
-    public void hello() {
-        HttpSession session = this.req.getSession();
-        User user = (User) session.getAttribute("user");
-        writer.println("<h1> Hello " + user.getUsername() + "<h1>");
-        writer.println("<h1> 成功了 " + user + "<h1>");
-    }
-
-    public void world() {
+    public void initPage() {
 
 
     }
+
+
 
 }
 

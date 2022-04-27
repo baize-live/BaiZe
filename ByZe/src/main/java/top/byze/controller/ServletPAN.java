@@ -12,8 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ServletPAN extends HttpServlet {
     // 业务类型
     private static class Business {
-        final static String HELLO = "201";
-        final static String WORLD = "202";
+        final static String InitPage = "201";
     }
 
     // 前端数据异常
@@ -28,11 +27,8 @@ public class ServletPAN extends HttpServlet {
             return;
         }
         switch (business) {
-            case Business.HELLO:
-                new top.byze.service.Disk(req, res).hello();
-                break;
-            case Business.WORLD:
-                new top.byze.service.Disk(req, res).world();
+            case Business.InitPage:
+                new top.byze.service.Disk(req, res).initPage();
                 break;
             default:
                 log.error("前端数据异常");

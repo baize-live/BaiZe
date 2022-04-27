@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Random;
 
 @Slf4j
 public class Register {
@@ -35,8 +36,15 @@ public class Register {
     }
 
     private String generateVerifyCode() {
-        // TODO: 重写生成验证码
-        return "123456";
+        Random random = new Random();
+        char[] chars = ("0123456789").toCharArray();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < 6; ++i) {
+            int num = random.nextInt(chars.length);
+            char c = chars[num];
+            stringBuilder.append(c);
+        }
+        return stringBuilder.toString();
     }
 
     private boolean checkEmail(String email) {

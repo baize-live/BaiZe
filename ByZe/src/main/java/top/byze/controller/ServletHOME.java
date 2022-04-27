@@ -16,7 +16,12 @@ public class ServletHOME extends HttpServlet {
         final static String SEND_VERIFICATION_CODE = "102";
         final static String REGISTER = "103";
         final static String LOGIN = "104";
+        final static String IsOpenPan = "105";
+        final static String OpenPan = "106";
+        final static String IsOpenYou = "107";
+        final static String OpenYou = "108";
     }
+
     // 前端数据异常
     private void doException() {
         log.error("前端数据异常");
@@ -29,9 +34,6 @@ public class ServletHOME extends HttpServlet {
             return;
         }
         switch (business) {
-            case Business.LOGIN:
-                new top.byze.service.Login(req, res).login();
-                break;
             case Business.REGISTER:
                 new top.byze.service.Register(req, res).register();
                 break;
@@ -40,6 +42,21 @@ public class ServletHOME extends HttpServlet {
                 break;
             case Business.SEND_VERIFICATION_CODE:
                 new top.byze.service.Register(req, res).sendVerifyCode();
+                break;
+            case Business.LOGIN:
+                new top.byze.service.Login(req, res).login();
+                break;
+            case Business.IsOpenPan:
+                new top.byze.service.Login(req, res).isOpenPan();
+                break;
+            case Business.OpenPan:
+                new top.byze.service.Login(req, res).openPan();
+                break;
+            case Business.IsOpenYou:
+                new top.byze.service.Login(req, res).isOpenYou();
+                break;
+            case Business.OpenYou:
+                new top.byze.service.Login(req, res).openYou();
                 break;
             default:
                 log.error("前端数据异常");

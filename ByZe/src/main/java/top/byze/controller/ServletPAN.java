@@ -13,6 +13,8 @@ public class ServletPAN extends HttpServlet {
     // 业务类型
     private static class Business {
         final static String InitPage = "201";
+        final static String UpdateUserData = "202";
+        final static String UpdateFileData = "203";
     }
 
     // 前端数据异常

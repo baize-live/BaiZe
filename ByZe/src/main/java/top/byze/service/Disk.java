@@ -1,15 +1,9 @@
 package top.byze.service;
 
-
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.SqlSession;
-import top.byze.bean.User;
-import top.byze.mapper.UserMapper;
-import top.byze.utils.MyBatis;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 

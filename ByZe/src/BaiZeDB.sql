@@ -57,6 +57,7 @@ create table UserFile
     UID        int COMMENT '用户ID',
     fileName   varchar(20) DEFAULT ' ' NOT NULL COMMENT '文件名',
     fileType   char(1)     DEFAULT '-' NOT NULL COMMENT '文件类型',
+    fileSize   int         DEFAULT 0   NOT NULL COMMENT '文件大小',
     fileState  char(1)     DEFAULT 'Y' NOT NULL COMMENT '文件状态',
     lastDir    varchar(20) DEFAULT ' ' NOT NULL COMMENT '上级目录',
     createTime datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

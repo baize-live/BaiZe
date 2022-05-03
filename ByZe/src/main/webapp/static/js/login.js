@@ -1,9 +1,4 @@
 // login.js
-// 基路径
-
-const basePath = 'http://localhost:8080/ByZe'
-
-// const basePath = 'http://114.116.89.58/MainPage'
 
 // 实现页面效果
 let login = document.getElementById('goLogin');
@@ -33,15 +28,11 @@ new Vue({
         conPassword: "",
         verifyCode: "",
         trueVerifyCode: "",
-        url: basePath + '/byzehome',
+        url: basePath + '/loginBefore',
         business: {
-            register: "103",
             checkEmail: "101",
             getVerifyCode: "102",
-            //         final static String LOGIN = "101";
-            //         final static String REGISTER = "102";
-            //         final static String CHECK_EMAIL = "103";
-            //         final static String SEND_VERIFICATION_CODE = "104";
+            register: "103",
         }
     },
     methods: {
@@ -88,7 +79,6 @@ new Vue({
 
         },
         getVerifyCode: function () {
-            //TODO: 获取验证码
             let data = "business=" + this.business.getVerifyCode + "&email=" + this.email;
             axios.post(this.url, data)
                 .then(function (res) {
@@ -131,7 +121,8 @@ new Vue({
                         console.log("访问后台失败");
                     });
             }
-        }
+        },
+
     }
 });
 
@@ -141,7 +132,7 @@ new Vue({
     data: {
         email: "",
         password: "",
-        url: basePath + "/byzehome",
+        url: basePath + "/loginBefore",
         business: {
             login: "104",
         }
@@ -186,7 +177,7 @@ new Vue({
                         console.log("访问后台失败");
                     });
             }
-        }
+        },
     }
 });
 

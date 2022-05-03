@@ -8,18 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
-@WebServlet(name = "HOME", value = "/byzehome")
-public class ServletHOME extends HttpServlet {
+@WebServlet(name = "LoginBefore", value = "/loginBefore")
+public class LoginBefore extends HttpServlet {
     // 业务类型
     private static class Business {
         final static String CHECK_EMAIL = "101";
         final static String SEND_VERIFICATION_CODE = "102";
         final static String REGISTER = "103";
         final static String LOGIN = "104";
-        final static String IsOpenPan = "105";
-        final static String OpenPan = "106";
-        final static String IsOpenYou = "107";
-        final static String OpenYou = "108";
     }
 
     // 前端数据异常
@@ -45,18 +41,6 @@ public class ServletHOME extends HttpServlet {
                 break;
             case Business.LOGIN:
                 new top.byze.service.Login(req, res).login();
-                break;
-            case Business.IsOpenPan:
-                new top.byze.service.Login(req, res).isOpenPan();
-                break;
-            case Business.OpenPan:
-                new top.byze.service.Login(req, res).openPan();
-                break;
-            case Business.IsOpenYou:
-                new top.byze.service.Login(req, res).isOpenYou();
-                break;
-            case Business.OpenYou:
-                new top.byze.service.Login(req, res).openYou();
                 break;
             default:
                 log.error("前端数据异常");

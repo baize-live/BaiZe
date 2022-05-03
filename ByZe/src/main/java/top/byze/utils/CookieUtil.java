@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class CookieUtil {
     private static final String cookieName = "loginInfo";
-    private static final int cookieTime = 60;
+    private static final int cookieTime = 60*60;
 
     public static void set(User user, HttpServletResponse res) {
         String email = Base64.getEncoder().encodeToString(user.getEmail().getBytes());

@@ -1,27 +1,21 @@
 new Vue({
-    el: "#pan",
+    el: "#disk",
     created() {
-        this.updateData()
+        this.initData()
     },
     data() {
-        const item = {
-            fileName: 'file.txt',
-            fileSize: '100MB',
-            createTime: '2016-05-02'
-        };
         return {
             userData: {
-                username:"",
-                userRank:"",
+                username: "",
+                userRank: "",
             },
-            fileData: [item, item],
-            fileList: [],
+            fileData: [],
             checked: false,
             search: '',
             // 自己的数据
-            url: 'http://localhost:8080/ByZe/byzepan',
+            url: basePath + '/byzeDisk',
             business: {
-                hello: "201",
+                initData: "201",
             },
         }
     },
@@ -40,15 +34,27 @@ new Vue({
         },
 
         //  自己的函数
-        updateUserData: function () {
+        initData: function () {
+            let data = "business=" + this.business.initData;
+            axios.post(this.url, data)
+                .then(function (res) {
+                    console.log(res.data);
+                })
+                .catch(function (err) {
+                    console.log("请求失败");
+                });
+            // TODO: 写到这里了
             // 更新用户数据
             this.userData.username = "小白";
             this.userData.userRank = 0;
+            const item = {
+                fileName: '',
+                fileSize: '',
+                createTime: ''
+            };
+            this.fileData.push(item)
         },
-        updateFileData: function () {
-            // 更新文件数据
 
-        },
         Edit(index, row) {
             console.log(index, row);
         },

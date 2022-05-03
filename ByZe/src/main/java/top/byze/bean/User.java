@@ -1,7 +1,7 @@
 package top.byze.bean;
 
 public class User {
-    private String uid;
+    private int uid;
     private String username;
     private final String password;
     private final String email;
@@ -15,6 +15,10 @@ public class User {
     public User(String password, String email) {
         this.password = password;
         this.email = email;
+    }
+
+    public int getUid() {
+        return uid;
     }
 
     public String getUsername() {

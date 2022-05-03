@@ -8,13 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
-@WebServlet(name = "PAN", value = "/byzepan")
-public class ServletPAN extends HttpServlet {
+@WebServlet(name = "Disk", value = "/byzeDisk")
+public class Disk extends HttpServlet {
     // 业务类型
     private static class Business {
-        final static String InitPage = "201";
-        final static String UpdateUserData = "202";
-        final static String UpdateFileData = "203";
+        final static String initData = "201";
     }
 
     // 前端数据异常
@@ -29,8 +27,8 @@ public class ServletPAN extends HttpServlet {
             return;
         }
         switch (business) {
-            case Business.InitPage:
-                new top.byze.service.Disk(req, res).initPage();
+            case Business.initData:
+                new top.byze.service.Disk(req, res).initData();
                 break;
             default:
                 log.error("前端数据异常");

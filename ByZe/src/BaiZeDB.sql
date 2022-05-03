@@ -42,9 +42,9 @@ create table PanData
 DROP TABLE IF EXISTS YouData;
 create table YouData
 (
-    YID        int AUTO_INCREMENT COMMENT 'YID',
-    UID        int COMMENT '用户ID',
-    username   varchar(20) DEFAULT ' ' NOT NULL COMMENT '游戏id',
+    YID      int AUTO_INCREMENT COMMENT 'YID',
+    UID      int COMMENT '用户ID',
+    username varchar(20) DEFAULT ' ' NOT NULL COMMENT '游戏id',
     CONSTRAINT PriKeyUid PRIMARY KEY (YID),
     foreign key (UID) references User (UID)
 ) COMMENT '游戏数据';
@@ -55,14 +55,15 @@ create table UserFile
 (
     UFID       int AUTO_INCREMENT COMMENT 'UFID',
     UID        int COMMENT '用户ID',
-    fileName   varchar(20) DEFAULT ' ' NOT NULL COMMENT '文件名',
-    fileType   char(1)     DEFAULT '-' NOT NULL COMMENT '文件类型',
-    fileSize   int         DEFAULT 0   NOT NULL COMMENT '文件大小',
-    fileState  char(1)     DEFAULT 'Y' NOT NULL COMMENT '文件状态',
-    lastDir    varchar(20) DEFAULT ' ' NOT NULL COMMENT '上级目录',
-    createTime datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    fileName   varchar(50)   DEFAULT ' ' NOT NULL COMMENT '文件名',
+    fileType   char(1)       DEFAULT '-' NOT NULL COMMENT '文件类型',
+    fileSize   int           DEFAULT 0   NOT NULL COMMENT '文件大小',
+    fileState  char(1)       DEFAULT 'Y' NOT NULL COMMENT '文件状态',
+    fileDir    varchar(1000) DEFAULT ' ' NOT NULL COMMENT '完整目录',
+    lastDir    varchar(1000) DEFAULT ' ' NOT NULL COMMENT '上级目录',
+    createTime datetime      DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     CONSTRAINT PriKeyFid PRIMARY KEY (UFID),
-    CONSTRAINT UniqueName UNIQUE (UID, lastDir, fileName),
+    CONSTRAINT UniqueName UNIQUE (UID, fileDir, fileName),
     foreign key (UID) references User (UID)
 ) COMMENT '普通文件';
 
@@ -86,7 +87,7 @@ DROP TABLE IF EXISTS ShareFile;
 create table ShareFile
 (
     SFID       int AUTO_INCREMENT COMMENT 'SFID',
-    fileName   varchar(20) DEFAULT ' ' NOT NULL COMMENT '文件名',
+    fileName   varchar(50) DEFAULT ' ' NOT NULL COMMENT '文件名',
     password   varchar(30) DEFAULT ' ' NOT NULL COMMENT '密码',
     createTime datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     CONSTRAINT PriKeySFid PRIMARY KEY (SFID)

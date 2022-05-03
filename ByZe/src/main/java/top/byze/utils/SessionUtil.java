@@ -12,8 +12,16 @@ public class SessionUtil {
         req.getSession().setAttribute("user", user);
     }
 
+    // 获得session中的用户
     public static User getUser(HttpServletRequest req) {
         HttpSession session = req.getSession();
         return ((User) session.getAttribute("user"));
     }
+
+    //删除session
+    public static void delete(HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        session.getId();
+    }
+
 }

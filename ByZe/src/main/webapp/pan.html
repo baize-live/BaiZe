@@ -2,51 +2,76 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>BaiZePan</title>
-    <link rel="stylesheet" href="./static/css/pan.css">
+    <title>Title</title>
+
     <link rel="stylesheet" href="./static/element-ui/lib/theme-chalk/index.css">
     <script src="./static/js/vue.js"></script>
     <script src="./static/js/axios.js"></script>
     <script src="./static/element-ui/lib/index.js"></script>
+
 </head>
 <body>
+
 <div id="pan">
-    <el-container style="height: 500px; border: 1px solid #eee">
-        <el-header style="text-align: right; font-size: 12px">
-            <el-dropdown>
-                <i class="el-icon-setting" style="margin-right: 15px"></i>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>查看</el-dropdown-item>
-                    <el-dropdown-item>新增</el-dropdown-item>
-                    <el-dropdown-item>删除</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>
-            <span>王小虎</span>
-        </el-header>
+    <el-container>
         <el-main>
-            <el-container>
-                <el-aside style="text-align: left; font-size: 28px" width="200px">
-                    用户: {{userData.username}} <br>
-                    会员等级: {{userData.userRank}}
-                </el-aside>
-                <el-main>
-                    <el-table :data="fileData" style="width: 100%" stripe=true>
-                        <el-table-column label="文件姓名" prop="fileName"></el-table-column>
-                        <el-table-column label="文件大小" prop="fileSize"></el-table-column>
-                        <el-table-column label="创建时间" prop="createTime"></el-table-column>
-                        <el-table-column>
-                            <el-input slot="header" v-model="search" size="mini" placeholder="输入关键字搜索"></el-input>
-                            <el-button size="mini" type="primary" @click="Edit">编辑</el-button>
-                            <el-button size="mini" type="primary" @click="Download">下载</el-button>
-                            <el-button size="mini" type="danger" @click="Delete">删除</el-button>
-                        </el-table-column>
-                    </el-table>
-                </el-main>
-            </el-container>
+            <el-button @click="enterPan">进入网盘</el-button>
+            <el-button @click="openPan">开通网盘</el-button>
+            <el-button size="medium" type="primary" plain=true icon="el-icon-edit">答的昂对</el-button>
         </el-main>
     </el-container>
 </div>
 
-<script src="./static/js/pan.js"></script>
+<script src="./static/js/Var.js"></script>
+<script>
+    new Vue({
+        el: "#pan",
+        data: {
+            email: "",
+            password: "",
+            url: basePath + "/loginAfter",
+            business: {
+                isOpenPan: "105",
+                openPan: "106",
+            }
+        },
+        methods: {
+            enterPan: function () {
+                let data = "business=" + this.business.isOpenPan;
+                axios.post(this.url, data)
+                    .then(function (res) {
+                        if (res.data == "1") {
+                            console.log("网盘已经开通");
+                            setTimeout(() => {
+                                location.href = "/ByZe/disk.html";
+                            }, 1000)
+                        } else {
+                            // 弹出对话框
+                            console.log("网盘暂未开通");
+                        }
+                    })
+                    .catch(function (err) {
+                        console.log("访问后台失败");
+                    });
+            },
+            openPan: function () {
+                let data = "business=" + this.business.openPan;
+                axios.post(this.url, data)
+                    .then(function (res) {
+                        if (res.data == "1") {
+                            console.log("网盘开通成功");
+                        } else {
+                            // 弹出对话框
+                            console.log("网盘开通失败");
+                        }
+                    })
+                    .catch(function (err) {
+                        console.log("访问后台失败");
+                    });
+            }
+        }
+    });
+
+</script>
 </body>
 </html>

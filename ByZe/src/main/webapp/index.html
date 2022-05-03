@@ -70,12 +70,13 @@
                             <el-link type="success" href="./pan.html">白泽网盘</el-link><br><br>
                             <el-link type="success" href="./you.html">白泽游戏</el-link><br><br>
                             <el-link type="success" href="./person.html">关于作者</el-link><br><br>
+
+                            <el-button type="primary" plain=true @click="logout">退出登录</el-button>
+
                         </el-tab-pane>
 
                         <el-tab-pane label="配置" name="third">
-                            <el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
-                                点我打开
-                            </el-button>
+                            <el-button @click="drawer = true" type="primary" style="margin-left: 16px;">点我打开</el-button>
                             <el-drawer
                                     title="我是标题"
                                     :visible.sync="drawer"
@@ -85,7 +86,7 @@
                         </el-tab-pane>
                         <el-tab-pane label="开心一刻" name="fourth">
                             <!--笑话-->
-                            <div id="jokeAxios" style="width:350px; height:auto">
+                            <div style="width:350px; height:auto">
                                 <p>{{ joke }}</p>
                                 <el-button type="primary" plain=true @click="getJoke">获取笑话</el-button>
                             </div>
@@ -98,6 +99,7 @@
     </el-container>
 </div>
 
+<script src="./static/js/Var.js"></script>
 <script src="./static/js/index.js"></script>
 </body>
 </html>

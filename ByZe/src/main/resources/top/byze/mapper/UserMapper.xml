@@ -8,6 +8,18 @@
         from user;
     </select>
 
+    <select id="getUser" resultType="top.byze.bean.User">
+        select *
+        from user
+        where email = #{email};
+    </select>
+
+    <select id="getUid" resultType="int">
+        select UID
+        from user
+        where email = #{email};
+    </select>
+
     <select id="findUser" resultType="boolean">
         <![CDATA[
         select count(UID)

@@ -11,6 +11,10 @@ public interface UserMapper {
 
     List<User> selectAll();
 
+    User getUser(@Param("email") String email);
+
+    int getUid(@Param("email") String email);
+
     boolean isOpenPan(@Param("email") String email);
 
     boolean isOpenYou(@Param("email") String email);

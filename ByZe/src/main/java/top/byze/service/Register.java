@@ -36,15 +36,17 @@ public class Register {
     }
 
     private String generateVerifyCode() {
-        Random random = new Random();
-        char[] chars = ("0123456789").toCharArray();
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 6; ++i) {
-            int num = random.nextInt(chars.length);
-            char c = chars[num];
-            stringBuilder.append(c);
-        }
-        return stringBuilder.toString();
+        // TODO: 暂时使用123456
+        //        Random random = new Random();
+        //        char[] chars = ("0123456789").toCharArray();
+        //        StringBuilder stringBuilder = new StringBuilder();
+        //        for (int i = 0; i < 6; ++i) {
+        //            int num = random.nextInt(chars.length);
+        //            char c = chars[num];
+        //            stringBuilder.append(c);
+        //        }
+        //        return stringBuilder.toString();
+        return "123456";
     }
 
     private boolean checkEmail(String email) {

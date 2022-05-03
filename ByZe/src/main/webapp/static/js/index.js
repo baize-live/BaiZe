@@ -12,18 +12,21 @@ new Vue({
             visible: false,
             value: new Date(),
             activeName: 'second',
-
             // 我自己的数据
             time: '00:00',
             date: '2022-01-01',
             city: "天津",
             forecast: [],
             joke: "",
+            url: basePath + "/loginAfter",
+            business: {
+                logout: "109",
+            }
         }
     },
 
     methods: {
-        handleClick(tab, event) {
+        handleClick: function (tab, event) {
             console.log(tab, event);
         },
 
@@ -62,6 +65,20 @@ new Vue({
                 }
             );
         },
+        logout: function () {
+            let data = "business=" + this.business.logout;
+            axios.post(this.url, data)
+                .then(function (res) {
+                    if (res.data == "1") {
+                        console.log("成功了");
+                    } else {
+                        console.log("失败了");
+                    }
+                })
+                .catch(function (err) {
+                    console.log("访问后台失败");
+                });
+        }
     }
 })
 

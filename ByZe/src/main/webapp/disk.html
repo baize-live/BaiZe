@@ -10,6 +10,7 @@
     <script src="./static/element-ui/lib/index.js"></script>
 </head>
 <body>
+
 <div id="disk">
     <el-container style="height: 500px; border: 1px solid #eee">
         <el-header style="text-align: right; font-size: 12px">
@@ -21,16 +22,16 @@
                     <el-dropdown-item>删除</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
-            <span>王小虎</span>
+            <span>{{userData.username}}</span>
+            <span>{{userData.grade}}级会员</span>
         </el-header>
         <el-main>
             <el-container>
                 <el-aside style="text-align: left; font-size: 28px" width="200px">
-                    用户: {{userData.username}} <br>
-                    会员等级: {{userData.userRank}}
+
                 </el-aside>
                 <el-main>
-                    <el-table :data="fileData" style="width: 100%" stripe=true>
+                    <el-table :data="fileList" style="width: 100%" stripe=true>
                         <el-table-column label="文件姓名" prop="fileName"></el-table-column>
                         <el-table-column label="文件大小" prop="fileSize"></el-table-column>
                         <el-table-column label="创建时间" prop="createTime"></el-table-column>
@@ -42,6 +43,25 @@
                         </el-table-column>
                     </el-table>
                 </el-main>
+                <el-footer>
+                    <template>
+                        <el-upload
+                                ref="uploadRef"
+                                class="upload-demo"
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                :auto-upload="false">
+                            <template #trigger>
+                                <el-button type="primary">select file</el-button>
+                            </template>
+
+                            <el-button class="ml-3" type="success" @click="submitUpload">
+                                upload to server
+                            </el-button>
+                        </el-upload>
+
+                    </template>
+
+                </el-footer>
             </el-container>
         </el-main>
     </el-container>

@@ -50,7 +50,7 @@ public class Disk {
             user = userMapper.getUser(email);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            log.error("获得用户异常");
+            log.error("获得用户数据异常");
         }
         return user;
     }
@@ -64,7 +64,8 @@ public class Disk {
             panData = panDataMapper.getPanData(Uid);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            log.error("获得用户异常");
+            log.error("获得网盘数据异常");
+            e.printStackTrace();
         }
         return panData;
     }
@@ -79,10 +80,69 @@ public class Disk {
             fileList = userFileMapper.getFileList(fileDir);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            log.error("获得用户异常");
+            log.error("获得文件数据异常");
         }
         return fileList;
     }
+
+//    //
+//    @RequestMapping("fileupload")
+//    @ResponseBody
+//    public ResultVO<Boolean> fileupload(@RequestParam("file") MultipartFile file){
+//        ResultVO<Boolean> resultVO;
+//        AoaUser aoaUser = getToken.getUser(token);
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(new Date());					//放入Date类型数据
+//        String datestr=calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.DATE);
+//        if(file.isEmpty()){
+//            resultVO = new ResultVO<>(ErrorCode.NULL);
+//            resultVO.setData(false);
+//            return resultVO;
+//        }
+//        String attachmentName = file.getOriginalFilename();
+//        String attachmentShuffix = attachmentName.substring(attachmentName.lastIndexOf(".")+1);
+//        String attachmentPath = "D:/"+datestr+"-"+aoaUser.getUserName()+"-"+UUID.randomUUID()+"."+attachmentShuffix;
+//        String attachmentSize = file.getSize()+"";
+//        String attachmentType = "image/"+attachmentShuffix;
+//        String model = "aoa_bursement";
+//        Date upload_time = new Date();
+//        String userId = aoaUser.getUserId().toString();
+//        AoaAttachmentList aoaAttachmentList = new AoaAttachmentList(attachmentName,attachmentPath,attachmentShuffix,attachmentSize,attachmentType,model,upload_time,userId);
+//
+//        File dest = new File(attachmentPath);
+//        if(!dest.getParentFile().exists()){ //判断文件父目录是否存在
+//            dest.getParentFile().mkdir();
+//        }
+//        try {
+//            file.transferTo(dest); //保存文件
+//        } catch (IllegalStateException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            resultVO = new ResultVO<>(ErrorCode.NULL);
+//            resultVO.setData(false);
+//            return resultVO;
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            resultVO = new ResultVO<>(ErrorCode.NULL);
+//            resultVO.setData(false);
+//            return resultVO;
+//        }
+//        aoaAttachmentList = aoaAttachmentListService.insertAtt(aoaAttachmentList);
+//        Long proFileId = aoaAttachmentList.getAttachmentId();
+//
+//        if (aoaAttachmentList.getAttachmentId()!=0 ){
+//            resultVO = new ResultVO<>(ErrorCode.SUCCESS);
+//            resultVO.setData(true);
+//            return resultVO;
+//        }else {
+//            resultVO = new ResultVO<>(ErrorCode.NULL);
+//            resultVO.setData(false);
+//            return resultVO;
+//        }
+//
+//    }
+
 
     public void initData() {
         HttpSession session = this.req.getSession();
@@ -93,8 +153,20 @@ public class Disk {
         PanData panData = getPanData(user.getUid());
         // 获得文件数据
         List<UserFile> fileList = getUserFile(user.getUid(), "/");
-        // TODO 返回数据
-
+        // 返回数据
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder
+                .append("username=").append(user.getUsername()).append("&")
+                .append("uid").append(user.getUid()).append("&")
+                .append("grade=").append(panData.getGrade()).append("&");
+        for (UserFile userFile : fileList) {
+            stringBuilder
+                    .append("file")
+                    .append(userFile.getFileName()).append(",")
+                    .append(userFile.getFileSize()).append(",")
+                    .append(userFile.getCreateTime()).append("|");
+        }
+        this.writer.println(stringBuilder);
     }
 
 }

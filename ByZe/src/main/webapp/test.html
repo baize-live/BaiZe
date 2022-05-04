@@ -11,20 +11,29 @@
     <title>test </title>
 </head>
 <body>
-<div id="app">
-    <el-button @click="visible = true">Button</el-button>
-    <el-dialog :visible.sync="visible" title="Hello world">
-        <p>Try Element</p>
-    </el-dialog>
-</div>
-</body>
+
+<input type="file" name="img"></input>
+<button @οnclick="upload">上传图片</button>
+
 
 <script>
-    new Vue({
-        el: '#app',
-        data: function () {
-            return {visible: false}
-        }
-    })
+
+    function upload() {
+        console.log("daole")
+        alert("上传")
+        let file = document.getElementsByName('img')[0].files[0];
+        let formData = new FormData();
+        formData.append("uploadFile", file, file.name);
+        const config = {headers: {"Content-Type": "multipart/form-data;boundary=" + new Date().getTime()}};
+        axios.post("/file/upload", formData, config).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+
 </script>
+
+</body>
 </html>
+

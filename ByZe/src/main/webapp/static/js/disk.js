@@ -1,3 +1,4 @@
+
 new Vue({
     el: "#disk",
     created() {
@@ -7,9 +8,9 @@ new Vue({
         return {
             userData: {
                 username: "",
-                userRank: "",
+                grade: "",
             },
-            fileData: [],
+            fileList: [],
             checked: false,
             search: '',
             // 自己的数据
@@ -33,26 +34,26 @@ new Vue({
             return this.$confirm(`确定移除 ${file.name}？`);
         },
 
+
         //  自己的函数
         initData: function () {
             let data = "business=" + this.business.initData;
+            let that = this
+            // 获得用户数据
             axios.post(this.url, data)
                 .then(function (res) {
-                    console.log(res.data);
+                    const str = res.data;
+                    console.log(str)
+                    let item = that.getData(str);
+                    that.userData.username = item.username;
+                    that.userData.grade = item.grade;
+                    that.fileList = item.fileList;
                 })
                 .catch(function (err) {
+                    that.userData.username = '未登录';
+                    that.userData.grade = '0';
                     console.log("请求失败");
                 });
-            // TODO: 写到这里了
-            // 更新用户数据
-            this.userData.username = "小白";
-            this.userData.userRank = 0;
-            const item = {
-                fileName: '',
-                fileSize: '',
-                createTime: ''
-            };
-            this.fileData.push(item)
         },
 
         Edit(index, row) {
@@ -64,5 +65,38 @@ new Vue({
         Delete(index, row) {
             console.log(index, row);
         },
+
+        // 自己用的函数
+        getData(str) {
+            let file = {
+                fileName: '',
+                fileSize: '',
+                createTime: ''
+            }
+            let item = {
+                username: '',
+                grade: '',
+                fileList: [],
+            }
+            const paramList = str.split('&')
+            for (let i = 0; i < paramList.length; ++i) {
+                switch (paramList[i].split('=')[0]) {
+                    case "username":
+                        item.username = paramList[i].split('=')[1]
+                        break;
+                    case "grade":
+                        item.grade = paramList[i].split('=')[1]
+                        break;
+                    case "file":
+                        file.fileName = paramList[i].split('=')[1].split(',')[0]
+                        file.fileSize = paramList[i].split('=')[1].split(',')[1]
+                        file.createTime = paramList[i].split('=')[1].split(',')[2]
+                        item.fileList.push(file)
+                        break;
+                }
+            }
+            return item;
+        }
     }
 })
+

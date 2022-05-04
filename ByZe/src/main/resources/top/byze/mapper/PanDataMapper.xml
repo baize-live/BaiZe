@@ -8,6 +8,12 @@
         from pandata;
     </select>
 
+    <select id="getPanData" resultType="top.byze.bean.PanData">
+        select *
+        from pandata
+        where UID = #{UID};
+    </select>
+
     <insert id="initData">
         insert into pandata(UID, grade, nowStorage, maxStorage)
         values (#{UID}, 1, 0, 1024);

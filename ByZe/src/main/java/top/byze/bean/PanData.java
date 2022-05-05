@@ -4,19 +4,23 @@ public class PanData {
     private String pid;
     private String uid;
     private String grade;
-    private String nowStorage;
-    private String maxStorage;
+    private long nowStorage;
+    private long maxStorage;
     private String createTime;
 
     public String getGrade() {
         return grade;
     }
 
-    public String getNowStorage() {
+    public String getUid() {
+        return uid;
+    }
+
+    public long getNowStorage() {
         return nowStorage;
     }
 
-    public String getMaxStorage() {
+    public long getMaxStorage() {
         return maxStorage;
     }
 }

@@ -85,7 +85,7 @@ public class Login {
             PanDataMapper panDataMapper = sqlSession.getMapper(PanDataMapper.class);
             panDataMapper.initData(Uid);
             // 3. 创建的文件目录
-            String path = Var.UserFilePath + "User" + Uid;
+            String path = VarGlobal.UserFilePath + "User" + Uid;
             FileUtil.createDir(path);
             // 关闭资源
             myBatis.closeSqlSession();
@@ -205,6 +205,7 @@ public class Login {
             writer.println(Res.FALSE);
             log.info(user.getEmail() + "网盘暂未开通");
         }
+        writer.close();
     }
 
     // 返回是否开通游戏
@@ -220,6 +221,7 @@ public class Login {
             writer.println(Res.FALSE);
             log.info(user.getEmail() + "游戏暂未开通");
         }
+        writer.close();
     }
 
     // 开通网盘
@@ -233,6 +235,7 @@ public class Login {
             writer.println(Res.FALSE);
             log.info(user.getEmail() + "网盘开通成功");
         }
+        writer.close();
     }
 
     // 开通游戏
@@ -246,6 +249,7 @@ public class Login {
             writer.println(Res.FALSE);
             log.info(user.getEmail() + "游戏开通失败");
         }
+        writer.close();
     }
 
     // 登出
@@ -254,7 +258,7 @@ public class Login {
 
         // 清除cookies
         CookieUtil.delete(this.req, this.res);
-
         writer.println(Res.TRUE);
+        writer.close();
     }
 }

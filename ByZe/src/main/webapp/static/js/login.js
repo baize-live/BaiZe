@@ -28,7 +28,7 @@ new Vue({
         conPassword: "",
         verifyCode: "",
         trueVerifyCode: "",
-        url: basePath + '/loginBefore',
+        url: basePath + '/register',
         business: {
             checkEmail: "101",
             getVerifyCode: "102",
@@ -132,7 +132,7 @@ new Vue({
     data: {
         email: "",
         password: "",
-        url: basePath + "/loginBefore",
+        url: basePath + "/register",
         business: {
             login: "104",
         }

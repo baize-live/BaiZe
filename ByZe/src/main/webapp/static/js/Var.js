@@ -1,6 +1,6 @@
 // import axios from './axios.js'
 
-let basePath = 'http://localhost:8080/ByZe'
+let basePath = 'http://localhost:8888/ByZe'
 
 
 // export function req(config) {

@@ -1,28 +1,32 @@
 package top.byze.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.session.SqlSession;
+import top.byze.bean.FromMap;
 import top.byze.bean.PanData;
 import top.byze.bean.User;
 import top.byze.bean.UserFile;
 import top.byze.mapper.PanDataMapper;
 import top.byze.mapper.UserFileMapper;
 import top.byze.mapper.UserMapper;
+import top.byze.utils.FileUtil;
+import top.byze.utils.FromUtil;
 import top.byze.utils.MyBatis;
-import top.byze.utils.Var;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class Disk {
     HttpServletRequest req;
     HttpServletResponse res;
-    PrintWriter writer = null;
 
     private static class Res {
         final static String TRUE = "1";
@@ -32,15 +36,9 @@ public class Disk {
     public Disk(HttpServletRequest req, HttpServletResponse res) {
         this.req = req;
         this.res = res;
-        try {
-            writer = this.res.getWriter();
-        } catch (IOException e) {
-            log.error("获得输出流异常");
-        }
     }
 
     // 与数据库交互
-    // 获得用户
     private static User getUser(String email) {
         User user = null;
         try {
@@ -72,78 +70,104 @@ public class Disk {
 
     private static List<UserFile> getUserFile(int uid, String fileDir) {
         List<UserFile> fileList = null;
-        fileDir = Var.UserFilePath + "User" + uid + fileDir;
         try {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
             UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
-            fileList = userFileMapper.getFileList(fileDir);
+            fileList = userFileMapper.getFileList(uid, fileDir);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            log.error("获得文件数据异常");
+            e.printStackTrace();
         }
         return fileList;
     }
 
-//    //
-//    @RequestMapping("fileupload")
-//    @ResponseBody
-//    public ResultVO<Boolean> fileupload(@RequestParam("file") MultipartFile file){
-//        ResultVO<Boolean> resultVO;
-//        AoaUser aoaUser = getToken.getUser(token);
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(new Date());					//放入Date类型数据
-//        String datestr=calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.DATE);
-//        if(file.isEmpty()){
-//            resultVO = new ResultVO<>(ErrorCode.NULL);
-//            resultVO.setData(false);
-//            return resultVO;
-//        }
-//        String attachmentName = file.getOriginalFilename();
-//        String attachmentShuffix = attachmentName.substring(attachmentName.lastIndexOf(".")+1);
-//        String attachmentPath = "D:/"+datestr+"-"+aoaUser.getUserName()+"-"+UUID.randomUUID()+"."+attachmentShuffix;
-//        String attachmentSize = file.getSize()+"";
-//        String attachmentType = "image/"+attachmentShuffix;
-//        String model = "aoa_bursement";
-//        Date upload_time = new Date();
-//        String userId = aoaUser.getUserId().toString();
-//        AoaAttachmentList aoaAttachmentList = new AoaAttachmentList(attachmentName,attachmentPath,attachmentShuffix,attachmentSize,attachmentType,model,upload_time,userId);
-//
-//        File dest = new File(attachmentPath);
-//        if(!dest.getParentFile().exists()){ //判断文件父目录是否存在
-//            dest.getParentFile().mkdir();
-//        }
-//        try {
-//            file.transferTo(dest); //保存文件
-//        } catch (IllegalStateException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//            resultVO = new ResultVO<>(ErrorCode.NULL);
-//            resultVO.setData(false);
-//            return resultVO;
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//            resultVO = new ResultVO<>(ErrorCode.NULL);
-//            resultVO.setData(false);
-//            return resultVO;
-//        }
-//        aoaAttachmentList = aoaAttachmentListService.insertAtt(aoaAttachmentList);
-//        Long proFileId = aoaAttachmentList.getAttachmentId();
-//
-//        if (aoaAttachmentList.getAttachmentId()!=0 ){
-//            resultVO = new ResultVO<>(ErrorCode.SUCCESS);
-//            resultVO.setData(true);
-//            return resultVO;
-//        }else {
-//            resultVO = new ResultVO<>(ErrorCode.NULL);
-//            resultVO.setData(false);
-//            return resultVO;
-//        }
-//
-//    }
+    private static void setNowStorage(int uid, long nowStorage) {
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            PanDataMapper panDataMapper = sqlSession.getMapper(PanDataMapper.class);
+            panDataMapper.setNowStorage(uid, nowStorage);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    private static void saveUserFile(int uid, String fileName, char fileType, long fileSize, char fileState, String fileDir) {
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
+            userFileMapper.saveUserFile(uid, fileName, fileType, fileSize, fileState, fileDir);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    private static void deleteUserFile(int uid, String fileName, String fileDir) {
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
+            userFileMapper.deleteUserFile(uid, fileName, fileDir);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static List<UserFile> lookupBin(int uid) {
+        List<UserFile> fileList = null;
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
+            fileList = userFileMapper.lookupBin(uid);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fileList;
+    }
+
+    private static void clearBin(int uid) {
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
+            userFileMapper.clearBin(uid);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void clearUserName(int uid, String fileName, String fileDir) {
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
+            userFileMapper.clearUserFile(uid, fileName, fileDir);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 功能函数
+    private static void addFileList(StringBuilder stringBuilder, List<UserFile> fileList) {
+        for (UserFile userFile : fileList) {
+            stringBuilder
+                    .append("file=")
+                    .append(userFile.getFileName()).append(",")
+                    .append(userFile.getFileSize()).append(",")
+                    .append(userFile.getFileDir()).append("|&");
+        }
+    }
+
+    // 接口
     public void initData() {
         HttpSession session = this.req.getSession();
         User user = (User) session.getAttribute("user");
@@ -153,21 +177,190 @@ public class Disk {
         PanData panData = getPanData(user.getUid());
         // 获得文件数据
         List<UserFile> fileList = getUserFile(user.getUid(), "/");
+
         // 返回数据
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
                 .append("username=").append(user.getUsername()).append("&")
-                .append("uid").append(user.getUid()).append("&")
+                .append("uid=").append(user.getUid()).append("&")
                 .append("grade=").append(panData.getGrade()).append("&");
-        for (UserFile userFile : fileList) {
-            stringBuilder
-                    .append("file")
-                    .append(userFile.getFileName()).append(",")
-                    .append(userFile.getFileSize()).append(",")
-                    .append(userFile.getCreateTime()).append("|");
+        // 添加文件列表
+        addFileList(stringBuilder, fileList);
+
+        try {
+            PrintWriter writer = this.res.getWriter();
+            writer.println(stringBuilder);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        this.writer.println(stringBuilder);
     }
 
+    public void uploadFile() {
+        HttpSession session = this.req.getSession();
+        User user = (User) session.getAttribute("user");
+        // 获得用户全部属性
+        user = getUser(user.getEmail());
+        PanData panData = getPanData(user.getUid());
+
+        String path = VarGlobal.UserFilePath + "User" + user.getUid();
+
+        if (ServletFileUpload.isMultipartContent(req)) {
+            FromMap fromMap = FromUtil.parseParam(req);
+            String fileDir = fromMap.getParamMap().get("currentDir");
+            Map<String, FileItem> map = fromMap.getFileMap();
+            for (String name : map.keySet()) {
+                long fileSize = map.get(name).getSize() / 1024 / 1024;
+                // 保存在服务器上
+                FileUtil.saveFile(map.get(name), path + fileDir + name);
+                // 存储在数据库中
+                saveUserFile(user.getUid(), name, '-', fileSize, 'Y', fileDir);
+                // 增大当前存储
+                long nowStorage = panData.getNowStorage() + fileSize;
+                setNowStorage(user.getUid(), nowStorage);
+            }
+        }
+    }
+
+    public void downloadFile() {
+        try {
+            HttpSession session = req.getSession();
+            User user = (User) session.getAttribute("user");
+            // 获得用户全部属性
+            user = getUser(user.getEmail());
+            String fileDir = req.getParameter("fileDir");
+            String fileName = req.getParameter("fileName");
+            // 得到要下载的文件
+            File file = new File(VarGlobal.UserFilePath + "User" + user.getUid() + fileDir + fileName);
+
+            //如果文件不存在，则显示下载失败
+            if (!file.exists()) {
+                try {
+                    PrintWriter writer = this.res.getWriter();
+                    writer.println(Res.FALSE);
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                log.info("下载失败");
+            } else {
+                // 设置相应头，控制浏览器下载该文件，这里就是会出现当你点击下载后，出现的下载地址框
+                res.setContentType("application/octet-stream");
+                res.addHeader("Content-Disposition", "attachment;filename=" + fileName + ";filename*=UTF-8");
+                OutputStream os = res.getOutputStream();
+                FileUtils.copyFile(file, os);
+                os.flush();
+                os.close();
+                log.info("下载成功");
+            }
+        } catch (Exception e) {
+            log.info("出现异常");
+            e.printStackTrace();
+        }
+    }
+
+    // 更新页面
+    public void updateFileList() {
+        HttpSession session = this.req.getSession();
+        User user = (User) session.getAttribute("user");
+        // 获得用户全部属性
+        user = getUser(user.getEmail());
+        // 获得文件目录
+        String fileDir = req.getParameter("fileDir");
+        // 获得文件数据
+        List<UserFile> fileList = getUserFile(user.getUid(), fileDir);
+        // 返回数据
+        StringBuilder stringBuilder = new StringBuilder();
+        addFileList(stringBuilder, fileList);
+        try {
+            PrintWriter writer = this.res.getWriter();
+            writer.println(stringBuilder);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 删除指定文件
+    public void deleteFile() {
+        try {
+            HttpSession session = req.getSession();
+            User user = (User) session.getAttribute("user");
+            // 获得用户全部属性
+            user = getUser(user.getEmail());
+            int uid = user.getUid();
+            String fileDir = req.getParameter("fileDir");
+            String fileName = req.getParameter("fileName");
+            // 设置UserFile中文件状态为N 表示删除 所以此时不释放空间
+            deleteUserFile(uid, fileName, fileDir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // 查看垃圾箱
+    public void lookupBin() {
+        try {
+            HttpSession session = req.getSession();
+            User user = (User) session.getAttribute("user");
+            // 获得用户全部属性
+            user = getUser(user.getEmail());
+            int uid = user.getUid();
+            List<UserFile> fileList = lookupBin(uid);
+            StringBuilder stringBuilder = new StringBuilder();
+            addFileList(stringBuilder, fileList);
+            try {
+                PrintWriter writer = this.res.getWriter();
+                writer.println(stringBuilder);
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 清空垃圾箱
+    public void clearBin() {
+        try {
+            HttpSession session = req.getSession();
+            User user = (User) session.getAttribute("user");
+            // 获得用户全部属性
+            user = getUser(user.getEmail());
+            int uid = user.getUid();
+            // 清空回收站
+            clearBin(uid);
+            // 添加Size
+            PanData panData = getPanData(uid);
+            List<UserFile> fileList = lookupBin(uid);
+            long fileSizeSum = 0;
+            for (UserFile userFile : fileList) {
+                fileSizeSum += userFile.getFileSize();
+            }
+            long nowStorage = panData.getNowStorage() - fileSizeSum;
+            setNowStorage(uid, nowStorage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 清理垃圾箱中的某个文件
+    public void clearUserName() {
+        try {
+            HttpSession session = req.getSession();
+            User user = (User) session.getAttribute("user");
+            // 获得用户全部属性
+            user = getUser(user.getEmail());
+            int uid = user.getUid();
+            // 清空回收站
+            clearBin(uid);
+            // TODO 添加Size
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 

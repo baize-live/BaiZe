@@ -2,10 +2,10 @@ package top.byze.bean;
 
 public class UserFile {
     private String UFID;
-    private String UID;
+    private int UID;
     private String fileName;
     private String fileType;
-    private String fileSize;
+    private long fileSize;
     private String fileState;
     private String fileDir;
     private String createTime;
@@ -14,7 +14,7 @@ public class UserFile {
         return UFID;
     }
 
-    public String getUID() {
+    public int getUID() {
         return UID;
     }
 
@@ -26,7 +26,7 @@ public class UserFile {
         return fileType;
     }
 
-    public String getFileSize() {
+    public long getFileSize() {
         return fileSize;
     }
 

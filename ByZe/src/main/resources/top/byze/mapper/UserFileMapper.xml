@@ -7,7 +7,44 @@
     <select id="getFileList" resultType="top.byze.bean.UserFile">
         select *
         from userfile
-        where fileDir = #{fileDir};
+        where UID = #{UID}
+          and fileDir = #{fileDir}
+          and fileState = 'Y';
     </select>
 
+    <insert id="saveUserFile">
+        insert into userfile(UID, fileName, fileType, fileSize, fileState, fileDir)
+        values (#{UID}, #{fileName}, #{fileType}, #{fileSize}, #{fileState}, #{fileDir});
+    </insert>
+
+    <update id="deleteUserFile">
+        update userfile
+        set fileState = 'N'
+        where UID = #{UID}
+          and fileName = #{fileName}
+          and fileDir = #{fileDir};
+    </update>
+
+    <select id="lookupBin" resultType="top.byze.bean.UserFile">
+        select *
+        from userfile
+        where UID = #{UID}
+          and fileState = 'N';
+    </select>
+
+    <delete id="clearBin">
+        delete
+        from userfile
+        where UID = #{UID}
+          and fileState = 'N';
+    </delete>
+
+    <delete id="clearUserFile">
+        delete
+        from userfile
+        where UID = #{UID}
+          and fileName = #{fileName}
+          and fileDir = #{fileDir}
+          and fileState = 'N';
+    </delete>
 </mapper>

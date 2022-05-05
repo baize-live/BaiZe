@@ -18,7 +18,7 @@ new Vue({
             city: "天津",
             forecast: [],
             joke: "",
-            url: basePath + "/loginAfter",
+            url: basePath + "/login",
             business: {
                 logout: "109",
             }

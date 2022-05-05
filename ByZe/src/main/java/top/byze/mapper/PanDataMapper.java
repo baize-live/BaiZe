@@ -7,4 +7,6 @@ public interface PanDataMapper {
     void initData(@Param("UID") int uid);
 
     PanData getPanData(@Param("UID") int uid);
+
+    void setNowStorage(@Param("UID") int uid, @Param("nowStorage") long nowStorage);
 }

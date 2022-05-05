@@ -8,11 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
-@WebServlet(name = "Disk", value = "/byzeDisk")
-public class Disk extends HttpServlet {
+@WebServlet(value = "/register")
+public class RegisterServlet extends HttpServlet {
     // 业务类型
     private static class Business {
-        final static String initData = "201";
+        final static String CHECK_EMAIL = "101";
+        final static String SEND_VERIFICATION_CODE = "102";
+        final static String REGISTER = "103";
+        final static String LOGIN = "104";
     }
 
     // 前端数据异常
@@ -27,8 +30,17 @@ public class Disk extends HttpServlet {
             return;
         }
         switch (business) {
-            case Business.initData:
-                new top.byze.service.Disk(req, res).initData();
+            case Business.REGISTER:
+                new top.byze.service.Register(req, res).register();
+                break;
+            case Business.CHECK_EMAIL:
+                new top.byze.service.Register(req, res).checkEmail();
+                break;
+            case Business.SEND_VERIFICATION_CODE:
+                new top.byze.service.Register(req, res).sendVerifyCode();
+                break;
+            case Business.LOGIN:
+                new top.byze.service.Login(req, res).login();
                 break;
             default:
                 log.error("前端数据异常");
@@ -45,5 +57,6 @@ public class Disk extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res) {
         doWork(req, res);
     }
+
 
 }

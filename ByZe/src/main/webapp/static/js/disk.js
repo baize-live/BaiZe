@@ -1,4 +1,3 @@
-
 new Vue({
     el: "#disk",
     created() {
@@ -7,33 +6,42 @@ new Vue({
     data() {
         return {
             userData: {
-                username: "",
-                grade: "",
+                username: "未登录",
+                grade: "0",
             },
             fileList: [],
+            uploadFileList: [],
             checked: false,
             search: '',
             // 自己的数据
-            url: basePath + '/byzeDisk',
+            url: basePath + '/disk',
             business: {
                 initData: "201",
+                downloadFile: "202",
+                updateFileList: "203",
+                deleteFile: "204",
+                lookupBin: "205",
+                clearBin: "206",
+                clearUserName: "207",
             },
+            fileDir: '/',
         }
     },
     methods: {
+        submitUpload() {
+            this.$refs.upload.submit();
+            setTimeout(() => {
+                this.updateFileList();
+            }, 1000)
+        },
+
         handleRemove(file, fileList) {
             console.log(file, fileList);
         },
+
         handlePreview(file) {
             console.log(file);
         },
-        handleExceed(files, fileList) {
-            this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-        },
-        beforeRemove(file, fileList) {
-            return this.$confirm(`确定移除 ${file.name}？`);
-        },
-
 
         //  自己的函数
         initData: function () {
@@ -43,36 +51,88 @@ new Vue({
             axios.post(this.url, data)
                 .then(function (res) {
                     const str = res.data;
-                    console.log(str)
                     let item = that.getData(str);
                     that.userData.username = item.username;
                     that.userData.grade = item.grade;
                     that.fileList = item.fileList;
                 })
                 .catch(function (err) {
-                    that.userData.username = '未登录';
-                    that.userData.grade = '0';
                     console.log("请求失败");
                 });
         },
 
-        Edit(index, row) {
-            console.log(index, row);
+        updateFileList() {
+            let data = "business=" + this.business.updateFileList + "&fileDir=" + this.fileDir;
+            let that = this
+            // 获得用户数据
+            axios.post(this.url, data)
+                .then(function (res) {
+                    const str = res.data;
+                    console.log(str)
+                    let item = that.getData(str);
+                    that.fileList = item.fileList;
+                })
+                .catch(function (err) {
+                    console.log("请求失败");
+                });
         },
-        Download(index, row) {
-            console.log(index, row);
+
+        openBin() {
+            let data = "business=" + this.business.lookupBin;
+            let that = this
+            // 获得用户数据
+            axios.post(this.url, data)
+                .then(function (res) {
+                    const str = res.data;
+                    console.log(str)
+                    let item = that.getData(str);
+                    that.fileList = item.fileList;
+                })
+                .catch(function (err) {
+                    console.log("请求失败");
+                });
         },
-        Delete(index, row) {
-            console.log(index, row);
+
+        Edit(index) {
+            console.log(index);
+        },
+
+        Download(index) {
+            let data = "business=" + this.business.downloadFile + "&fileDir=" + this.fileDir + "&fileName=" + this.fileList[index].fileName;
+            let that = this
+            axios.post(this.url, data, {responseType: 'blob'})
+                .then(function (res) {
+                    const blob = new Blob([res.data])
+                    const blobUrl = window.URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.download = that.fileList[index].fileName
+                    a.href = blobUrl
+                    a.click()
+                    document.body.removeChild(a)
+                })
+                .catch(function (err) {
+                    console.log("请求失败");
+                });
+        },
+
+        Delete(index) {
+            let data = "business=" + this.business.deleteFile + "&fileDir=" + this.fileDir + "&fileName=" + this.fileList[index].fileName;
+            let that = this
+            // 获得用户数据
+            axios.post(this.url, data)
+                .then(function (res) {
+                    const str = res.data;
+                })
+                .catch(function (err) {
+                    console.log("请求失败");
+                });
+            setTimeout(() => {
+                this.updateFileList();
+            }, 1000)
         },
 
         // 自己用的函数
         getData(str) {
-            let file = {
-                fileName: '',
-                fileSize: '',
-                createTime: ''
-            }
             let item = {
                 username: '',
                 grade: '',
@@ -88,15 +148,20 @@ new Vue({
                         item.grade = paramList[i].split('=')[1]
                         break;
                     case "file":
+                        let file = {
+                            fileName: '',
+                            fileSize: '',
+                            createTime: '2022-5-5'
+                        }
                         file.fileName = paramList[i].split('=')[1].split(',')[0]
-                        file.fileSize = paramList[i].split('=')[1].split(',')[1]
-                        file.createTime = paramList[i].split('=')[1].split(',')[2]
+                        file.fileSize = paramList[i].split('=')[1].split(',')[1].split('|')[0] + "M"
                         item.fileList.push(file)
                         break;
                 }
             }
             return item;
         }
+
     }
 })
 

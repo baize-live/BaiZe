@@ -1,4 +1,4 @@
-package top.byze.filter;
+package top.byze.utils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 @Slf4j
-public class Tool {
+public class FilterUtil {
     static final String charset = "UTF-8";
     static final String contentType = "text/html;charset=UTF-8";
 

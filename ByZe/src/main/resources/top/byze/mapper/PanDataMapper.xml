@@ -19,4 +19,9 @@
         values (#{UID}, 1, 0, 1024);
     </insert>
 
+    <update id="setNowStorage">
+        update pandata
+        set nowStorage = #{nowStorage}
+        where UID = #{UID};
+    </update>
 </mapper>

@@ -47,4 +47,20 @@
           and fileDir = #{fileDir}
           and fileState = 'N';
     </delete>
+
+    <select id="selectFilesOutOFfDateInDB" resultType="top.byze.bean.UserFile">
+        select *
+        from UserFile
+        where
+            fileState = 'N' and
+            deleteTime &lt; DATE_SUB(CURRENT_TIMESTAMP, INTERVAL #{days} day);
+    </select>
+
+    <delete id="clearFilesOutOFfDateInDB">
+        delete
+        from UserFile
+        where
+            fileState = 'N' and
+            deleteTime &lt; DATE_SUB(CURRENT_TIMESTAMP, INTERVAL #{days} day);
+    </delete>
 </mapper>

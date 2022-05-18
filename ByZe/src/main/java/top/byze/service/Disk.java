@@ -12,6 +12,7 @@ import top.byze.bean.UserFile;
 import top.byze.mapper.PanDataMapper;
 import top.byze.mapper.UserFileMapper;
 import top.byze.mapper.UserMapper;
+import top.byze.utils.ConfigUtil;
 import top.byze.utils.FileUtil;
 import top.byze.utils.FromUtil;
 import top.byze.utils.MyBatis;
@@ -39,6 +40,7 @@ public class Disk {
     }
 
     // 与数据库交互
+    // 获得用户属性
     private static User getUser(String email) {
         User user = null;
         try {
@@ -53,6 +55,7 @@ public class Disk {
         return user;
     }
 
+    // 获得网盘数据
     private static PanData getPanData(int Uid) {
         PanData panData = null;
         try {
@@ -68,6 +71,7 @@ public class Disk {
         return panData;
     }
 
+    // 获得指定目录下的文件链表
     private static List<UserFile> getUserFile(int uid, String fileDir) {
         List<UserFile> fileList = null;
         try {
@@ -82,6 +86,7 @@ public class Disk {
         return fileList;
     }
 
+    // 设置当前存储
     private static void setNowStorage(int uid, long nowStorage) {
         try {
             MyBatis myBatis = new MyBatis();
@@ -94,6 +99,7 @@ public class Disk {
         }
     }
 
+    // 保存用户上传文件
     private static void saveUserFile(int uid, String fileName, char fileType, long fileSize, char fileState, String fileDir) {
         try {
             MyBatis myBatis = new MyBatis();
@@ -106,6 +112,7 @@ public class Disk {
         }
     }
 
+    // 删除指定文件(修改标记而已, 即放到回收站)
     private static void deleteUserFile(int uid, String fileName, String fileDir) {
         try {
             MyBatis myBatis = new MyBatis();
@@ -118,6 +125,7 @@ public class Disk {
         }
     }
 
+    // 查看回收站的所有文件
     private static List<UserFile> lookupBin(int uid) {
         List<UserFile> fileList = null;
         try {
@@ -132,6 +140,7 @@ public class Disk {
         return fileList;
     }
 
+    // 清空回收站
     private static void clearBin(int uid) {
         try {
             MyBatis myBatis = new MyBatis();
@@ -144,7 +153,8 @@ public class Disk {
         }
     }
 
-    private static void clearUserName(int uid, String fileName, String fileDir) {
+    // 清除指定文件
+    private static void clearUserFile(int uid, String fileName, String fileDir) {
         try {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
@@ -156,7 +166,35 @@ public class Disk {
         }
     }
 
-    // 功能函数
+    // 清除数据库中的过期文件 这个时间可以个性化设置
+    private static void clearFilesOutOFfDateInDB(int uid, int days) {
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
+            userFileMapper.clearFilesOutOFfDateInDB(uid, days);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 查找数据库中的过期文件(表示回收站中过期的文件)
+    private static List<UserFile> selectFilesOutOFfDateInDB(int uid, int days) {
+        List<UserFile> fileList = null;
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
+            fileList = userFileMapper.selectFilesOutOFfDateInDB(uid, days);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fileList;
+    }
+
+    /// 功能函数
     private static void addFileList(StringBuilder stringBuilder, List<UserFile> fileList) {
         for (UserFile userFile : fileList) {
             stringBuilder
@@ -164,6 +202,13 @@ public class Disk {
                     .append(userFile.getFileName()).append(",")
                     .append(userFile.getFileSize()).append(",")
                     .append(userFile.getFileDir()).append("|&");
+        }
+    }
+
+    // 在磁盘上清除过期文件
+    private static void clearFilesOutOFfDateInDir(int uid, List<UserFile> fileList) {
+        for (UserFile file : fileList) {
+            FileUtil.deleteFile(ConfigUtil.getUserFilePath() + "User" + uid + file.getFileDir() + file.getFileName());
         }
     }
 
@@ -196,6 +241,7 @@ public class Disk {
         }
     }
 
+    // 上传文件
     public void uploadFile() {
         HttpSession session = this.req.getSession();
         User user = (User) session.getAttribute("user");
@@ -203,10 +249,11 @@ public class Disk {
         user = getUser(user.getEmail());
         PanData panData = getPanData(user.getUid());
 
-        String path = VarGlobal.UserFilePath + "User" + user.getUid();
+        String path = ConfigUtil.getUserFilePath() + "User" + user.getUid();
 
         if (ServletFileUpload.isMultipartContent(req)) {
             FromMap fromMap = FromUtil.parseParam(req);
+            // 前端传来的currentDir
             String fileDir = fromMap.getParamMap().get("currentDir");
             Map<String, FileItem> map = fromMap.getFileMap();
             for (String name : map.keySet()) {
@@ -222,6 +269,7 @@ public class Disk {
         }
     }
 
+    // 下载文件
     public void downloadFile() {
         try {
             HttpSession session = req.getSession();
@@ -231,7 +279,7 @@ public class Disk {
             String fileDir = req.getParameter("fileDir");
             String fileName = req.getParameter("fileName");
             // 得到要下载的文件
-            File file = new File(VarGlobal.UserFilePath + "User" + user.getUid() + fileDir + fileName);
+            File file = new File(ConfigUtil.getUserFilePath() + "User" + user.getUid() + fileDir + fileName);
 
             //如果文件不存在，则显示下载失败
             if (!file.exists()) {
@@ -307,7 +355,16 @@ public class Disk {
             // 获得用户全部属性
             user = getUser(user.getEmail());
             int uid = user.getUid();
-            List<UserFile> fileList = lookupBin(uid);
+            // 查看垃圾箱前 删除过期文件
+            PanData panData = getPanData(uid);
+            int days = panData.getOutOfDate();
+            List<UserFile> fileList = selectFilesOutOFfDateInDB(uid, days);
+            // 删除磁盘中的过期文件
+            clearFilesOutOFfDateInDir(uid, fileList);
+            // 删除数据库中的过期文件
+            clearFilesOutOFfDateInDB(uid, days);
+            // 查看垃圾箱
+            fileList = lookupBin(uid);
             StringBuilder stringBuilder = new StringBuilder();
             addFileList(stringBuilder, fileList);
             try {
@@ -330,8 +387,6 @@ public class Disk {
             // 获得用户全部属性
             user = getUser(user.getEmail());
             int uid = user.getUid();
-            // 清空回收站
-            clearBin(uid);
             // 添加Size
             PanData panData = getPanData(uid);
             List<UserFile> fileList = lookupBin(uid);
@@ -341,21 +396,22 @@ public class Disk {
             }
             long nowStorage = panData.getNowStorage() - fileSizeSum;
             setNowStorage(uid, nowStorage);
+            // 清空回收站
+            clearBin(uid);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     // 清理垃圾箱中的某个文件
-    public void clearUserName() {
+    public void clearUserFile() {
         try {
             HttpSession session = req.getSession();
             User user = (User) session.getAttribute("user");
             // 获得用户全部属性
             user = getUser(user.getEmail());
             int uid = user.getUid();
-            // 清空回收站
-            clearBin(uid);
+            // 清空文件
             // TODO 添加Size
 
         } catch (Exception e) {

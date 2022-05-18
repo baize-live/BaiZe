@@ -85,7 +85,7 @@ public class Login {
             PanDataMapper panDataMapper = sqlSession.getMapper(PanDataMapper.class);
             panDataMapper.initData(Uid);
             // 3. 创建的文件目录
-            String path = VarGlobal.UserFilePath + "User" + Uid;
+            String path = ConfigUtil.getUserFilePath() + "User" + Uid;
             FileUtil.createDir(path);
             // 关闭资源
             myBatis.closeSqlSession();

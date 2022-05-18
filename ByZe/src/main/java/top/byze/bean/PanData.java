@@ -4,6 +4,7 @@ public class PanData {
     private String pid;
     private String uid;
     private String grade;
+    private int OutOfDate;
     private long nowStorage;
     private long maxStorage;
     private String createTime;
@@ -14,6 +15,10 @@ public class PanData {
 
     public String getUid() {
         return uid;
+    }
+
+    public int getOutOfDate() {
+        return OutOfDate;
     }
 
     public long getNowStorage() {

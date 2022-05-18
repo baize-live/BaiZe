@@ -49,7 +49,7 @@ public class Register {
         return "123456";
     }
 
-    private boolean checkEmail(String email) {
+    private static boolean checkEmail(String email) {
         boolean flag = false;
         try {
             MyBatis myBatis = new MyBatis();
@@ -63,7 +63,7 @@ public class Register {
         return flag;
     }
 
-    private void saveVerifyCode(String email, String verifyCode) {
+    private static void saveVerifyCode(String email, String verifyCode) {
         try {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
@@ -75,7 +75,7 @@ public class Register {
         }
     }
 
-    private boolean checkVerifyCode(String email, String verifyCode) {
+    private static boolean checkVerifyCode(String email, String verifyCode) {
         boolean flag = false;
         try {
             MyBatis myBatis = new MyBatis();
@@ -89,7 +89,7 @@ public class Register {
         return flag;
     }
 
-    private void addUser(String username, String password, String email) {
+    private static void addUser(String username, String password, String email) {
         try {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();

@@ -31,6 +31,7 @@ create table PanData
     PID        int AUTO_INCREMENT COMMENT 'PID',
     UID        int COMMENT '用户ID',
     grade      char DEFAULT '0' COMMENT '会员等级',
+    OutOfDate  int  DEFAULT 30 COMMENT '过期时间',
     nowStorage int  DEFAULT 0 COMMENT '当前存储',
     maxStorage int  DEFAULT 1024 COMMENT '最大存储',
     CONSTRAINT PriKeyUid PRIMARY KEY (PID),
@@ -55,13 +56,15 @@ create table UserFile
 (
     UFID       int AUTO_INCREMENT COMMENT 'UFID',
     UID        int COMMENT '用户ID',
-    fileName   varchar(50)   DEFAULT ' ' NOT NULL COMMENT '文件名',
-    fileType   char(1)       DEFAULT '-' NOT NULL COMMENT '文件类型',
-    fileSize   int           DEFAULT 0   NOT NULL COMMENT '文件大小',
-    fileState  char(1)       DEFAULT 'Y' NOT NULL COMMENT '文件状态',
-    fileDir    varchar(1000) DEFAULT ' ' NOT NULL COMMENT '完整目录',
-    lastDir    varchar(1000) DEFAULT ' ' NOT NULL COMMENT '上级目录',
-    createTime datetime      DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    fileName   varchar(50)  DEFAULT ' ' NOT NULL COMMENT '文件名',
+    fileType   char(1)      DEFAULT '-' NOT NULL COMMENT '文件类型',
+    fileSize   int          DEFAULT 0   NOT NULL COMMENT '文件大小',
+    fileState  char(1)      DEFAULT 'Y' NOT NULL COMMENT '文件状态',
+    fileDir    varchar(500) DEFAULT ' ' NOT NULL COMMENT '完整目录',
+    lastDir    varchar(500) DEFAULT ' ' NOT NULL COMMENT '上级目录',
+    deleteTime datetime     DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间',
+    # TODO: 目前认为只要更新就是改fileState 因此同步修改删除时间
+
     CONSTRAINT PriKeyFid PRIMARY KEY (UFID),
     CONSTRAINT UniqueName UNIQUE (UID, fileDir, fileName),
     foreign key (UID) references User (UID)
@@ -119,13 +122,14 @@ create table Verify
     CONSTRAINT PriKeyNid PRIMARY KEY (VID)
 ) COMMENT '验证码';
 
--- 创建定时时间
+-- 创建定时事件 清除过期验证码
 create event clearVerifyOver5min on schedule every 60 second
     STARTS '2022-01-01 00:00:00'
     do
     delete
     from Verify
     where createTime < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 300 second);
+
 
 # # 关闭事件  clearVerifyOver5min ---> eventName
 # alter event clearVerifyOver5min disable;

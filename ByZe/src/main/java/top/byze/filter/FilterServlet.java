@@ -15,7 +15,6 @@ public class FilterServlet implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
         FilterUtil.setEncode(req, res);
         filterChain.doFilter(req, res);
-
     }
 
     @Override

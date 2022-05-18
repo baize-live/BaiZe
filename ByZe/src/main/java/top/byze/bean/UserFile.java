@@ -8,7 +8,7 @@ public class UserFile {
     private long fileSize;
     private String fileState;
     private String fileDir;
-    private String createTime;
+    private String deleteTime;
 
     public String getUFID() {
         return UFID;
@@ -38,8 +38,8 @@ public class UserFile {
         return fileDir;
     }
 
-    public String getCreateTime() {
-        return createTime;
+    public String getDeleteTime() {
+        return deleteTime;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class UserFile {
                 ", fileSize='" + fileSize + '\'' +
                 ", fileState='" + fileState + '\'' +
                 ", lastDir='" + fileDir + '\'' +
-                ", createTime='" + createTime + '\'' +
+                ", deleteTime='" + deleteTime + '\'' +
                 '}';
     }
 }

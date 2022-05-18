@@ -19,7 +19,7 @@ public class DiskServlet extends HttpServlet {
         final static String deleteFile = "204";
         final static String lookupBin = "205";
         final static String clearBin = "206";
-        final static String clearUserName = "207";
+        final static String clearUserFile = "207";
     }
 
     // 前端数据异常
@@ -53,8 +53,8 @@ public class DiskServlet extends HttpServlet {
             case Business.clearBin:
                 new top.byze.service.Disk(req, res).clearBin();
                 break;
-            case Business.clearUserName:
-                new top.byze.service.Disk(req, res).clearUserName();
+            case Business.clearUserFile:
+                new top.byze.service.Disk(req, res).clearUserFile();
                 break;
             default:
                 doException();

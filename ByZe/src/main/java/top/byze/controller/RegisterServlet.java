@@ -16,6 +16,7 @@ public class RegisterServlet extends HttpServlet {
         final static String SEND_VERIFICATION_CODE = "102";
         final static String REGISTER = "103";
         final static String LOGIN = "104";
+        final static String isLogin = "110";
     }
 
     // 前端数据异常
@@ -41,6 +42,9 @@ public class RegisterServlet extends HttpServlet {
                 break;
             case Business.LOGIN:
                 new top.byze.service.Login(req, res).login();
+                break;
+            case Business.isLogin:
+                new top.byze.service.Login(req, res).isLogin();
                 break;
             default:
                 log.error("前端数据异常");

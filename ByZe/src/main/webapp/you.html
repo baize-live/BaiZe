@@ -2,9 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>BaiZeYou</title>
+    <title>ByZeYOU</title>
+
+    <link rel="stylesheet" href="./static/element-ui/lib/theme-chalk/index.css">
+    <script src="./static/js/vue.js"></script>
+    <script src="./static/js/axios.js"></script>
+    <script src="./static/element-ui/lib/index.js"></script>
+
 </head>
 <body>
-<!--提供下载链接-->
+
+<div id="you">
+    <div class="demo-image__placeholder">
+        <div class="block">
+            <el-image :src="bg"></el-image>
+        </div>
+    </div>
+    <el-container>
+        <el-main>
+            <el-button type="primary" round @click="">下载白泽游戏</el-button>
+        </el-main>
+    </el-container>
+</div>
+
+<script src="./static/js/Var.js"></script>
+<script>
+    new Vue({
+        el: "#you",
+        data: {
+            email: "",
+            password: "",
+            url: basePath + "/login",
+            bg: "./static/img/index/wallpaper2.png",
+        },
+        methods: {}
+    });
+</script>
 </body>
 </html>

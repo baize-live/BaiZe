@@ -164,8 +164,7 @@ public class Login {
 
     // 返回是否开通网盘
     public static boolean isOpenPan(HttpServletRequest req) {
-        HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = SessionUtil.getUser(req);
         return isOpenPan(user.getEmail());
     }
 
@@ -194,9 +193,8 @@ public class Login {
 
     // 返回是否开通网盘
     public void isOpenPan() {
-        // 查询数据库 判断是否开启白泽库
-        HttpSession session = this.req.getSession();
-        User user = (User) session.getAttribute("user");
+        // 查询数据库 判断是否开启白泽网盘
+        User user = SessionUtil.getUser(req);
         boolean flag = isOpenPan(user.getEmail());
         if (flag) {
             writer.println(Res.TRUE);
@@ -211,8 +209,7 @@ public class Login {
     // 返回是否开通游戏
     public void isOpenYou() {
         // 查询数据库 判断是否开启白泽库
-        HttpSession session = this.req.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = SessionUtil.getUser(req);
         boolean flag = isOpenYou(user.getEmail());
         if (flag) {
             writer.println(Res.TRUE);
@@ -226,8 +223,7 @@ public class Login {
 
     // 开通网盘
     public void openPan() {
-        HttpSession session = this.req.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = SessionUtil.getUser(req);
         if (openPan(user.getEmail())) {
             writer.println(Res.TRUE);
             log.info(user.getEmail() + "网盘开通成功");
@@ -240,8 +236,7 @@ public class Login {
 
     // 开通游戏
     public void openYou() {
-        HttpSession session = this.req.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = SessionUtil.getUser(req);
         if (openYou(user.getEmail())) {
             writer.println(Res.TRUE);
             log.info(user.getEmail() + "游戏开通成功");
@@ -254,11 +249,19 @@ public class Login {
 
     // 登出
     public void logout() {
-        // 清除session
-
         // 清除cookies
         CookieUtil.delete(this.req, this.res);
         writer.println(Res.TRUE);
+        writer.close();
+    }
+
+    // 是否登录
+    public void isLogin() {
+        if (isLogin(req)) {
+            writer.println(Res.TRUE);
+        } else {
+            writer.println(Res.FALSE);
+        }
         writer.close();
     }
 }

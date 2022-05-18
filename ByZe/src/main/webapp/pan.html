@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ByZePAN</title>
 
     <link rel="stylesheet" href="./static/element-ui/lib/theme-chalk/index.css">
     <script src="./static/js/vue.js"></script>
@@ -13,11 +13,14 @@
 <body>
 
 <div id="pan">
+    <div class="demo-image__placeholder">
+        <div class="block">
+            <el-image :src="bg"></el-image>
+        </div>
+    </div>
     <el-container>
         <el-main>
-            <el-button @click="enterPan">进入网盘</el-button>
-            <el-button @click="openPan">开通网盘</el-button>
-            <el-button size="medium" type="primary" plain=true icon="el-icon-edit">答的昂对</el-button>
+            <el-button type="primary" round @click="enterPan">进入网盘</el-button>
         </el-main>
     </el-container>
 </div>
@@ -33,60 +36,83 @@
             business: {
                 isOpenPan: "105",
                 openPan: "106",
-            }
+            },
+            bg: "./static/img/index/wallpaper2.png",
         },
         methods: {
             enterPan: function () {
                 let data = "business=" + this.business.isOpenPan;
+                let that = this
                 axios.post(this.url, data)
                     .then(function (res) {
                         if (res.data == "1") {
-                            console.log("网盘已经开通");
+                            that.$notify({
+                                title: '成功',
+                                message: '成功进入网盘',
+                                type: 'success'
+                            });
                             setTimeout(() => {
                                 location.href = "/ByZe/disk.html";
                             }, 1000)
-                        } else {
+                        } else if (res.data == "0") {
                             // 弹出对话框
-                            console.log("网盘暂未开通");
+                            that.$confirm('网盘暂未开通', '是否开通?', {
+                                confirmButtonText: '确定',
+                                cancelButtonText: '取消',
+                                type: 'warning'
+                            }).then(() => {
+                                that.openPan();
+                            }).catch(() => {
+                                that.$notify({
+                                    type: 'info',
+                                    message: '已取消'
+                                });
+                            });
+                        } else{
+                            that.$notify({
+                                type: 'info',
+                                message: '请先登录'
+                            });
+                            setTimeout(() => {
+                                location.href = "login.html";
+                            }, 1000)
                         }
                     })
                     .catch(function (err) {
-                        console.log("访问后台失败");
+                        that.$notify({
+                            type: 'error',
+                            message: '网络异常'
+                        });
                     });
             },
             openPan: function () {
                 let data = "business=" + this.business.openPan;
+                let that = this
                 axios.post(this.url, data)
                     .then(function (res) {
                         if (res.data == "1") {
-                            console.log("网盘开通成功");
-                        } else {
+                            that.$notify({
+                                type: 'success',
+                                message: '开通成功!'
+                            });
+                            that.enterPan()
+                        } else if (res.data == "0") {
                             // 弹出对话框
-                            console.log("网盘开通失败");
+                            that.$notify({
+                                type: 'info',
+                                message: '开通失败!'
+                            });
                         }
                     })
                     .catch(function (err) {
-                        console.log("访问后台失败");
+                        that.$notify({
+                            type: 'error',
+                            message: '网络异常'
+                        });
                     });
-            }
+            },
         }
     });
-    // const userList = [];
-    // userList.push({username: "zhangSan", age: 18});
-    // userList.push({username: "lisi", age: 28});
-    // console.log(JSON.stringify(userList));
-    // console.log(typeof JSON.stringify(userList))
-    //
-    // axios({
-    //     method: "post",
-    //     url: "${pageContext.request.contextPath}/user/quick15",
-    //     data: JSON.stringify(userList),
-    //     headers: {
-    //         'Content-Type': 'application/json;charset=UTF-8'
-    //     }
-    // }).then(resp => {
-    //
-    // })
 </script>
 </body>
 </html>

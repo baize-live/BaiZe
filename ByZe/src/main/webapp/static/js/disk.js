@@ -44,7 +44,7 @@ new Vue({
         },
 
         //  自己的函数
-        initData: function () {
+        initData() {
             let data = "business=" + this.business.initData;
             let that = this
             // 获得用户数据
@@ -159,9 +159,10 @@ new Vue({
                         break;
                 }
             }
+            // 按ASCII 排序
+            item.fileList.sort((a, b) => a.fileName < b.fileName ? -1 : 1)
             return item;
         }
-
     }
 })
 

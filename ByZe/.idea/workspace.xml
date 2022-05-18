@@ -10,11 +10,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d414ce0-4ee6-46b5-a191-61980a578332" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/img/gobang.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/img/index/wallpaper2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/img/zaomeng.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserFileMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserFileMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/service/Disk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/service/Disk.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/PanDataMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/PanDataMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/UserFileMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/UserFileMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/controller/RegisterServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/controller/RegisterServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/service/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/service/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/pan.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/pan.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/person.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/person.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/css/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/disk.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/disk.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/kico.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/css/kico.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/kico.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/kico.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/paul.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/css/paul.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/paul.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/paul.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/src/pic/QQ.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/src/pic/background/1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/img/index/wallpaper1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/src/pic/background/2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/src/pic/login.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/img/login.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/src/pic/pic_main.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/src/pic/wechat.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/src/pic/zhifu.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/test.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/you.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/you.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +72,7 @@
         <option name="localRepository" value="E:\Environment\Maven\localRepository" />
         <option name="mavenHome" value="$PROJECT_DIR$/../../../Environment/Maven" />
         <option name="useMavenConfig" value="true" />
-        <option name="userSettingsFile" value="C:\Users\19216\.m2\settings.xml" />
+        <option name="userSettingsFile" value="E:\Environment\Maven\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -61,27 +86,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Program/manholeCover_Git/protocol/IEC104_Java&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "E:/Program/BaiZe/ByZe/src/main/webapp/static/img/index",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Program\BaiZe\ByZe\src\main\webapp\static\img\index" />
       <recent name="E:\Program\BaiZe\ByZe\src\main\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Program\BaiZe\ByZe\src\main\webapp\static\img" />
+      <recent name="E:\Program\BaiZe\ByZe\src\main\webapp\static\css" />
+      <recent name="E:\Program\BaiZe\ByZe\src\main\webapp\static\js" />
     </key>
   </component>
   <component name="RunManager" selected="Tomcat 服务器.Tomcat 8.5">
@@ -204,7 +235,12 @@
       <workItem from="1652790473989" duration="672000" />
       <workItem from="1652791167992" duration="1472000" />
       <workItem from="1652792664740" duration="7069000" />
-      <workItem from="1652839886655" duration="2268000" />
+      <workItem from="1652839886655" duration="5001000" />
+      <workItem from="1652847008155" duration="825000" />
+      <workItem from="1652857715279" duration="1411000" />
+      <workItem from="1652870866943" duration="201000" />
+      <workItem from="1652871259677" duration="1145000" />
+      <workItem from="1652872446089" duration="16595000" />
     </task>
     <servers />
   </component>

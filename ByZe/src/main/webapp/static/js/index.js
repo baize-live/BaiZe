@@ -1,9 +1,8 @@
 new Vue({
     el: '#app',
     created() {
-        this.updateTime();
-        this.getWeather();
-        this.getJoke();
+        this.isLogin();
+        this.getQuotes();
     },
 
     data: function () {
@@ -13,15 +12,14 @@ new Vue({
             value: new Date(),
             activeName: 'second',
             // 我自己的数据
-            time: '00:00',
-            date: '2022-01-01',
-            city: "天津",
-            forecast: [],
-            joke: "",
-            url: basePath + "/login",
+            isLoginBoolean: false,
+            Quotes: "",
+            url: basePath,
             business: {
-                logout: "109",
-            }
+                logoutString: "109",
+                isLoginString: "110",
+            },
+            bg: "./static/img/index/wallpaper2.png",
         }
     },
 
@@ -29,54 +27,97 @@ new Vue({
         handleClick: function (tab, event) {
             console.log(tab, event);
         },
+        handleSelect(key) {
 
+            switch (key) {
+                case 2:
+                    setTimeout(() => {
+                        location.href = "./pan.html";
+                    }, 500)
+                    break;
+                case 3:
+                    setTimeout(() => {
+                        location.href = "./you.html";
+                    }, 500)
+                    break;
+                case 4:
+                    setTimeout(() => {
+                        location.href = "./person.html";
+                    }, 500)
+                    break;
+                case 5:
+                    setTimeout(() => {
+                        location.href = "./login.html";
+                    }, 500)
+                    break;
+                case 6:
+                    this.logout();
+                    break;
+            }
+        },
         // 我自己的方法
-        updateTime: function () {
-            let now = new Date(); //日期对象
-            let map = {1: "一", 2: "二", 3: "三", 4: "四", 5: "五", 6: "六", 7: "日"}
-            this.time = now.getHours() + ":" + now.getMinutes();
-            this.date = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() +
-                "   星期" + map[now.getDay()];
-            setInterval(this.updateTime, 1000);
-        },
-        modifyCity: function (city) {
-            // TODO : 添加 修改城市
-            this.city = city;
-        },
-        getWeather: function () {
+        getQuotes: function () {
             let that = this;
-            axios.get("http://wthrcdn.etouch.cn/weather_mini?city=" + this.city).then(
-                function (res) {
-                    let weather = res.data.data
-                    that.forecast = weather.forecast[0]
-                },
-                function (err) {
-                    console.log(err)
-                }
-            )
-        },
-        getJoke: function () {
-            let that = this;
-            axios.get("https://autumnfish.cn/api/joke").then(
+            axios.get("https://api.xygeng.cn/one").then(
                 function (response) {
-                    that.joke = response.data
+                    that.Quotes = response.data.data.content
                 }, function (error) {
                     console.log(error)
                 }
             );
         },
-        logout: function () {
-            let data = "business=" + this.business.logout;
-            axios.post(this.url, data)
+        // 判断是否登录
+        isLogin: function () {
+            let data = "business=" + this.business.isLoginString;
+            let that = this;
+            axios.post(this.url + "/register", data)
                 .then(function (res) {
                     if (res.data == "1") {
-                        console.log("成功了");
+                        that.$notify({
+                            type: 'success',
+                            message: '登录成功'
+                        });
+                        that.isLoginBoolean = true
                     } else {
-                        console.log("失败了");
+                        that.$notify({
+                            type: 'info',
+                            message: '无用户登录'
+                        });
+                        that.isLoginBoolean = false
                     }
                 })
                 .catch(function (err) {
-                    console.log("访问后台失败");
+                    that.$notify({
+                        type: 'error',
+                        message: '网络异常'
+                    });
+                });
+        },
+        // 退出登录
+        logout: function () {
+            let data = "business=" + this.business.logoutString;
+            let that = this;
+            axios.post(this.url + "/login", data)
+                .then(function (res) {
+                    if (res.data == "1") {
+                        that.$notify({
+                            type: 'success',
+                            message: '退出成功'
+                        });
+                        that.isLoginBoolean = false
+                    } else {
+                        that.$notify({
+                            type: 'warning',
+                            message: '无用户登录'
+                        });
+                        that.isLoginBoolean = true
+                    }
+                })
+                .catch(function (err) {
+                    that.$notify({
+                        type: 'error',
+                        message: '网络异常'
+                    });
                 });
         }
     }

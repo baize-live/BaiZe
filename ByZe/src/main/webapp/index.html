@@ -13,90 +13,21 @@
 <body>
 
 <div id="app">
-    <el-container>
-        <el-header height="60px" >
-            <el-container>
-
-            </el-container>
-        </el-header>
-        <el-main>
-            <el-container>
-                <el-header height="200px">
-                    <!-- 时间-->
-                    <div class="date-time-view">
-                        <label class="time" v-text="time"></label> <br>
-                        <label class="date" v-text="date"></label> <br>
-                    </div>
-                    <!-- 城市天气-->
-                    <div class="small-weather">
-                        <div class="city-name">{{ city }}</div>
-                        <div class="city-temp">{{ forecast["type"] }}</div>
-                        <div class="cur-temp">{{ forecast["low"] }} ~ {{ forecast["high"] }}</div>
-                    </div>
-                </el-header>
-                <el-main>
-                    <el-tabs v-model="activeName" @tab-click="handleClick">
-                        <el-tab-pane label="默认书签" name="first">
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <br>
-                            <br>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <br>
-                            <br>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <br>
-                        </el-tab-pane>
-                        <el-tab-pane label="用户书签" name="second">
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <el-button size="medium" type="primary" plain=true icon="el-icon-edit"></el-button>
-                            <br>
-                            <br>
-                            <el-link type="success" href="./login.html">登录/注册</el-link><br><br>
-                            <el-link type="success" href="./pan.html">白泽网盘</el-link><br><br>
-                            <el-link type="success" href="./you.html">白泽游戏</el-link><br><br>
-                            <el-link type="success" href="./person.html">关于作者</el-link><br><br>
-
-                            <el-button type="primary" plain=true @click="logout">退出登录</el-button>
-
-                        </el-tab-pane>
-
-                        <el-tab-pane label="配置" name="third">
-                            <el-button @click="drawer = true" type="primary" style="margin-left: 16px;">点我打开</el-button>
-                            <el-drawer
-                                    title="我是标题"
-                                    :visible.sync="drawer"
-                                    :with-header="false">
-                                <span>我来啦!</span>
-                            </el-drawer>
-                        </el-tab-pane>
-                        <el-tab-pane label="开心一刻" name="fourth">
-                            <!--笑话-->
-                            <div style="width:350px; height:auto">
-                                <p>{{ joke }}</p>
-                                <el-button type="primary" plain=true @click="getJoke">获取笑话</el-button>
-                            </div>
-                        </el-tab-pane>
-                    </el-tabs>
-                </el-main>
-            </el-container>
-        </el-main>
-
-    </el-container>
+    <el-button @click="handleSelect(2)">白泽网盘</el-button>
+    <el-button @click="handleSelect(3)">白泽游戏</el-button>
+    <el-button @click="handleSelect(4)">关于作者</el-button>
+    <el-button @click="handleSelect(5)" v-if="!isLoginBoolean">登录/注册</el-button>
+    <el-button @click="handleSelect(6)" v-if="isLoginBoolean">退出登录</el-button>
+    <br>
+    <br>
+    <div class="demo-image__placeholder">
+        <div class="block">
+            <el-image :src="bg"></el-image>
+        </div>
+    </div>
+    <div style="width:100%; height:auto">
+        <p>{{ Quotes }}</p>
+    </div>
 </div>
 
 <script src="./static/js/Var.js"></script>

@@ -72,7 +72,7 @@ public class Disk {
     }
 
     // 获得指定目录下的文件链表
-    private static List<UserFile> getUserFile(int uid, String fileDir) {
+    private static List<UserFile> getFileList(int uid, String fileDir) {
         List<UserFile> fileList = null;
         try {
             MyBatis myBatis = new MyBatis();
@@ -86,17 +86,49 @@ public class Disk {
         return fileList;
     }
 
-    // 设置当前存储
-    private static void setNowStorage(int uid, long nowStorage) {
+    // 查看指定文件
+    private static List<UserFile> getUserFile(int uid, String fileName, String fileDir) {
+        List<UserFile> fileList = null;
         try {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
-            PanDataMapper panDataMapper = sqlSession.getMapper(PanDataMapper.class);
-            panDataMapper.setNowStorage(uid, nowStorage);
+            UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
+            fileList = userFileMapper.getUserFile(uid, fileName, fileDir);
             myBatis.closeSqlSession();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return fileList;
+    }
+
+    // 查看回收站的所有文件
+    private static List<UserFile> lookupBin(int uid) {
+        List<UserFile> fileList = null;
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
+            fileList = userFileMapper.lookupBin(uid);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fileList;
+    }
+
+    // 查找数据库中的过期文件(表示回收站中过期的文件)
+    private static List<UserFile> selectFilesOutOFfDateInDB(int uid, int days) {
+        List<UserFile> fileList = null;
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
+            fileList = userFileMapper.selectFilesOutOFfDateInDB(uid, days);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fileList;
     }
 
     // 保存用户上传文件
@@ -106,6 +138,19 @@ public class Disk {
             SqlSession sqlSession = myBatis.getSqlSession();
             UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
             userFileMapper.saveUserFile(uid, fileName, fileType, fileSize, fileState, fileDir);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 设置当前存储
+    private static void setNowStorage(int uid, long nowStorage) {
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            PanDataMapper panDataMapper = sqlSession.getMapper(PanDataMapper.class);
+            panDataMapper.setNowStorage(uid, nowStorage);
             myBatis.closeSqlSession();
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,21 +168,6 @@ public class Disk {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    // 查看回收站的所有文件
-    private static List<UserFile> lookupBin(int uid) {
-        List<UserFile> fileList = null;
-        try {
-            MyBatis myBatis = new MyBatis();
-            SqlSession sqlSession = myBatis.getSqlSession();
-            UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
-            fileList = userFileMapper.lookupBin(uid);
-            myBatis.closeSqlSession();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return fileList;
     }
 
     // 清空回收站
@@ -179,22 +209,8 @@ public class Disk {
         }
     }
 
-    // 查找数据库中的过期文件(表示回收站中过期的文件)
-    private static List<UserFile> selectFilesOutOFfDateInDB(int uid, int days) {
-        List<UserFile> fileList = null;
-        try {
-            MyBatis myBatis = new MyBatis();
-            SqlSession sqlSession = myBatis.getSqlSession();
-            UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
-            fileList = userFileMapper.selectFilesOutOFfDateInDB(uid, days);
-            myBatis.closeSqlSession();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return fileList;
-    }
-
-    /// 功能函数
+    // =================功能函数
+    // 生成一个字符串(包含文件信息)
     private static void addFileList(StringBuilder stringBuilder, List<UserFile> fileList) {
         for (UserFile userFile : fileList) {
             stringBuilder
@@ -205,14 +221,23 @@ public class Disk {
         }
     }
 
-    // 在磁盘上清除过期文件
-    private static void clearFilesOutOFfDateInDir(int uid, List<UserFile> fileList) {
+    // 删除指定文件列表中的文件
+    private static void clearFileListInDir(int uid, List<UserFile> fileList) {
         for (UserFile file : fileList) {
             FileUtil.deleteFile(ConfigUtil.getUserFilePath() + "User" + uid + file.getFileDir() + file.getFileName());
         }
     }
 
-    // 接口
+    // 返回删除文件的总大小
+    private static long getFileSizeSum(List<UserFile> fileList) {
+        long fileSizeSum = 0;
+        for (UserFile userFile : fileList) {
+            fileSizeSum += userFile.getFileSize();
+        }
+        return fileSizeSum;
+    }
+
+    // =================提供给Servlet的接口
     public void initData() {
         HttpSession session = this.req.getSession();
         User user = (User) session.getAttribute("user");
@@ -221,7 +246,7 @@ public class Disk {
         // 获得网盘数据
         PanData panData = getPanData(user.getUid());
         // 获得文件数据
-        List<UserFile> fileList = getUserFile(user.getUid(), "/");
+        List<UserFile> fileList = getFileList(user.getUid(), "/");
 
         // 返回数据
         StringBuilder stringBuilder = new StringBuilder();
@@ -316,7 +341,7 @@ public class Disk {
         // 获得文件目录
         String fileDir = req.getParameter("fileDir");
         // 获得文件数据
-        List<UserFile> fileList = getUserFile(user.getUid(), fileDir);
+        List<UserFile> fileList = getFileList(user.getUid(), fileDir);
         // 返回数据
         StringBuilder stringBuilder = new StringBuilder();
         addFileList(stringBuilder, fileList);
@@ -360,7 +385,7 @@ public class Disk {
             int days = panData.getOutOfDate();
             List<UserFile> fileList = selectFilesOutOFfDateInDB(uid, days);
             // 删除磁盘中的过期文件
-            clearFilesOutOFfDateInDir(uid, fileList);
+            clearFileListInDir(uid, fileList);
             // 删除数据库中的过期文件
             clearFilesOutOFfDateInDB(uid, days);
             // 查看垃圾箱
@@ -390,14 +415,13 @@ public class Disk {
             // 添加Size
             PanData panData = getPanData(uid);
             List<UserFile> fileList = lookupBin(uid);
-            long fileSizeSum = 0;
-            for (UserFile userFile : fileList) {
-                fileSizeSum += userFile.getFileSize();
-            }
+            long fileSizeSum = getFileSizeSum(fileList);
             long nowStorage = panData.getNowStorage() - fileSizeSum;
             setNowStorage(uid, nowStorage);
-            // 清空回收站
+            // 清空回收站 数据库
             clearBin(uid);
+            // 在磁盘上删除
+            clearFileListInDir(uid, fileList);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -411,9 +435,18 @@ public class Disk {
             // 获得用户全部属性
             user = getUser(user.getEmail());
             int uid = user.getUid();
+            String fileDir = req.getParameter("fileDir");
+            String fileName = req.getParameter("fileName");
+            // 添加Size
+            PanData panData = getPanData(uid);
+            List<UserFile> fileList = getUserFile(uid, fileDir, fileName);
+            long fileSizeSum = getFileSizeSum(fileList);
+            long nowStorage = panData.getNowStorage() - fileSizeSum;
+            setNowStorage(uid, nowStorage);
             // 清空文件
-            // TODO 添加Size
-
+            clearUserFile(uid, fileName, fileDir);
+            // 在磁盘上删除
+            clearFileListInDir(uid, fileList);
         } catch (Exception e) {
             e.printStackTrace();
         }

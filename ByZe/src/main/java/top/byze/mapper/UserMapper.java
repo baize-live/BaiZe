@@ -6,9 +6,6 @@ import top.byze.bean.User;
 import java.util.List;
 
 public interface UserMapper {
-
-    void delAll();
-
     List<User> selectAll();
 
     User getUser(@Param("email") String email);
@@ -28,6 +25,4 @@ public interface UserMapper {
     boolean findUser(@Param("email") String email, @Param("password") String password);
 
     void addUser(@Param("username") String username, @Param("password") String password, @Param("email") String email);
-
-
 }

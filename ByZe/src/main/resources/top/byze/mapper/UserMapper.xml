@@ -65,10 +65,4 @@
         set isOpenYou = '1'
         where email = #{email};
     </update>
-
-    <delete id="delAll">
-        delete
-        from user;
-    </delete>
-
 </mapper>

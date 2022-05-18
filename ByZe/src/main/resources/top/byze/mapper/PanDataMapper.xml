@@ -3,11 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.byze.mapper.PanDataMapper">
-    <select id="selectAll" resultType="top.byze.bean.PanData">
-        select *
-        from pandata;
-    </select>
-
     <select id="getPanData" resultType="top.byze.bean.PanData">
         select *
         from pandata

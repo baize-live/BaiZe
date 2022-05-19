@@ -13,57 +13,129 @@
 
 <div id="disk">
     <el-container style="height:1000px; border: 1px solid #eee">
-        <el-header style="text-align: right; font-size: 12px">
-            <el-dropdown>
-                <i class="el-icon-setting" style="margin-right: 15px"></i>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>查看</el-dropdown-item>
-                    <el-dropdown-item>新增</el-dropdown-item>
-                    <el-dropdown-item>删除</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>
-            <span>{{userData.username}}</span>
-            <span>{{userData.grade}}级会员</span>
+        <el-header style="text-align: right; font-size: 24px">
+            <div class="demo-fit">
+                <el-avatar shape="circle " :size="50" fit='fill' :src="userData.icon" @error="true"></el-avatar>
+                <span>{{userData.username}}</span>
+            </div>
         </el-header>
         <el-container>
-            <el-aside style="text-align: left; width: 130px">
-                <br><br>
-                <el-button type="primary" @click="updateFileList" style="text-align: center; width: 100px">我的资源
-                </el-button>
-                <br><br>
-                <el-button type="primary" @click="openBin" style="text-align: center; width: 100px">回收站</el-button>
+            <el-aside style="width:210px">
+                <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+                    <el-radio-button :label="false">展开</el-radio-button>
+                    <el-radio-button :label="true">收起</el-radio-button>
+                </el-radio-group>
+                <el-menu class="el-menu-vertical-demo"
+                         @select="handleSelect" :collapse="isCollapse">
+                    <el-menu-item index="0">
+                        <i class="el-icon-location"></i>
+                        <span slot="title">我的资源</span>
+                    </el-menu-item>
+                    <el-menu-item index="1">
+                        <i class="el-icon-menu"></i>
+                        <span slot="title">回收站</span>
+                    </el-menu-item>
+                    <el-menu-item index="2">
+                        <i class="el-icon-document"></i>
+                        <span slot="title">好友</span>
+                    </el-menu-item>
+                    <el-menu-item index="3">
+                        <i class="el-icon-document"></i>
+                        <span slot="title">设置</span>
+                    </el-menu-item>
+                </el-menu>
             </el-aside>
             <el-main>
-                <el-upload
-                        class="upload-demo"
-                        ref="upload"
-                        action="http://localhost:8080/ByZe/uploadFile"
-                        :data="fileDir"
-                        :on-preview="handlePreview"
-                        :on-remove="handleRemove"
-                        :file-list="uploadFileList"
-                        :multiple="true"
-                        :auto-upload="false">
-                    <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                    <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器
-                    </el-button>
-                </el-upload>
-                <el-table :data="fileList" stripe=true sort="prop: fileName, order: string">
-                    <el-table-column label="文件姓名" prop="fileName"></el-table-column>
-                    <el-table-column label="文件大小" prop="fileSize"></el-table-column>
-                    <el-table-column label="创建时间" prop="createTime"></el-table-column>
+                <div v-show="isShow[0]">
+                    <el-upload
+                            class="upload-demo"
+                            ref="upload"
+                            action="http://localhost:8080/ByZe/uploadFile"
+                            :data="fileDir"
+                            :on-preview="handlePreview"
+                            :on-remove="handleRemove"
+                            :file-list="uploadFileList"
+                            :multiple="true"
+                            :auto-upload="false">
+                        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器
+                        </el-button>
+                        <el-button style="margin-left: 10px;" size="small" type="success" @click="updateFileList">刷新
+                        </el-button>
+                    </el-upload>
+                    <el-table :data="fileList" :stripe=true>
+                        <el-table-column label="文件名字" prop="fileName"></el-table-column>
+                        <el-table-column label="文件大小" prop="fileSize"></el-table-column>
+                        <el-table-column label="创建时间" prop="Time"></el-table-column>
 
-                    <el-table-column label="操作" style="width: 100%">
-                        <template slot-scope="scope">
-                            <el-button size="mini" type="primary" @click="Edit(scope.$index)">编辑</el-button>
-                            <el-button size="mini" type="primary" @click="Download(scope.$index)">下载</el-button>
-                            <el-button size="mini" type="danger" @click="Delete(scope.$index)">删除</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
+                        <el-table-column label="操作" style="width: 100%">
+                            <template slot-scope="scope">
+                                <el-button size="mini" type="primary" @click="Download(scope.$index)">下载</el-button>
+                                <el-button size="mini" type="danger" @click="Delete(scope.$index)">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </div>
+                <div v-show="isShow[1]">
+                    <el-button size="small" type="primary" @click="clearBin">清空回收站</el-button>
+                    <el-table :data="binList" :stripe=true>
+                        <el-table-column label="文件名字" prop="fileName"></el-table-column>
+                        <el-table-column label="文件大小" prop="fileSize"></el-table-column>
+                        <el-table-column label="删除时间" prop="Time"></el-table-column>
+
+                        <el-table-column label="操作" style="width: 100%">
+                            <template slot-scope="scope">
+                                <el-button size="mini" type="primary" @click="recovery(scope.$index)">还原</el-button>
+                                <el-button size="mini" type="danger" @click="clear(scope.$index)">清除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </div>
+                <div v-show="isShow[2]">
+                    <el-table :data="friendList" :stripe=true>
+                        <el-table-column label="用户名" prop="username"></el-table-column>
+                        <el-table-column label="分组" prop="group"></el-table-column>
+                    </el-table>
+                </div>
+                <div v-show="isShow[3]">
+                    <!--头像-->
+                    <div class="demo-image__placeholder" style="text-align: center">
+                        <div class="block">
+                            <el-image :src="userData.icon"></el-image>
+                        </div>
+                    </div>
+                    <el-form ref="form" :model="userData" label-width="120px" label-position="right">
+                        <el-form-item label="用户ID">
+                            <el-tag>{{userData.uid}}</el-tag>
+                        </el-form-item>
+                        <el-form-item label="用户名">
+                            <el-input v-model="userData.username"></el-input>
+                        </el-form-item>
+                        <el-form-item label="邮箱">
+                            <el-tag>{{userData.email}}</el-tag>
+                        </el-form-item>
+                        <el-form-item label="手机">
+                            <el-input v-model="userData.phone"></el-input>
+                        </el-form-item>
+                        <el-form-item label="真实姓名">
+                            <el-input v-model="userData.realName"></el-input>
+                        </el-form-item>
+                        <el-form-item label="身份证">
+                            <el-input v-model="userData.idCard"></el-input>
+                        </el-form-item>
+                        <el-form-item label="会员等级">
+                            <el-tag>{{userData.grade}}</el-tag>
+                        </el-form-item>
+                        <el-form-item label="空间使用量">
+                            <el-progress :text-inside="true" :stroke-width="40"
+                                         :percentage=Math.round(userData.nowStorage*100/userData.maxStorage)></el-progress>
+                        </el-form-item>
+                        <el-form-item style="text-align: center">
+                            <el-button type="primary" @click="modifyAttributes">立即修改</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
             </el-main>
-
-
         </el-container>
 
     </el-container>

@@ -19,7 +19,7 @@ public class Main {
         for (User user : users) {
             System.out.println(user);
         }
-//        userMapper.delAll();
+
         // 提交事务
         sqlSession.commit();
         // 释放资源

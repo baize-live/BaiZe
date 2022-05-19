@@ -73,28 +73,40 @@ new Vue({
             }
         },
         checkEmail: function () {
-            let data = "business=" + this.business.checkEmail + "&email=" + this.email;
-            let that = this
-            axios.post(this.url, data)
-                .then(function (res) {
-                    if (res.data == "1") {
-                        that.$notify({
-                            type: 'info',
-                            message: '邮箱可以使用'
-                        });
-                    } else {
-                        that.$notify({
-                            type: 'info',
-                            message: '邮箱已被注册'
-                        });
-                    }
-                })
-                .catch(function (err) {
-                    this.$notify({
-                        type: 'error',
-                        message: '网络异常'
-                    });
+            if (this.email == "") {
+                this.$notify({
+                    type: 'info',
+                    message: '请输入邮箱'
                 });
+            } else if (this.email.indexOf('@') == -1) {
+                this.$notify({
+                    type: 'info',
+                    message: '请输入正确的邮箱'
+                });
+            } else {
+                let data = "business=" + this.business.checkEmail + "&email=" + this.email;
+                let that = this
+                axios.post(this.url, data)
+                    .then(function (res) {
+                        if (res.data == "1") {
+                            that.$notify({
+                                type: 'info',
+                                message: '邮箱可以使用'
+                            });
+                        } else {
+                            that.$notify({
+                                type: 'info',
+                                message: '邮箱已被注册'
+                            });
+                        }
+                    })
+                    .catch(function (err) {
+                        this.$notify({
+                            type: 'error',
+                            message: '网络异常'
+                        });
+                    });
+            }
         },
         checkConPassword: function () {
             if (this.conPassword !== this.password) {

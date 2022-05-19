@@ -65,4 +65,12 @@
         set isOpenYou = '1'
         where email = #{email};
     </update>
+
+    <update id="modifyAttributes">
+        update user
+        set idCard   = #{idCard},
+            realName = #{realName},
+            phone    = #{phone}
+        where email = #{email};
+    </update>
 </mapper>

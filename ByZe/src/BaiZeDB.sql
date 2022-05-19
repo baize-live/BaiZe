@@ -30,10 +30,11 @@ create table PanData
 (
     PID        int AUTO_INCREMENT COMMENT 'PID',
     UID        int COMMENT '用户ID',
-    grade      char DEFAULT '0' COMMENT '会员等级',
-    OutOfDate  int  DEFAULT 30 COMMENT '过期时间',
-    nowStorage int  DEFAULT 0 COMMENT '当前存储',
-    maxStorage int  DEFAULT 1024 COMMENT '最大存储',
+    grade      char        DEFAULT '0' COMMENT '会员等级',
+    icon       varchar(50) DEFAULT '192.png' COMMENT '头像',
+    OutOfDate  int         DEFAULT 30 COMMENT '过期时间',
+    nowStorage int         DEFAULT 0 COMMENT '当前存储',
+    maxStorage int         DEFAULT 1024 COMMENT '最大存储',
     CONSTRAINT PriKeyUid PRIMARY KEY (PID),
     foreign key (UID) references User (UID)
 ) COMMENT '网盘数据';
@@ -61,7 +62,6 @@ create table UserFile
     fileSize   int          DEFAULT 0   NOT NULL COMMENT '文件大小',
     fileState  char(1)      DEFAULT 'Y' NOT NULL COMMENT '文件状态',
     fileDir    varchar(500) DEFAULT ' ' NOT NULL COMMENT '完整目录',
-    lastDir    varchar(500) DEFAULT ' ' NOT NULL COMMENT '上级目录',
     deleteTime datetime     DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间',
     # TODO: 目前认为只要更新就是改fileState 因此同步修改删除时间
 

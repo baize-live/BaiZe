@@ -229,7 +229,7 @@ public class Login {
             log.info(user.getEmail() + "网盘开通成功");
         } else {
             writer.println(Res.FALSE);
-            log.info(user.getEmail() + "网盘开通成功");
+            log.info(user.getEmail() + "网盘开通失败");
         }
         writer.close();
     }

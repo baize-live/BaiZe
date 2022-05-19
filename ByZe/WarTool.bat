@@ -1,0 +1,1 @@
+xcopy ".\target\ByZe.war" ".\war\" /y

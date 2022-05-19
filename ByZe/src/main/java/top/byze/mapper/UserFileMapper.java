@@ -19,6 +19,8 @@ public interface UserFileMapper {
 
     void deleteUserFile(@Param("UID") int uid, @Param("fileName") String fileName, @Param("fileDir") String fileDir);
 
+    void recoveryFile(@Param("UID") int uid, @Param("fileName") String fileName, @Param("fileDir") String fileDir);
+
     void clearFilesOutOFfDateInDB(@Param("UID") int uid, @Param("days") int days);
 
     void clearBin(@Param("UID") int uid);

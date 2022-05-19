@@ -12,15 +12,13 @@ import top.byze.bean.UserFile;
 import top.byze.mapper.PanDataMapper;
 import top.byze.mapper.UserFileMapper;
 import top.byze.mapper.UserMapper;
-import top.byze.utils.ConfigUtil;
-import top.byze.utils.FileUtil;
-import top.byze.utils.FromUtil;
-import top.byze.utils.MyBatis;
+import top.byze.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -196,6 +194,19 @@ public class Disk {
         }
     }
 
+    // 恢复指定文件
+    private static void recoveryFile(int uid, String fileName, String fileDir) {
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
+            userFileMapper.recoveryFile(uid, fileName, fileDir);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // 清除数据库中的过期文件 这个时间可以个性化设置
     private static void clearFilesOutOFfDateInDB(int uid, int days) {
         try {
@@ -209,7 +220,35 @@ public class Disk {
         }
     }
 
+    // 修改用户属性
+    private static void modifyAttributes(String email, String idCard, String realName, String phone) {
+        try {
+            MyBatis myBatis = new MyBatis();
+            SqlSession sqlSession = myBatis.getSqlSession();
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            userMapper.modifyAttributes(email, idCard, realName, phone);
+            myBatis.closeSqlSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // =================功能函数
+    // 生成用户属性字符串
+    private static void addAttributes(StringBuilder stringBuilder, User user, PanData panData) {
+        stringBuilder
+                .append("username=").append(user.getUsername()).append("&")
+                .append("uid=").append(user.getUid()).append("&")
+                .append("email=").append(user.getEmail()).append("&")
+                .append("idCard=").append(user.getIDCard() == null ? " " : user.getIDCard()).append("&")
+                .append("realName=").append(user.getRealName() == null ? " " : user.getRealName()).append("&")
+                .append("phone=").append(user.getPhone() == null ? " " : user.getPhone()).append("&")
+                .append("icon=").append(panData.getIcon()).append("&")
+                .append("nowStorage=").append(panData.getNowStorage()).append("&")
+                .append("maxStorage=").append(panData.getMaxStorage()).append("&")
+                .append("grade=").append(panData.getGrade()).append("&");
+    }
+
     // 生成一个字符串(包含文件信息)
     private static void addFileList(StringBuilder stringBuilder, List<UserFile> fileList) {
         for (UserFile userFile : fileList) {
@@ -239,28 +278,23 @@ public class Disk {
 
     // =================提供给Servlet的接口
     public void initData() {
-        HttpSession session = this.req.getSession();
-        User user = (User) session.getAttribute("user");
+        // 从session中获得user
+        User user = SessionUtil.getUser(req);
         // 获得用户全部属性
         user = getUser(user.getEmail());
         // 获得网盘数据
         PanData panData = getPanData(user.getUid());
         // 获得文件数据
         List<UserFile> fileList = getFileList(user.getUid(), "/");
-
         // 返回数据
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder
-                .append("username=").append(user.getUsername()).append("&")
-                .append("uid=").append(user.getUid()).append("&")
-                .append("grade=").append(panData.getGrade()).append("&");
+        // 添加用户属性
+        addAttributes(stringBuilder, user, panData);
         // 添加文件列表
         addFileList(stringBuilder, fileList);
-
+        // 告诉前端
         try {
-            PrintWriter writer = this.res.getWriter();
-            writer.println(stringBuilder);
-            writer.close();
+            this.res.getWriter().println(stringBuilder);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -268,28 +302,28 @@ public class Disk {
 
     // 上传文件
     public void uploadFile() {
-        HttpSession session = this.req.getSession();
-        User user = (User) session.getAttribute("user");
+        // 从session中获得user
+        User user = SessionUtil.getUser(req);
         // 获得用户全部属性
         user = getUser(user.getEmail());
         PanData panData = getPanData(user.getUid());
-
         String path = ConfigUtil.getUserFilePath() + "User" + user.getUid();
-
         if (ServletFileUpload.isMultipartContent(req)) {
             FromMap fromMap = FromUtil.parseParam(req);
             // 前端传来的currentDir
             String fileDir = fromMap.getParamMap().get("currentDir");
             Map<String, FileItem> map = fromMap.getFileMap();
             for (String name : map.keySet()) {
-                long fileSize = map.get(name).getSize() / 1024 / 1024;
+                long fileSize = Math.round(map.get(name).getSize() * 1.0 / 1024 / 1024);
                 // 保存在服务器上
                 FileUtil.saveFile(map.get(name), path + fileDir + name);
                 // 存储在数据库中
                 saveUserFile(user.getUid(), name, '-', fileSize, 'Y', fileDir);
                 // 增大当前存储
-                long nowStorage = panData.getNowStorage() + fileSize;
-                setNowStorage(user.getUid(), nowStorage);
+                synchronized (req.getSession()) {
+                    long nowStorage = panData.getNowStorage() + fileSize;
+                    setNowStorage(user.getUid(), nowStorage);
+                }
             }
         }
     }
@@ -297,8 +331,8 @@ public class Disk {
     // 下载文件
     public void downloadFile() {
         try {
-            HttpSession session = req.getSession();
-            User user = (User) session.getAttribute("user");
+            // 从session中获得user
+            User user = SessionUtil.getUser(req);
             // 获得用户全部属性
             user = getUser(user.getEmail());
             String fileDir = req.getParameter("fileDir");
@@ -334,8 +368,8 @@ public class Disk {
 
     // 更新页面
     public void updateFileList() {
-        HttpSession session = this.req.getSession();
-        User user = (User) session.getAttribute("user");
+        // 从session中获得user
+        User user = SessionUtil.getUser(req);
         // 获得用户全部属性
         user = getUser(user.getEmail());
         // 获得文件目录
@@ -357,8 +391,8 @@ public class Disk {
     // 删除指定文件
     public void deleteFile() {
         try {
-            HttpSession session = req.getSession();
-            User user = (User) session.getAttribute("user");
+            // 从session中获得user
+            User user = SessionUtil.getUser(req);
             // 获得用户全部属性
             user = getUser(user.getEmail());
             int uid = user.getUid();
@@ -366,6 +400,8 @@ public class Disk {
             String fileName = req.getParameter("fileName");
             // 设置UserFile中文件状态为N 表示删除 所以此时不释放空间
             deleteUserFile(uid, fileName, fileDir);
+            // 告诉前端
+            this.res.getWriter().println(Res.TRUE);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -375,8 +411,8 @@ public class Disk {
     // 查看垃圾箱
     public void lookupBin() {
         try {
-            HttpSession session = req.getSession();
-            User user = (User) session.getAttribute("user");
+            // 从session中获得user
+            User user = SessionUtil.getUser(req);
             // 获得用户全部属性
             user = getUser(user.getEmail());
             int uid = user.getUid();
@@ -407,8 +443,8 @@ public class Disk {
     // 清空垃圾箱
     public void clearBin() {
         try {
-            HttpSession session = req.getSession();
-            User user = (User) session.getAttribute("user");
+            // 从session中获得user
+            User user = SessionUtil.getUser(req);
             // 获得用户全部属性
             user = getUser(user.getEmail());
             int uid = user.getUid();
@@ -422,6 +458,8 @@ public class Disk {
             clearBin(uid);
             // 在磁盘上删除
             clearFileListInDir(uid, fileList);
+            // 告诉前端
+            this.res.getWriter().println(Res.TRUE);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -430,8 +468,8 @@ public class Disk {
     // 清理垃圾箱中的某个文件
     public void clearUserFile() {
         try {
-            HttpSession session = req.getSession();
-            User user = (User) session.getAttribute("user");
+            // 从session中获得user
+            User user = SessionUtil.getUser(req);
             // 获得用户全部属性
             user = getUser(user.getEmail());
             int uid = user.getUid();
@@ -439,14 +477,82 @@ public class Disk {
             String fileName = req.getParameter("fileName");
             // 添加Size
             PanData panData = getPanData(uid);
-            List<UserFile> fileList = getUserFile(uid, fileDir, fileName);
+            List<UserFile> fileList = getUserFile(uid, fileName, fileDir);
             long fileSizeSum = getFileSizeSum(fileList);
-            long nowStorage = panData.getNowStorage() - fileSizeSum;
-            setNowStorage(uid, nowStorage);
+            // 通过所保证数据的正确性
+            synchronized (req.getSession()) {
+                long nowStorage = panData.getNowStorage() - fileSizeSum;
+                setNowStorage(uid, nowStorage);
+            }
             // 清空文件
             clearUserFile(uid, fileName, fileDir);
             // 在磁盘上删除
             clearFileListInDir(uid, fileList);
+            // 告诉前端
+            this.res.getWriter().println(Res.TRUE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 还原垃圾箱中的某个文件
+    public void recoveryFile() {
+        try {
+            // 从session中获得user
+            User user = SessionUtil.getUser(req);
+            // 获得用户全部属性
+            user = getUser(user.getEmail());
+            int uid = user.getUid();
+            String fileDir = req.getParameter("fileDir");
+            String fileName = req.getParameter("fileName");
+            // 恢复文件
+            recoveryFile(uid, fileName, fileDir);
+            // 告诉前端
+            this.res.getWriter().println(Res.TRUE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 返回用户属性
+    public void Attributes() {
+        // 从session中获得user
+        User user = SessionUtil.getUser(req);
+        // 获得用户全部属性
+        user = getUser(user.getEmail());
+        // 获得网盘数据
+        PanData panData = getPanData(user.getUid());
+        StringBuilder stringBuilder = new StringBuilder();
+        // 添加用户属性
+        addAttributes(stringBuilder, user, panData);
+        // 告诉前端
+        try {
+            this.res.getWriter().println(stringBuilder);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 返回好友列表
+    public void getFriend() {
+        try {
+            this.res.getWriter().println("好友系统, 没有完善");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 修改用户属性
+    public void modifyAttributes() {
+        // 从session中获得user
+        User user = SessionUtil.getUser(req);
+        // 获得要修改的参数
+        String idCard = req.getParameter("idCard");
+        String realName = req.getParameter("realName");
+        String phone = req.getParameter("phone");
+        modifyAttributes(user.getEmail(), idCard, realName, phone);
+        try {
+            this.res.getWriter().println(Res.TRUE);
         } catch (Exception e) {
             e.printStackTrace();
         }

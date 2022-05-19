@@ -5094,201 +5094,200 @@ mysql&gt; SELECT VERSION(), sys.version_patch();
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <Position>3</Position>
     </column>
-    <column id="690" parent="287" name="OutOfDate">
+    <column id="690" parent="287" name="icon">
+      <Comment>头像</Comment>
+      <DataType>varchar(50)|0s</DataType>
+      <DefaultExpression>&apos;192.png&apos;</DefaultExpression>
+      <Position>4</Position>
+    </column>
+    <column id="691" parent="287" name="OutOfDate">
       <Comment>过期时间</Comment>
       <DataType>int|0s</DataType>
       <DefaultExpression>30</DefaultExpression>
-      <Position>4</Position>
+      <Position>5</Position>
     </column>
-    <column id="691" parent="287" name="nowStorage">
+    <column id="692" parent="287" name="nowStorage">
       <Comment>当前存储</Comment>
       <DataType>int|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
-      <Position>5</Position>
+      <Position>6</Position>
     </column>
-    <column id="692" parent="287" name="maxStorage">
+    <column id="693" parent="287" name="maxStorage">
       <Comment>最大存储</Comment>
       <DataType>int|0s</DataType>
       <DefaultExpression>1024</DefaultExpression>
-      <Position>6</Position>
+      <Position>7</Position>
     </column>
-    <foreign-key id="693" parent="287" name="pandata_ibfk_1">
+    <foreign-key id="694" parent="287" name="pandata_ibfk_1">
       <ColNames>UID</ColNames>
       <RefColNames>UID</RefColNames>
       <RefTableName>user</RefTableName>
     </foreign-key>
-    <index id="694" parent="287" name="UID">
+    <index id="695" parent="287" name="UID">
       <ColNames>UID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="695" parent="287" name="PRIMARY">
+    <key id="696" parent="287" name="PRIMARY">
       <ColNames>PID</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
     </key>
-    <column id="696" parent="288" name="SFID">
+    <column id="697" parent="288" name="SFID">
       <AutoIncrement>1</AutoIncrement>
       <Comment>SFID</Comment>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="697" parent="288" name="fileName">
+    <column id="698" parent="288" name="fileName">
       <Comment>文件名</Comment>
       <DataType>varchar(50)|0s</DataType>
       <DefaultExpression>&apos; &apos;</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="698" parent="288" name="password">
+    <column id="699" parent="288" name="password">
       <Comment>密码</Comment>
       <DataType>varchar(30)|0s</DataType>
       <DefaultExpression>&apos; &apos;</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="699" parent="288" name="createTime">
+    <column id="700" parent="288" name="createTime">
       <Comment>创建时间</Comment>
       <DataType>datetime|0s</DataType>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>4</Position>
     </column>
-    <key id="700" parent="288" name="PRIMARY">
+    <key id="701" parent="288" name="PRIMARY">
       <ColNames>SFID</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
     </key>
-    <column id="701" parent="289" name="UID">
+    <column id="702" parent="289" name="UID">
       <AutoIncrement>10000000</AutoIncrement>
       <Comment>UID</Comment>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="702" parent="289" name="username">
+    <column id="703" parent="289" name="username">
       <Comment>用户名</Comment>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="703" parent="289" name="password">
+    <column id="704" parent="289" name="password">
       <Comment>密码</Comment>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="704" parent="289" name="email">
+    <column id="705" parent="289" name="email">
       <Comment>电子邮件</Comment>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="705" parent="289" name="phone">
+    <column id="706" parent="289" name="phone">
       <Comment>手机</Comment>
       <DataType>varchar(20)|0s</DataType>
       <Position>5</Position>
     </column>
-    <column id="706" parent="289" name="IDCard">
+    <column id="707" parent="289" name="IDCard">
       <Comment>身份证号</Comment>
       <DataType>varchar(20)|0s</DataType>
       <Position>6</Position>
     </column>
-    <column id="707" parent="289" name="realName">
+    <column id="708" parent="289" name="realName">
       <Comment>真实姓名</Comment>
       <DataType>varchar(20)|0s</DataType>
       <Position>7</Position>
     </column>
-    <column id="708" parent="289" name="isOpenYou">
+    <column id="709" parent="289" name="isOpenYou">
       <Comment>是否开通游戏账号</Comment>
       <DataType>char(1)|0s</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <Position>8</Position>
     </column>
-    <column id="709" parent="289" name="isOpenPan">
+    <column id="710" parent="289" name="isOpenPan">
       <Comment>是否开通网盘账号</Comment>
       <DataType>char(1)|0s</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <Position>9</Position>
     </column>
-    <column id="710" parent="289" name="createTime">
+    <column id="711" parent="289" name="createTime">
       <Comment>创建时间</Comment>
       <DataType>datetime|0s</DataType>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>10</Position>
     </column>
-    <index id="711" parent="289" name="UniqueEmail">
+    <index id="712" parent="289" name="UniqueEmail">
       <ColNames>email</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="712" parent="289" name="PRIMARY">
+    <key id="713" parent="289" name="PRIMARY">
       <ColNames>UID</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
     </key>
-    <key id="713" parent="289" name="UniqueEmail">
+    <key id="714" parent="289" name="UniqueEmail">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>UniqueEmail</UnderlyingIndexName>
     </key>
-    <column id="714" parent="290" name="UFID">
+    <column id="715" parent="290" name="UFID">
       <AutoIncrement>1</AutoIncrement>
       <Comment>UFID</Comment>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="715" parent="290" name="UID">
+    <column id="716" parent="290" name="UID">
       <Comment>用户ID</Comment>
       <DataType>int|0s</DataType>
       <Position>2</Position>
     </column>
-    <column id="716" parent="290" name="fileName">
+    <column id="717" parent="290" name="fileName">
       <Comment>文件名</Comment>
       <DataType>varchar(50)|0s</DataType>
       <DefaultExpression>&apos; &apos;</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="717" parent="290" name="fileType">
+    <column id="718" parent="290" name="fileType">
       <Comment>文件类型</Comment>
       <DataType>char(1)|0s</DataType>
       <DefaultExpression>&apos;-&apos;</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="718" parent="290" name="fileSize">
+    <column id="719" parent="290" name="fileSize">
       <Comment>文件大小</Comment>
       <DataType>int|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="719" parent="290" name="fileState">
+    <column id="720" parent="290" name="fileState">
       <Comment>文件状态</Comment>
       <DataType>char(1)|0s</DataType>
       <DefaultExpression>&apos;Y&apos;</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="720" parent="290" name="fileDir">
+    <column id="721" parent="290" name="fileDir">
       <Comment>完整目录</Comment>
       <DataType>varchar(500)|0s</DataType>
       <DefaultExpression>&apos; &apos;</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <column id="721" parent="290" name="lastDir">
-      <Comment>上级目录</Comment>
-      <DataType>varchar(500)|0s</DataType>
-      <DefaultExpression>&apos; &apos;</DefaultExpression>
-      <NotNull>1</NotNull>
-      <Position>8</Position>
-    </column>
     <column id="722" parent="290" name="deleteTime">
       <Comment>删除时间</Comment>
       <DataType>datetime|0s</DataType>
       <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
-      <Position>9</Position>
+      <Position>8</Position>
     </column>
     <foreign-key id="723" parent="290" name="userfile_ibfk_1">
       <ColNames>UID</ColNames>

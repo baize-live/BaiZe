@@ -20,6 +20,11 @@ public class DiskServlet extends HttpServlet {
         final static String lookupBin = "205";
         final static String clearBin = "206";
         final static String clearUserFile = "207";
+        final static String recoveryFile = "208";
+        final static String attributes = "209";
+        final static String getFriend = "210";
+        final static String modifyAttributes = "211";
+
     }
 
     // 前端数据异常
@@ -29,6 +34,7 @@ public class DiskServlet extends HttpServlet {
 
     private void doWork(HttpServletRequest req, HttpServletResponse res) {
         String business = req.getParameter("business");
+        System.out.println("业务: " + business);
         if (business == null) {
             doException();
             return;
@@ -55,6 +61,18 @@ public class DiskServlet extends HttpServlet {
                 break;
             case Business.clearUserFile:
                 new top.byze.service.Disk(req, res).clearUserFile();
+                break;
+            case Business.recoveryFile:
+                new top.byze.service.Disk(req, res).recoveryFile();
+                break;
+            case Business.attributes:
+                new top.byze.service.Disk(req, res).Attributes();
+                break;
+            case Business.getFriend:
+                new top.byze.service.Disk(req, res).getFriend();
+                break;
+            case Business.modifyAttributes:
+                new top.byze.service.Disk(req, res).modifyAttributes();
                 break;
             default:
                 doException();

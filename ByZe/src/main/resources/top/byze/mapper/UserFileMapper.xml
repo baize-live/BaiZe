@@ -17,7 +17,6 @@
         where UID = #{UID}
           and fileDir = #{fileDir}
           and fileName = #{fileName}
-          and fileState = 'Y';
     </select>
 
     <select id="lookupBin" resultType="top.byze.bean.UserFile">
@@ -47,6 +46,14 @@
           and fileDir = #{fileDir};
     </update>
 
+    <update id="recoveryFile">
+        update userfile
+        set fileState = 'Y'
+        where UID = #{UID}
+          and fileName = #{fileName}
+          and fileDir = #{fileDir};
+    </update>
+
     <delete id="clearBin">
         delete
         from userfile
@@ -60,7 +67,6 @@
         where UID = #{UID}
           and fileName = #{fileName}
           and fileDir = #{fileDir}
-          and fileState = 'N';
     </delete>
 
     <delete id="clearFilesOutOFfDateInDB">

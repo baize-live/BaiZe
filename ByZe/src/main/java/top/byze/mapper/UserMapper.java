@@ -20,6 +20,8 @@ public interface UserMapper {
 
     void openYou(@Param("email") String email);
 
+    void modifyAttributes(@Param("email") String email, @Param("idCard") String idCard, @Param("realName") String realName, @Param("phone") String phone);
+
     boolean checkEmail(@Param("email") String email);
 
     boolean findUser(@Param("email") String email, @Param("password") String password);

@@ -28,7 +28,6 @@ new Vue({
             console.log(tab, event);
         },
         handleSelect(key) {
-
             switch (key) {
                 case 2:
                     setTimeout(() => {

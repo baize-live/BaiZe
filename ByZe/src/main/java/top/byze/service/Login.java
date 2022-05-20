@@ -191,10 +191,10 @@ public class Login {
         try {
             if (flag) {
                 this.res.getWriter().println(Res.TRUE);
-                log.info(user.getEmail() + "网盘已经开通");
+                log.info(user.getEmail() + " 网盘已经开通");
             } else {
                 this.res.getWriter().println(Res.FALSE);
-                log.info(user.getEmail() + "网盘暂未开通");
+                log.info(user.getEmail() + " 网盘暂未开通");
             }
         } catch (Exception e) {
             log.error("返回是否开通网盘异常");
@@ -209,10 +209,10 @@ public class Login {
         try {
             if (flag) {
                 this.res.getWriter().println(Res.TRUE);
-                log.info(user.getEmail() + "游戏已经开通");
+                log.info(user.getEmail() + " 游戏已经开通");
             } else {
                 this.res.getWriter().println(Res.FALSE);
-                log.info(user.getEmail() + "游戏暂未开通");
+                log.info(user.getEmail() + " 游戏暂未开通");
             }
         } catch (Exception e) {
             log.error("返回是否开通游戏异常");
@@ -225,10 +225,10 @@ public class Login {
         try {
             if (openPan(user.getEmail())) {
                 this.res.getWriter().println(Res.TRUE);
-                log.info(user.getEmail() + "网盘开通成功");
+                log.info(user.getEmail() + " 网盘开通成功");
             } else {
                 this.res.getWriter().println(Res.FALSE);
-                log.info(user.getEmail() + "网盘开通失败");
+                log.info(user.getEmail() + " 网盘开通失败");
             }
         } catch (Exception e) {
             log.error("开通网盘异常");
@@ -241,10 +241,10 @@ public class Login {
         try {
             if (openYou(user.getEmail())) {
                 this.res.getWriter().println(Res.TRUE);
-                log.info(user.getEmail() + "游戏开通成功");
+                log.info(user.getEmail() + " 游戏开通成功");
             } else {
                 this.res.getWriter().println(Res.FALSE);
-                log.info(user.getEmail() + "游戏开通失败");
+                log.info(user.getEmail() + " 游戏开通失败");
             }
         } catch (Exception e) {
             log.error("开通游戏异常");

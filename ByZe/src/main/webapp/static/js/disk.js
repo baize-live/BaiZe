@@ -54,7 +54,7 @@ new Vue({
             });
             setTimeout(() => {
                 this.updateFileList()
-            }, 1000)
+            }, 3000)
             this.$refs.upload.clearFiles();
         },
 

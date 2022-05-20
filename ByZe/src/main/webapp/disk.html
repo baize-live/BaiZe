@@ -50,7 +50,7 @@
                     <el-upload
                             class="upload-demo"
                             ref="upload"
-                            action="http://localhost:8080/ByZe/uploadFile"
+                            :action="uploadUrl"
                             :data="fileDir"
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"

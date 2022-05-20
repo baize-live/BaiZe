@@ -7,10 +7,10 @@ new Vue({
     data() {
         return {
             userData: {
-                uid: '',
+                uid: "",
                 username: "未登录",
                 grade: "0",
-                icon: '',
+                icon: "",
                 nowStorage: 0,
                 maxStorage: 1024,
                 email: "",
@@ -27,6 +27,7 @@ new Vue({
             isCollapse: false,
             // 自己的数据
             url: basePath + '/disk',
+            uploadUrl: basePath + '/uploadFile',
             business: {
                 initData: "201",
                 downloadFile: "202",
@@ -128,11 +129,8 @@ new Vue({
             axios.post(this.url, data)
                 .then(function (res) {
                     const str = res.data;
-                    console.log(str)
                     let item = that.getData(str);
                     that.userData = item.userData
-                    console.log(that.userData)
-
                 })
                 .catch(function (err) {
                     that.$notify({

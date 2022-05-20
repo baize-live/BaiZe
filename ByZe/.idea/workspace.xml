@@ -10,32 +10,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d414ce0-4ee6-46b5-a191-61980a578332" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WarTool.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Bug.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/img/pandataIcon/192.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/war/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/42143f02-e643-41e4-a714-b005b999605a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/42143f02-e643-41e4-a714-b005b999605a.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BaiZeDB.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/BaiZeDB.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/bean/PanData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/bean/PanData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/controller/DiskServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/controller/DiskServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserFileMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserFileMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/service/Disk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/service/Disk.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/service/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/service/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/UserFileMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/UserFileMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/UserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/filePath.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/filePath.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/disk.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/disk.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/css/disk.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/css/disk.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/element-ui/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/element-ui/lib/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/element-ui/lib/theme-chalk/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/element-ui/lib/theme-chalk/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/Var.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/Var.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/axios.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/disk.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/disk.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/vue.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/vue.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +75,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "E:/Program/BaiZe/ByZe",
+    "last_opened_file_path": "E:/Program/BaiZe/ByZe/src/main/webapp/static/js",
     "nodejs_package_manager_path": "npm",
     "service.view.auto.scroll.to.source": "true",
     "settings.editor.selected.configurable": "com.intellij.jarRepository.settings.RemoteRepositoriesConfigurable",
@@ -103,9 +89,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Program\BaiZe\ByZe\src\main\webapp\static\js" />
       <recent name="E:\Program\BaiZe\ByZe" />
       <recent name="E:\Program\BaiZe\ByZe\src\main\webapp\static\css" />
-      <recent name="E:\Program\BaiZe\ByZe\src\main\webapp\static\js" />
       <recent name="E:\Program\BaiZe\ByZe\src\main\webapp\static\img\pandataIcon" />
       <recent name="E:\Program\BaiZe\ByZe\src\main\webapp\static\img\index" />
     </key>
@@ -222,7 +208,7 @@
         <settings>
           <option name="imageTag" value="tomcat" />
           <option name="containerName" value="tomcat" />
-          <option name="commandLineOptions" value="-p 80:8080" />
+          <option name="commandLineOptions" value="-p 80:8080 -v /BaiZe:/BaiZe" />
           <option name="sourceFilePath" value="war/Dockerfile" />
         </settings>
       </deployment>
@@ -261,6 +247,7 @@
       <workItem from="1652872446089" duration="16595000" />
       <workItem from="1652922419488" duration="14481000" />
       <workItem from="1652952150715" duration="21130000" />
+      <workItem from="1653006887150" duration="5725000" />
     </task>
     <servers />
   </component>

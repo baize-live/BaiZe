@@ -932,7 +932,6 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     <scheduled-event id="283" parent="274" name="clearVerifyOver5min">
       <Definer>root@%</Definer>
       <Interval>&apos;60&apos; SECOND</Interval>
-      <LastExecuted>2022-05-20.18:47:00</LastExecuted>
       <SourceTextLength>94</SourceTextLength>
       <Starts>&apos;2022-01-01 00:00:00&apos;</Starts>
       <Status>enabled</Status>

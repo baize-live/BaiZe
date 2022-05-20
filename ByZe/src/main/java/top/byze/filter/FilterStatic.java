@@ -40,11 +40,9 @@ public class FilterStatic implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        log.info("FilterStatic 成功创建");
     }
 
     @Override
     public void destroy() {
-        log.info("FilterStatic 成功摧毁");
     }
 }

@@ -18,7 +18,6 @@ import java.util.Random;
 public class Register {
     HttpServletRequest req;
     HttpServletResponse res;
-    PrintWriter writer = null;
 
     private static class Res {
         final static String TRUE = "1";
@@ -28,25 +27,18 @@ public class Register {
     public Register(HttpServletRequest req, HttpServletResponse res) {
         this.req = req;
         this.res = res;
-        try {
-            writer = this.res.getWriter();
-        } catch (IOException e) {
-            log.error("获得输出流异常");
-        }
     }
 
-    private String generateVerifyCode() {
-        // TODO: 暂时使用123456
-        //        Random random = new Random();
-        //        char[] chars = ("0123456789").toCharArray();
-        //        StringBuilder stringBuilder = new StringBuilder();
-        //        for (int i = 0; i < 6; ++i) {
-        //            int num = random.nextInt(chars.length);
-        //            char c = chars[num];
-        //            stringBuilder.append(c);
-        //        }
-        //        return stringBuilder.toString();
-        return "123456";
+    private static String generateVerifyCode() {
+        Random random = new Random();
+        char[] chars = ("0123456789").toCharArray();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < 6; ++i) {
+            int num = random.nextInt(chars.length);
+            char c = chars[num];
+            stringBuilder.append(c);
+        }
+        return stringBuilder.toString();
     }
 
     private static boolean checkEmail(String email) {
@@ -108,34 +100,31 @@ public class Register {
             String email = this.req.getParameter("email");
             // 判断是否存在此邮箱
             if (checkEmail(email)) {
-                writer.println(Res.FALSE);
-                log.error("此邮箱已被注册");
+                this.res.getWriter().println(Res.FALSE);
+                log.info("此邮箱已被注册");
             } else {
-                writer.println(Res.TRUE);
+                this.res.getWriter().println(Res.TRUE);
                 log.info("此邮箱未被注册");
             }
         } catch (Exception e) {
             log.error("这里有异常");
         }
-        writer.close();
     }
 
     public void sendVerifyCode() {
         // 获取注册码
         String email = this.req.getParameter("email");
         String verifyCode = generateVerifyCode();
+        // 保存验证码
+        saveVerifyCode(email, verifyCode);
+        // 发送邮件
         try {
-            // 保存验证码
-            saveVerifyCode(email, verifyCode);
-            // 发送邮件
             new MailUtil(email, verifyCode).sendMain();
-            writer.println(Res.TRUE);
+            this.res.getWriter().println(Res.TRUE);
             log.info("验证码发送成功");
         } catch (Exception e) {
-            writer.println(Res.FALSE);
             log.error("验证码发送异常");
         }
-        writer.close();
     }
 
     public void register() {
@@ -143,15 +132,18 @@ public class Register {
         String username = this.req.getParameter("username");
         String password = this.req.getParameter("password");
         String verifyCode = this.req.getParameter("verifyCode");
+        try {
+            if (checkVerifyCode(email, verifyCode)) {
+                addUser(username, password, email);
+                this.res.getWriter().println(Res.TRUE);
+                log.info(email + " 注册成功");
+            } else {
+                this.res.getWriter().println(Res.FALSE);
+                log.info(email + " 验证码错误");
+            }
+        } catch (Exception e) {
+            log.info(email + " 注册异常");
 
-        if (checkVerifyCode(email, verifyCode)) {
-            addUser(username, password, email);
-            writer.println(Res.TRUE);
-            log.info(email + " 注册成功");
-        } else {
-            writer.println(Res.FALSE);
-            log.error(email + " 验证码错误");
         }
-        writer.close();
     }
 }

@@ -64,7 +64,6 @@ public class Disk {
             myBatis.closeSqlSession();
         } catch (Exception e) {
             log.error("获得网盘数据异常");
-            e.printStackTrace();
         }
         return panData;
     }
@@ -79,7 +78,7 @@ public class Disk {
             fileList = userFileMapper.getFileList(uid, fileDir);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("获得指定目录下的文件链表异常");
         }
         return fileList;
     }
@@ -94,7 +93,7 @@ public class Disk {
             fileList = userFileMapper.getUserFile(uid, fileName, fileDir);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("查看指定文件异常");
         }
         return fileList;
     }
@@ -109,7 +108,7 @@ public class Disk {
             fileList = userFileMapper.lookupBin(uid);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("查看回收站的所有文件异常");
         }
         return fileList;
     }
@@ -124,7 +123,7 @@ public class Disk {
             fileList = userFileMapper.selectFilesOutOFfDateInDB(uid, days);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("查找数据库中的过期文件异常");
         }
         return fileList;
     }
@@ -138,7 +137,7 @@ public class Disk {
             userFileMapper.saveUserFile(uid, fileName, fileType, fileSize, fileState, fileDir);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("保存用户上传文件异常");
         }
     }
 
@@ -151,7 +150,7 @@ public class Disk {
             panDataMapper.setNowStorage(uid, nowStorage);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("设置当前存储异常");
         }
     }
 
@@ -164,7 +163,7 @@ public class Disk {
             userFileMapper.deleteUserFile(uid, fileName, fileDir);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("删除指定文件异常");
         }
     }
 
@@ -177,7 +176,7 @@ public class Disk {
             userFileMapper.clearBin(uid);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("清空回收站异常");
         }
     }
 
@@ -190,7 +189,7 @@ public class Disk {
             userFileMapper.clearUserFile(uid, fileName, fileDir);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("清除指定文件异常");
         }
     }
 
@@ -203,7 +202,7 @@ public class Disk {
             userFileMapper.recoveryFile(uid, fileName, fileDir);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("恢复指定文件异常");
         }
     }
 
@@ -216,7 +215,7 @@ public class Disk {
             userFileMapper.clearFilesOutOFfDateInDB(uid, days);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("清除数据库中的过期文件异常");
         }
     }
 
@@ -229,7 +228,7 @@ public class Disk {
             userMapper.modifyAttributes(email, idCard, realName, phone);
             myBatis.closeSqlSession();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("修改用户属性异常");
         }
     }
 
@@ -295,8 +294,9 @@ public class Disk {
         // 告诉前端
         try {
             this.res.getWriter().println(stringBuilder);
+            log.info(user.getEmail() + " 初始化数据正常");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(user.getEmail() + " 初始化数据异常");
         }
     }
 
@@ -324,32 +324,30 @@ public class Disk {
                     long nowStorage = panData.getNowStorage() + fileSize;
                     setNowStorage(user.getUid(), nowStorage);
                 }
+                log.info(user.getEmail() + " 文件 " + name + " 保存成功");
             }
         }
     }
 
     // 下载文件
     public void downloadFile() {
+        // 从session中获得user
+        User user = SessionUtil.getUser(req);
+        // 获得用户全部属性
+        user = getUser(user.getEmail());
+        String fileDir = req.getParameter("fileDir");
+        String fileName = req.getParameter("fileName");
+        // 得到要下载的文件
+        File file = new File(ConfigUtil.getUserFilePath() + "User" + user.getUid() + fileDir + fileName);
         try {
-            // 从session中获得user
-            User user = SessionUtil.getUser(req);
-            // 获得用户全部属性
-            user = getUser(user.getEmail());
-            String fileDir = req.getParameter("fileDir");
-            String fileName = req.getParameter("fileName");
-            // 得到要下载的文件
-            File file = new File(ConfigUtil.getUserFilePath() + "User" + user.getUid() + fileDir + fileName);
-
             //如果文件不存在，则显示下载失败
             if (!file.exists()) {
                 try {
-                    PrintWriter writer = this.res.getWriter();
-                    writer.println(Res.FALSE);
-                    writer.close();
+                    this.res.getWriter().println(Res.FALSE);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                log.info("下载失败");
+                log.info("文件下载失败");
             } else {
                 // 设置相应头，控制浏览器下载该文件，这里就是会出现当你点击下载后，出现的下载地址框
                 res.setContentType("application/octet-stream");
@@ -358,11 +356,10 @@ public class Disk {
                 FileUtils.copyFile(file, os);
                 os.flush();
                 os.close();
-                log.info("下载成功");
+                log.info("文件下载成功");
             }
         } catch (Exception e) {
             log.info("出现异常");
-            e.printStackTrace();
         }
     }
 
@@ -379,138 +376,137 @@ public class Disk {
         // 返回数据
         StringBuilder stringBuilder = new StringBuilder();
         addFileList(stringBuilder, fileList);
+        // 告诉前端
         try {
-            PrintWriter writer = this.res.getWriter();
-            writer.println(stringBuilder);
-            writer.close();
+            this.res.getWriter().println(stringBuilder);
+            log.info(user.getEmail() + " 页面更新成功");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.info(user.getEmail() + " 页面更新失败");
         }
     }
 
     // 删除指定文件
     public void deleteFile() {
+        // 从session中获得user
+        User user = SessionUtil.getUser(req);
+        // 获得用户全部属性
+        user = getUser(user.getEmail());
+        int uid = user.getUid();
+        String fileDir = req.getParameter("fileDir");
+        String fileName = req.getParameter("fileName");
+        // 设置UserFile中文件状态为N 表示删除 所以此时不释放空间
+        deleteUserFile(uid, fileName, fileDir);
+        // 告诉前端
         try {
-            // 从session中获得user
-            User user = SessionUtil.getUser(req);
-            // 获得用户全部属性
-            user = getUser(user.getEmail());
-            int uid = user.getUid();
-            String fileDir = req.getParameter("fileDir");
-            String fileName = req.getParameter("fileName");
-            // 设置UserFile中文件状态为N 表示删除 所以此时不释放空间
-            deleteUserFile(uid, fileName, fileDir);
-            // 告诉前端
             this.res.getWriter().println(Res.TRUE);
+            log.info(user.getEmail() + " 删除文件成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info(user.getEmail() + " 删除文件失败");
         }
-
     }
 
     // 查看垃圾箱
     public void lookupBin() {
+        // 从session中获得user
+        User user = SessionUtil.getUser(req);
+        // 获得用户全部属性
+        user = getUser(user.getEmail());
+        int uid = user.getUid();
+        // 查看垃圾箱前 删除过期文件
+        PanData panData = getPanData(uid);
+        int days = panData.getOutOfDate();
+        List<UserFile> fileList = selectFilesOutOFfDateInDB(uid, days);
+        // 删除磁盘中的过期文件
+        clearFileListInDir(uid, fileList);
+        // 删除数据库中的过期文件
+        clearFilesOutOFfDateInDB(uid, days);
+        // 查看垃圾箱
+        fileList = lookupBin(uid);
+        StringBuilder stringBuilder = new StringBuilder();
+        addFileList(stringBuilder, fileList);
+        // 告诉前端
         try {
-            // 从session中获得user
-            User user = SessionUtil.getUser(req);
-            // 获得用户全部属性
-            user = getUser(user.getEmail());
-            int uid = user.getUid();
-            // 查看垃圾箱前 删除过期文件
-            PanData panData = getPanData(uid);
-            int days = panData.getOutOfDate();
-            List<UserFile> fileList = selectFilesOutOFfDateInDB(uid, days);
-            // 删除磁盘中的过期文件
-            clearFileListInDir(uid, fileList);
-            // 删除数据库中的过期文件
-            clearFilesOutOFfDateInDB(uid, days);
-            // 查看垃圾箱
-            fileList = lookupBin(uid);
-            StringBuilder stringBuilder = new StringBuilder();
-            addFileList(stringBuilder, fileList);
-            try {
-                PrintWriter writer = this.res.getWriter();
-                writer.println(stringBuilder);
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            this.res.getWriter().println(stringBuilder);
+            log.info(user.getEmail() + " 查看回收站成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info(user.getEmail() + " 查看回收站失败");
         }
     }
 
     // 清空垃圾箱
     public void clearBin() {
+        // 从session中获得user
+        User user = SessionUtil.getUser(req);
+        // 获得用户全部属性
+        user = getUser(user.getEmail());
+        int uid = user.getUid();
+        // 添加Size
+        PanData panData = getPanData(uid);
+        List<UserFile> fileList = lookupBin(uid);
+        long fileSizeSum = getFileSizeSum(fileList);
+        long nowStorage = panData.getNowStorage() - fileSizeSum;
+        setNowStorage(uid, nowStorage);
+        // 清空回收站 数据库
+        clearBin(uid);
+        // 在磁盘上删除
+        clearFileListInDir(uid, fileList);
+        // 告诉前端
         try {
-            // 从session中获得user
-            User user = SessionUtil.getUser(req);
-            // 获得用户全部属性
-            user = getUser(user.getEmail());
-            int uid = user.getUid();
-            // 添加Size
-            PanData panData = getPanData(uid);
-            List<UserFile> fileList = lookupBin(uid);
-            long fileSizeSum = getFileSizeSum(fileList);
-            long nowStorage = panData.getNowStorage() - fileSizeSum;
-            setNowStorage(uid, nowStorage);
-            // 清空回收站 数据库
-            clearBin(uid);
-            // 在磁盘上删除
-            clearFileListInDir(uid, fileList);
-            // 告诉前端
             this.res.getWriter().println(Res.TRUE);
+            log.info(user.getEmail() + " 清空回收站成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info(user.getEmail() + " 清空回收站失败");
         }
     }
 
     // 清理垃圾箱中的某个文件
     public void clearUserFile() {
+        // 从session中获得user
+        User user = SessionUtil.getUser(req);
+        // 获得用户全部属性
+        user = getUser(user.getEmail());
+        int uid = user.getUid();
+        String fileDir = req.getParameter("fileDir");
+        String fileName = req.getParameter("fileName");
+        // 添加Size
+        PanData panData = getPanData(uid);
+        List<UserFile> fileList = getUserFile(uid, fileName, fileDir);
+        long fileSizeSum = getFileSizeSum(fileList);
+        // 通过所保证数据的正确性
+        synchronized (req.getSession()) {
+            long nowStorage = panData.getNowStorage() - fileSizeSum;
+            setNowStorage(uid, nowStorage);
+        }
+        // 清空文件
+        clearUserFile(uid, fileName, fileDir);
+        // 在磁盘上删除
+        clearFileListInDir(uid, fileList);
+        // 告诉前端
         try {
-            // 从session中获得user
-            User user = SessionUtil.getUser(req);
-            // 获得用户全部属性
-            user = getUser(user.getEmail());
-            int uid = user.getUid();
-            String fileDir = req.getParameter("fileDir");
-            String fileName = req.getParameter("fileName");
-            // 添加Size
-            PanData panData = getPanData(uid);
-            List<UserFile> fileList = getUserFile(uid, fileName, fileDir);
-            long fileSizeSum = getFileSizeSum(fileList);
-            // 通过所保证数据的正确性
-            synchronized (req.getSession()) {
-                long nowStorage = panData.getNowStorage() - fileSizeSum;
-                setNowStorage(uid, nowStorage);
-            }
-            // 清空文件
-            clearUserFile(uid, fileName, fileDir);
-            // 在磁盘上删除
-            clearFileListInDir(uid, fileList);
-            // 告诉前端
             this.res.getWriter().println(Res.TRUE);
+            log.info(user.getEmail() + " 清除文件成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info(user.getEmail() + " 清除文件失败");
         }
     }
 
     // 还原垃圾箱中的某个文件
     public void recoveryFile() {
+        // 从session中获得user
+        User user = SessionUtil.getUser(req);
+        // 获得用户全部属性
+        user = getUser(user.getEmail());
+        int uid = user.getUid();
+        String fileDir = req.getParameter("fileDir");
+        String fileName = req.getParameter("fileName");
+        // 恢复文件
+        recoveryFile(uid, fileName, fileDir);
+        // 告诉前端
         try {
-            // 从session中获得user
-            User user = SessionUtil.getUser(req);
-            // 获得用户全部属性
-            user = getUser(user.getEmail());
-            int uid = user.getUid();
-            String fileDir = req.getParameter("fileDir");
-            String fileName = req.getParameter("fileName");
-            // 恢复文件
-            recoveryFile(uid, fileName, fileDir);
-            // 告诉前端
             this.res.getWriter().println(Res.TRUE);
+            log.info(user.getEmail() + " 还原文件成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info(user.getEmail() + " 还原文件失败");
         }
     }
 
@@ -528,17 +524,20 @@ public class Disk {
         // 告诉前端
         try {
             this.res.getWriter().println(stringBuilder);
-        } catch (IOException e) {
-            e.printStackTrace();
+            log.info(user.getEmail() + " 返回用户属性成功");
+        } catch (Exception e) {
+            log.info(user.getEmail() + " 返回用户属性失败");
         }
     }
 
     // 返回好友列表
     public void getFriend() {
+        // 告诉前端
         try {
             this.res.getWriter().println("好友系统, 没有完善");
-        } catch (IOException e) {
-            e.printStackTrace();
+            log.info("返回好友列表成功");
+        } catch (Exception e) {
+            log.info("返回好友列表失败");
         }
     }
 
@@ -551,10 +550,12 @@ public class Disk {
         String realName = req.getParameter("realName");
         String phone = req.getParameter("phone");
         modifyAttributes(user.getEmail(), idCard, realName, phone);
+        // 告诉前端
         try {
             this.res.getWriter().println(Res.TRUE);
+            log.info(user.getEmail() + " 修改用户属性成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info(user.getEmail() + " 修改用户属性失败");
         }
     }
 }

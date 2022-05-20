@@ -19,11 +19,9 @@ public class FilterServlet implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        log.info("FilterServlet 成功创建");
     }
 
     @Override
     public void destroy() {
-        log.info("FilterServlet 成功摧毁");
     }
 }

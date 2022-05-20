@@ -12,7 +12,9 @@ public class MailUtil {
     private static final String SENDER = "1921676794@qq.com";
     private static final String AUTH_CODE = "qqumdhxxrhzsdfcb";
     private static final String SMTP_HOST = "smtp.qq.com";
-    private static final String SMTP_PORT = "25";
+    private static final String SMTP_PORT = "465";
+    private static final String SMTP_AUTH = "true";
+    private static final String SMTP_SSL = "true";
 
     private static final String charset = "UTF-8";
     private static final String username = "白泽官方(BaiZe)";
@@ -31,10 +33,8 @@ public class MailUtil {
         property.setProperty("mail.transport.protocol", "smtp");   //使用的协议（JavaMail规范要求）
         property.setProperty("mail.smtp.host", SMTP_HOST);         //发件人的邮箱的 SMTP 服务器地址
         property.setProperty("mail.smtp.port", SMTP_PORT);         //发件人的邮箱的 SMTP 服务器端口
-        property.setProperty("mail.smtp.auth", "false");           //不需要请求认证
-//        property.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-//        property.setProperty("mail.smtp.socketFactory.fallback", "false");
-//        property.setProperty("mail.smtp.socketFactory.port", SMTP_PORT);
+        property.setProperty("mail.smtp.auth", SMTP_AUTH);            //需要请求认证
+        property.setProperty("mail.smtp.ssl.enable", SMTP_SSL);      //使用SSL安全连接
 
         // 根据配置创建会话对象, 用于和邮件服务器交互
         Session session = Session.getInstance(property);

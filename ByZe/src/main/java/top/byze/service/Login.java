@@ -18,7 +18,6 @@ import java.util.Map;
 public class Login {
     HttpServletRequest req;
     HttpServletResponse res;
-    PrintWriter writer = null;
 
     private static class Res {
         final static String TRUE = "1";
@@ -28,11 +27,6 @@ public class Login {
     public Login(HttpServletRequest req, HttpServletResponse res) {
         this.req = req;
         this.res = res;
-        try {
-            writer = this.res.getWriter();
-        } catch (IOException e) {
-            log.error("获得输出流异常");
-        }
     }
 
     // =================数据库交互 使用静态
@@ -178,17 +172,15 @@ public class Login {
             if (flag) {
                 addCookies(email, password, this.res);
                 setSession(email, password, this.req);
-                writer.println(Res.TRUE);
-                log.info("用户 " + email + " 登录成功");
+                this.res.getWriter().println(Res.TRUE);
+                log.info(email + " 登录成功");
             } else {
-                writer.println(Res.FALSE);
-                log.info("用户 " + email + " 登录失败");
+                this.res.getWriter().println(Res.FALSE);
+                log.info(email + " 登录失败");
             }
         } catch (Exception e) {
-            writer.println(Res.FALSE);
             log.error("登录异常");
         }
-        writer.close();
     }
 
     // 返回是否开通网盘
@@ -196,14 +188,17 @@ public class Login {
         // 查询数据库 判断是否开启白泽网盘
         User user = SessionUtil.getUser(req);
         boolean flag = isOpenPan(user.getEmail());
-        if (flag) {
-            writer.println(Res.TRUE);
-            log.info(user.getEmail() + "网盘已经开通");
-        } else {
-            writer.println(Res.FALSE);
-            log.info(user.getEmail() + "网盘暂未开通");
+        try {
+            if (flag) {
+                this.res.getWriter().println(Res.TRUE);
+                log.info(user.getEmail() + "网盘已经开通");
+            } else {
+                this.res.getWriter().println(Res.FALSE);
+                log.info(user.getEmail() + "网盘暂未开通");
+            }
+        } catch (Exception e) {
+            log.error("返回是否开通网盘异常");
         }
-        writer.close();
     }
 
     // 返回是否开通游戏
@@ -211,57 +206,72 @@ public class Login {
         // 查询数据库 判断是否开启白泽库
         User user = SessionUtil.getUser(req);
         boolean flag = isOpenYou(user.getEmail());
-        if (flag) {
-            writer.println(Res.TRUE);
-            log.info(user.getEmail() + "游戏已经开通");
-        } else {
-            writer.println(Res.FALSE);
-            log.info(user.getEmail() + "游戏暂未开通");
+        try {
+            if (flag) {
+                this.res.getWriter().println(Res.TRUE);
+                log.info(user.getEmail() + "游戏已经开通");
+            } else {
+                this.res.getWriter().println(Res.FALSE);
+                log.info(user.getEmail() + "游戏暂未开通");
+            }
+        } catch (Exception e) {
+            log.error("返回是否开通游戏异常");
         }
-        writer.close();
     }
 
     // 开通网盘
     public void openPan() {
         User user = SessionUtil.getUser(req);
-        if (openPan(user.getEmail())) {
-            writer.println(Res.TRUE);
-            log.info(user.getEmail() + "网盘开通成功");
-        } else {
-            writer.println(Res.FALSE);
-            log.info(user.getEmail() + "网盘开通失败");
+        try {
+            if (openPan(user.getEmail())) {
+                this.res.getWriter().println(Res.TRUE);
+                log.info(user.getEmail() + "网盘开通成功");
+            } else {
+                this.res.getWriter().println(Res.FALSE);
+                log.info(user.getEmail() + "网盘开通失败");
+            }
+        } catch (Exception e) {
+            log.error("开通网盘异常");
         }
-        writer.close();
     }
 
     // 开通游戏
     public void openYou() {
         User user = SessionUtil.getUser(req);
-        if (openYou(user.getEmail())) {
-            writer.println(Res.TRUE);
-            log.info(user.getEmail() + "游戏开通成功");
-        } else {
-            writer.println(Res.FALSE);
-            log.info(user.getEmail() + "游戏开通失败");
+        try {
+            if (openYou(user.getEmail())) {
+                this.res.getWriter().println(Res.TRUE);
+                log.info(user.getEmail() + "游戏开通成功");
+            } else {
+                this.res.getWriter().println(Res.FALSE);
+                log.info(user.getEmail() + "游戏开通失败");
+            }
+        } catch (Exception e) {
+            log.error("开通游戏异常");
         }
-        writer.close();
     }
 
     // 登出
     public void logout() {
         // 清除cookies
         CookieUtil.delete(this.req, this.res);
-        writer.println(Res.TRUE);
-        writer.close();
+        try {
+            this.res.getWriter().println(Res.TRUE);
+        } catch (Exception e) {
+            log.error("退出登录异常");
+        }
     }
 
     // 是否登录
     public void isLogin() {
-        if (isLogin(req)) {
-            writer.println(Res.TRUE);
-        } else {
-            writer.println(Res.FALSE);
+        try {
+            if (isLogin(req)) {
+                this.res.getWriter().println(Res.TRUE);
+            } else {
+                this.res.getWriter().println(Res.FALSE);
+            }
+        } catch (Exception e) {
+            log.error("退出登录异常");
         }
-        writer.close();
     }
 }

@@ -16,8 +16,6 @@ public class FilterLogin implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
-        log.info("one request to login");
-
         if (Login.isLogin((HttpServletRequest) req)) {
             filterChain.doFilter(req, res);
         } else {
@@ -27,11 +25,9 @@ public class FilterLogin implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        log.info("FilterLogin 成功创建");
     }
 
     @Override
     public void destroy() {
-        log.info("FilterLogin 成功摧毁");
     }
 }

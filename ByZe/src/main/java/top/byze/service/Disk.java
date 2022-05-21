@@ -255,7 +255,11 @@ public class Disk {
                     .append("file=")
                     .append(userFile.getFileName()).append(",")
                     .append(userFile.getFileSize()).append(",")
-                    .append(userFile.getFileDir()).append("|&");
+                    .append(userFile.getFileType()).append(",")
+                    .append(userFile.getFileDir()).append(",")
+                    .append(userFile.getFileState()).append(",")
+                    .append(userFile.getDeleteTime()).append("|&")
+            ;
         }
     }
 
@@ -347,7 +351,7 @@ public class Disk {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                log.info("文件下载失败");
+                log.info(user.getEmail() + " " + fileName + " 下载失败");
             } else {
                 // 设置相应头，控制浏览器下载该文件，这里就是会出现当你点击下载后，出现的下载地址框
                 res.setContentType("application/octet-stream");
@@ -356,7 +360,7 @@ public class Disk {
                 FileUtils.copyFile(file, os);
                 os.flush();
                 os.close();
-                log.info("文件下载成功");
+                log.info(user.getEmail() + " " + fileName + " 下载成功");
             }
         } catch (Exception e) {
             log.info("出现异常");

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration status="error">
     <properties>
-        <!--        <property name="LOG_HOME">E:/Program/BaiZe/ByZe/src/main/resources/top/byze/logs</property>-->
+<!--                <property name="LOG_HOME">E:/Program/BaiZe/ByZe/src/main/resources/top/byze/logs</property>-->
         <!--        <property name="LOG_HOME">/media/nys/ShareDisk/Program/BaiZe/ByZe/src/main/resources/top/byze/logs</property>-->
         <property name="LOG_HOME">/BaiZe/logs</property>
         <property name="CharSet">utf8</property>
+        <property name="Pattern">[%d{yyyy.MM.dd HH:mm:ss }] [%-5p] %l - %m%n</property>
     </properties>
 
     <!--     先定义所有的appender -->
@@ -14,25 +15,25 @@
             <!-- 控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
             <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
             <!-- 这个都知道是输出日志的格式 -->
-            <PatternLayout charset="${CharSet}" pattern="[%d{HH:mm:ss.SSS}] [%-5p] %l - %m%n"/>
+            <PatternLayout charset="${CharSet}" pattern="${Pattern}"/>
         </Console>
 
         <!--  文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，这个也挺有用的，适合临时测试用 -->
         <!--  append为TRUE表示消息增加到指定文件中，false表示消息覆盖指定的文件内容，默认值是true -->
         <File name="INFO" fileName="${LOG_HOME}/info.log" append="false">
-            <PatternLayout charset="${CharSet}" pattern="[%d{yyyy.MM.dd 'at' HH:mm:ss z}] [%-5p] %l - %m%n"/>
+            <PatternLayout charset="${CharSet}" pattern="${Pattern}"/>
         </File>
 
         <!-- 添加过滤器ThresholdFilter,可以有选择的输出某个级别以上的类别  onMatch="ACCEPT" onMismatch="DENY"意思是匹配就接受,否则直接拒绝  -->
         <File name="ERROR" fileName="${LOG_HOME}/error.log">
             <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout charset="${CharSet}" pattern="[%d{yyyy.MM.dd 'at' HH:mm:ss z}] [%-5p] %l - %m%n"/>
+            <PatternLayout charset="${CharSet}" pattern="${Pattern}"/>
         </File>
 
         <!-- 这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
         <RollingFile name="RollingFile" fileName="${LOG_HOME}/web.log"
                      filePattern="logs/$${date:yyyy-MM}/web-%d{MM-dd-yyyy}-%i.log.gz">
-            <PatternLayout charset="${CharSet}" pattern="[%d{yyyy-MM-dd 'at' HH:mm:ss z}] [%-5p] %l - %m%n"/>
+            <PatternLayout charset="${CharSet}" pattern="${Pattern}"/>
             <SizeBasedTriggeringPolicy size="64MB"/>
         </RollingFile>
     </appenders>

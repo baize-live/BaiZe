@@ -24,7 +24,6 @@ public class DiskServlet extends HttpServlet {
         final static String attributes = "209";
         final static String getFriend = "210";
         final static String modifyAttributes = "211";
-
     }
 
     // 前端数据异常
@@ -34,7 +33,7 @@ public class DiskServlet extends HttpServlet {
 
     private void doWork(HttpServletRequest req, HttpServletResponse res) {
         String business = req.getParameter("business");
-        System.out.println("业务: " + business);
+        log.info("业务: " + business);
         if (business == null) {
             doException();
             return;

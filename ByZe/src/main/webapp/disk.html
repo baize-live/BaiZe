@@ -23,10 +23,6 @@
         </el-header>
         <el-container>
             <el-aside style="width:210px">
-                <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
-                    <el-radio-button :label="false">展开</el-radio-button>
-                    <el-radio-button :label="true">收起</el-radio-button>
-                </el-radio-group>
                 <el-menu class="el-menu-vertical-demo"
                          @select="handleSelect" :collapse="isCollapse">
                     <el-menu-item index="0">
@@ -34,15 +30,15 @@
                         <span slot="title">我的资源</span>
                     </el-menu-item>
                     <el-menu-item index="1">
-                        <i class="el-icon-menu"></i>
+                        <i class="el-icon-delete"></i>
                         <span slot="title">回收站</span>
                     </el-menu-item>
                     <el-menu-item index="2">
-                        <i class="el-icon-document"></i>
+                        <i class="el-icon-user"></i>
                         <span slot="title">好友</span>
                     </el-menu-item>
                     <el-menu-item index="3">
-                        <i class="el-icon-document"></i>
+                        <i class="el-icon-setting"></i>
                         <span slot="title">设置</span>
                     </el-menu-item>
                 </el-menu>
@@ -54,41 +50,47 @@
                             ref="upload"
                             :action="uploadUrl"
                             :data="fileDir"
-                            :on-preview="handlePreview"
-                            :on-remove="handleRemove"
+                            :on-success="handleSuccess"
+                            :on-error="handleError"
                             :file-list="uploadFileList"
                             :multiple="true"
                             :auto-upload="false">
-                        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器
+                        <el-button size="medium" slot="trigger" type="primary">选取文件</el-button>
+                        <el-button size="medium" style="margin-left: 10px;" type="success" @click="submitUpload">上传到服务器
                         </el-button>
-                        <el-button style="margin-left: 10px;" size="small" type="success" @click="updateFileList">刷新
+                        <el-button size="medium" style="margin-left: 10px;" type="success" @click="updateFileList">刷新
+                        </el-button>
+                        <el-button size="medium" style="margin-left: 10px;" type="primary" @click="downloadSelect">下载所选项
+                        </el-button>
+                        <el-button size="medium" style="margin-left: 10px;" type="danger" @click="DeleteSelect">删除所选项
                         </el-button>
                     </el-upload>
-                    <el-table :data="fileList" :stripe=true>
+                    <el-table height="750" ref="multipleTable" tooltip-effect="dark" :data="fileList" :stripe=true
+                              @selection-change="handleSelectionChange">
+                        <el-table-column type="selection" width="auto"></el-table-column>
+                        <el-table-column prop="fileType" width="35"><i class="el-icon-document"></i></el-table-column>
                         <el-table-column label="文件名字" prop="fileName"></el-table-column>
                         <el-table-column label="文件大小" prop="fileSize"></el-table-column>
-                        <el-table-column label="创建时间" prop="Time"></el-table-column>
-
-                        <el-table-column label="操作" style="width: 100%">
+                        <el-table-column label="操作" width="auto">
                             <template slot-scope="scope">
-                                <el-button size="mini" type="primary" @click="Download(scope.$index)">下载</el-button>
-                                <el-button size="mini" type="danger" @click="Delete(scope.$index)">删除</el-button>
+                                <el-button size="small" type="primary" @click="downloadFile(scope.$index)">下载</el-button>
+                                <el-button size="small" type="danger" @click="Delete(scope.$index)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
                 </div>
                 <div v-show="isShow[1]">
-                    <el-button size="small" type="primary" @click="clearBin">清空回收站</el-button>
-                    <el-table :data="binList" :stripe=true>
+                    <el-button size="medium" type="primary" @click="clearBin">清空回收站</el-button>
+                    <el-table height="750" :data="binList" :stripe=true>
+                        <el-table-column type="index" width="auto"></el-table-column>
+                        <el-table-column prop="fileType" width="35"><i class="el-icon-document"></i></el-table-column>
                         <el-table-column label="文件名字" prop="fileName"></el-table-column>
                         <el-table-column label="文件大小" prop="fileSize"></el-table-column>
-                        <el-table-column label="删除时间" prop="Time"></el-table-column>
-
-                        <el-table-column label="操作" style="width: 100%">
+                        <el-table-column label="删除时间" prop="time"></el-table-column>
+                        <el-table-column label="操作" width="auto">
                             <template slot-scope="scope">
-                                <el-button size="mini" type="primary" @click="recovery(scope.$index)">还原</el-button>
-                                <el-button size="mini" type="danger" @click="clear(scope.$index)">清除</el-button>
+                                <el-button size="small" type="primary" @click="recovery(scope.$index)">还原</el-button>
+                                <el-button size="small" type="danger" @click="clear(scope.$index)">清除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -139,7 +141,9 @@
                 </div>
             </el-main>
         </el-container>
-
+        <el-footer style="text-align: center">
+            <p>© 2022 By MUTOU</p>
+        </el-footer>
     </el-container>
 </div>
 

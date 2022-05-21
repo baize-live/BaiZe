@@ -43,27 +43,40 @@ new Vue({
             },
             fileDir: '/',
             isShow: [true, false, false, false],
+            selection: [],
+            uploadNum: 0,
         }
     },
     methods: {
         submitUpload() {
             this.$refs.upload.submit();
+        },
+
+        handleSuccess(res, file, fileList) {
+            this.uploadNum++;
             this.$notify({
                 type: 'success',
                 message: '上传成功'
             });
-            setTimeout(() => {
-                this.updateFileList()
-            }, 3000)
-            this.$refs.upload.clearFiles();
+            let fileSize = Math.round(file.size / 1000 / 1000);
+            let item = {
+                fileName: file.name,
+                fileSize: fileSize + "M",
+            }
+            this.fileList.push(item)
+            if (this.uploadNum === fileList.length) {
+                this.uploadNum = 0;
+                setTimeout(() => {
+                    this.$refs.upload.clearFiles();
+                }, 1000)
+            }
         },
 
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
-        },
-
-        handlePreview(file) {
-            console.log(file);
+        handleError(err, file, fileList) {
+            this.$notify({
+                type: 'error',
+                message: '上传失败, 请检查网络'
+            });
         },
 
         handleSelect(key, keyPath) {
@@ -83,6 +96,11 @@ new Vue({
                     this.isShow[i] = false;
                 }
             }
+        },
+
+        handleSelectionChange(val) {
+            console.log(val)
+            this.selection = val
         },
         //  自己的函数
         initData() {
@@ -182,53 +200,61 @@ new Vue({
                 });
         },
 
-        Download(index) {
-            let data = "business=" + this.business.downloadFile + "&fileDir=" + this.fileDir + "&fileName=" + this.fileList[index].fileName;
-            let that = this
-            axios.post(this.url, data, {responseType: 'blob'})
-                .then(function (res) {
-                    const blob = new Blob([res.data])
-                    const blobUrl = window.URL.createObjectURL(blob)
-                    const a = document.createElement('a')
-                    a.download = that.fileList[index].fileName
-                    a.href = blobUrl
-                    a.click()
-                    document.body.removeChild(a)
-                    that.$notify({
-                        type: 'success',
-                        message: '开始下载'
-                    });
-                })
-                .catch(function (err) {
-                    that.$notify({
-                        type: 'error',
-                        message: '网络异常'
-                    });
+        downloadFile(index) {
+            this.$confirm('确认下载？', '是否下载?', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                let data = "business=" + this.business.downloadFile + "&fileDir=" + this.fileDir + "&fileName=" + this.fileList[index].fileName;
+                this.download(data, this.fileList[index].fileName);
+            }).catch(() => {
+                this.$notify({
+                    type: 'info',
+                    message: '已取消'
                 });
+            });
+        },
+
+        downloadSelect() {
+            this.$confirm('确认下载？', '是否下载?', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                let len = this.selection.length;
+                for (let i = 0; i < len; i++) {
+                    let data = "business=" + this.business.downloadFile +
+                        "&fileDir=" + this.fileDir + "&fileName=" + this.selection[i].fileName;
+                    this.download(data, this.selection[i].fileName);
+                }
+            }).catch(() => {
+                this.$notify({
+                    type: 'info',
+                    message: '已取消'
+                });
+            });
         },
 
         Delete(index) {
             let data = "business=" + this.business.deleteFile + "&fileDir=" + this.fileDir + "&fileName=" + this.fileList[index].fileName;
-            let that = this
             // 获得用户数据
-            axios.post(this.url, data)
-                .then(function (res) {
-                    if (res.data == "1") {
-                        that.$notify({
-                            type: 'success',
-                            message: '删除成功'
-                        });
-                    }
-                })
-                .catch(function (err) {
-                    that.$notify({
-                        type: 'error',
-                        message: '网络异常'
-                    });
-                });
+            this.delete(data);
             setTimeout(() => {
                 this.updateFileList();
             }, 1000)
+        },
+
+        DeleteSelect() {
+            let len = this.selection.length;
+            for (let i = 0; i < len; i++) {
+                let data = "business=" + this.business.deleteFile +
+                    "&fileDir=" + this.fileDir + "&fileName=" + this.selection[i].fileName;
+                this.delete(data);
+            }
+            setTimeout(() => {
+                this.updateFileList();
+            }, 2000)
         },
 
         getFriend() {
@@ -373,10 +399,14 @@ new Vue({
                         let file = {
                             fileName: '',
                             fileSize: '',
-                            Time: '2022-5-5'
+                            fileType: '',
+                            time: '',
                         }
-                        file.fileName = paramList[i].split('=')[1].split(',')[0]
-                        file.fileSize = paramList[i].split('=')[1].split(',')[1].split('|')[0] + "M"
+                        let list = paramList[i].split('=')[1].split(',');
+                        file.fileName = list[0]
+                        file.fileSize = list[1] + "M"
+                        file.fileType = list[2]
+                        file.time = list[5].split('|')[0] // 最后一个切一下 |
                         item.fileList.push(file)
                         break;
                 }
@@ -401,6 +431,51 @@ new Vue({
                 item.friendList.push(friend)
             }
             return item;
+        },
+
+        download(data, name) {
+            let that = this
+            axios.post(this.url, data, {responseType: 'blob'})
+                .then(function (res) {
+                    const blob = new Blob([res.data])
+                    const blobUrl = window.URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.download = name
+                    a.href = blobUrl
+                    a.click()
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                    }, 1000)
+                    that.$notify({
+                        type: 'success',
+                        message: name + ' 下载成功'
+                    });
+                })
+                .catch(function (err) {
+                    that.$notify({
+                        type: 'error',
+                        message: '网络异常'
+                    });
+                });
+        },
+
+        delete(data) {
+            let that = this;
+            axios.post(this.url, data)
+                .then(function (res) {
+                    if (res.data == "1") {
+                        that.$notify({
+                            type: 'success',
+                            message: '删除成功'
+                        });
+                    }
+                })
+                .catch(function (err) {
+                    that.$notify({
+                        type: 'error',
+                        message: '网络异常'
+                    });
+                });
         }
     }
 })

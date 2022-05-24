@@ -1,10 +1,10 @@
 package top.byze.bean;
 
 public class User {
-    private int uid;
-    private String username;
     private final String password;
     private final String email;
+    private int uid;
+    private String username;
     private String phone;
     private String IDCard;
     private String realName;

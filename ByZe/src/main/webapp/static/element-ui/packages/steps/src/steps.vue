@@ -1,11 +1,11 @@
 <template>
   <div
-    class="el-steps"
-    :class="[
+      :class="[
        !simple && 'el-steps--' + direction,
        simple && 'el-steps--simple'
-     ]">
-      <slot></slot>
+     ]"
+      class="el-steps">
+    <slot></slot>
   </div>
 </template>
 

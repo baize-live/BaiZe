@@ -1,43 +1,43 @@
 <template>
   <transition
-    name="el-drawer-fade"
-    @after-enter="afterEnter"
-    @after-leave="afterLeave">
+      name="el-drawer-fade"
+      @after-enter="afterEnter"
+      @after-leave="afterLeave">
     <div
-      class="el-drawer__wrapper"
-      tabindex="-1"
-      v-show="visible">
-      <div
-        class="el-drawer__container"
-        :class="visible && 'el-drawer__open'"
-        @click.self="handleWrapperClick"
-        role="document"
+        v-show="visible"
+        class="el-drawer__wrapper"
         tabindex="-1">
-        <div
-          aria-modal="true"
-          aria-labelledby="el-drawer__title"
-          :aria-label="title"
-          class="el-drawer"
-          :class="[direction, customClass]"
-          :style="isHorizontal ? `width: ${size}` : `height: ${size}`"
-          ref="drawer"
-          role="dialog"
+      <div
+          :class="visible && 'el-drawer__open'"
+          class="el-drawer__container"
+          role="document"
           tabindex="-1"
-          >
-          <header class="el-drawer__header" id="el-drawer__title" v-if="withHeader">
+          @click.self="handleWrapperClick">
+        <div
+            ref="drawer"
+            :aria-label="title"
+            :class="[direction, customClass]"
+            :style="isHorizontal ? `width: ${size}` : `height: ${size}`"
+            aria-labelledby="el-drawer__title"
+            aria-modal="true"
+            class="el-drawer"
+            role="dialog"
+            tabindex="-1"
+        >
+          <header v-if="withHeader" id="el-drawer__title" class="el-drawer__header">
             <slot name="title">
-              <span role="heading" tabindex="0" :title="title">{{ title }}</span>
+              <span :title="title" role="heading" tabindex="0">{{ title }}</span>
             </slot>
             <button
-              :aria-label="`close ${title || 'drawer'}`"
-              class="el-drawer__close-btn"
-              type="button"
-              v-if="showClose"
-              @click="closeDrawer">
+                v-if="showClose"
+                :aria-label="`close ${title || 'drawer'}`"
+                class="el-drawer__close-btn"
+                type="button"
+                @click="closeDrawer">
               <i class="el-dialog__close el-icon el-icon-close"></i>
             </button>
           </header>
-          <section class="el-drawer__body" v-if="rendered">
+          <section v-if="rendered" class="el-drawer__body">
             <slot></slot>
           </section>
         </div>

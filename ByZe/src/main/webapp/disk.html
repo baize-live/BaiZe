@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>BaiZePan</title>
-    <link rel="icon" href="static/img/32.png" sizes="32x32"/>
-    <link rel="icon" href="static/img/192.png" sizes="192x192"/>
-    <link rel="stylesheet" href="./static/css/disk.css">
-    <link rel="stylesheet" href="./static/element-ui/lib/theme-chalk/index.css">
+    <link href="static/img/32.png" rel="icon" sizes="32x32"/>
+    <link href="static/img/192.png" rel="icon" sizes="192x192"/>
+    <link href="./static/css/disk.css" rel="stylesheet">
+    <link href="./static/element-ui/lib/theme-chalk/index.css" rel="stylesheet">
     <script src="./static/js/vue.js"></script>
     <script src="./static/js/axios.js"></script>
     <script src="./static/element-ui/lib/index.js"></script>
@@ -17,14 +17,14 @@
     <el-container style="height:1000px; border: 1px solid #eee">
         <el-header style="text-align: right; font-size: 24px">
             <div class="demo-fit">
-                <el-avatar shape="circle " :size="50" fit='fill' :src="userData.icon" @error="true"></el-avatar>
+                <el-avatar :size="50" :src="userData.icon" @error="true" fit='fill' shape="circle "></el-avatar>
                 <span>{{userData.username}}</span>
             </div>
         </el-header>
         <el-container>
             <el-aside style="width:210px">
-                <el-menu class="el-menu-vertical-demo"
-                         @select="handleSelect" :collapse="isCollapse">
+                <el-menu :collapse="isCollapse"
+                         @select="handleSelect" class="el-menu-vertical-demo">
                     <el-menu-item index="0">
                         <i class="el-icon-location"></i>
                         <span slot="title">我的资源</span>
@@ -46,42 +46,43 @@
             <el-main>
                 <div v-show="isShow[0]">
                     <el-upload
-                            class="upload-demo"
-                            ref="upload"
                             :action="uploadUrl"
+                            :auto-upload="false"
                             :data="fileDir"
-                            :on-success="handleSuccess"
-                            :on-error="handleError"
                             :file-list="uploadFileList"
                             :multiple="true"
-                            :auto-upload="false">
+                            :on-error="handleError"
+                            :on-success="handleSuccess"
+                            class="upload-demo"
+                            ref="upload">
                         <el-button size="medium" slot="trigger" type="primary">选取文件</el-button>
-                        <el-button size="medium" style="margin-left: 10px;" type="success" @click="submitUpload">上传到服务器
+                        <el-button @click="submitUpload" size="medium" style="margin-left: 10px;" type="success">上传到服务器
                         </el-button>
-                        <el-button size="medium" style="margin-left: 10px;" type="success" @click="updateFileList">刷新
+                        <el-button @click="updateFileList" size="medium" style="margin-left: 10px;" type="success">刷新
                         </el-button>
-                        <el-button size="medium" style="margin-left: 10px;" type="primary" @click="downloadSelect">下载所选项
+                        <el-button @click="downloadSelect" size="medium" style="margin-left: 10px;" type="primary">下载所选项
                         </el-button>
-                        <el-button size="medium" style="margin-left: 10px;" type="danger" @click="DeleteSelect">删除所选项
+                        <el-button @click="DeleteSelect" size="medium" style="margin-left: 10px;" type="danger">删除所选项
                         </el-button>
                     </el-upload>
-                    <el-table height="750" ref="multipleTable" tooltip-effect="dark" :data="fileList" :stripe=true
-                              @selection-change="handleSelectionChange">
+                    <el-table :data="fileList" :stripe=true @selection-change="handleSelectionChange" height="750" ref="multipleTable"
+                              tooltip-effect="dark">
                         <el-table-column type="selection" width="auto"></el-table-column>
                         <el-table-column prop="fileType" width="35"><i class="el-icon-document"></i></el-table-column>
                         <el-table-column label="文件名字" prop="fileName"></el-table-column>
                         <el-table-column label="文件大小" prop="fileSize"></el-table-column>
                         <el-table-column label="操作" width="auto">
                             <template slot-scope="scope">
-                                <el-button size="small" type="primary" @click="downloadFile(scope.$index)">下载</el-button>
-                                <el-button size="small" type="danger" @click="Delete(scope.$index)">删除</el-button>
+                                <el-button @click="downloadFile(scope.$index)" size="small" type="primary">下载
+                                </el-button>
+                                <el-button @click="Delete(scope.$index)" size="small" type="danger">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
                 </div>
                 <div v-show="isShow[1]">
-                    <el-button size="medium" type="primary" @click="clearBin">清空回收站</el-button>
-                    <el-table height="750" :data="binList" :stripe=true>
+                    <el-button @click="clearBin" size="medium" type="primary">清空回收站</el-button>
+                    <el-table :data="binList" :stripe=true height="750">
                         <el-table-column type="index" width="auto"></el-table-column>
                         <el-table-column prop="fileType" width="35"><i class="el-icon-document"></i></el-table-column>
                         <el-table-column label="文件名字" prop="fileName"></el-table-column>
@@ -89,8 +90,8 @@
                         <el-table-column label="删除时间" prop="time"></el-table-column>
                         <el-table-column label="操作" width="auto">
                             <template slot-scope="scope">
-                                <el-button size="small" type="primary" @click="recovery(scope.$index)">还原</el-button>
-                                <el-button size="small" type="danger" @click="clear(scope.$index)">清除</el-button>
+                                <el-button @click="recovery(scope.$index)" size="small" type="primary">还原</el-button>
+                                <el-button @click="clear(scope.$index)" size="small" type="danger">清除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -108,7 +109,7 @@
                             <el-image :src="userData.icon"></el-image>
                         </div>
                     </div>
-                    <el-form ref="form" :model="userData" label-width="120px" label-position="right">
+                    <el-form :model="userData" label-position="right" label-width="120px" ref="form">
                         <el-form-item label="用户ID">
                             <el-tag>{{userData.uid}}</el-tag>
                         </el-form-item>
@@ -131,11 +132,11 @@
                             <el-tag>{{userData.grade}}</el-tag>
                         </el-form-item>
                         <el-form-item label="空间使用量">
-                            <el-progress :text-inside="true" :stroke-width="40"
-                                         :percentage=Math.round(userData.nowStorage*100/userData.maxStorage)></el-progress>
+                            <el-progress :percentage=Math.round(userData.nowStorage*100/userData.maxStorage) :stroke-width="40"
+                                         :text-inside="true"></el-progress>
                         </el-form-item>
                         <el-form-item style="text-align: center">
-                            <el-button type="primary" @click="modifyAttributes">立即修改</el-button>
+                            <el-button @click="modifyAttributes" type="primary">立即修改</el-button>
                         </el-form-item>
                     </el-form>
                 </div>

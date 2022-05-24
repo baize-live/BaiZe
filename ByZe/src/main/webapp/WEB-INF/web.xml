@@ -5,24 +5,24 @@
          version="4.0" metadata-complete="false">
 
 
-<!--    这个的顺序决定了过滤链的顺序-->
-<!--    &lt;!&ndash;过滤器链中FirstChainFilter配置 &ndash;&gt;-->
-<!--    <filter>-->
-<!--        <filter-name>FirstChainFilter</filter-name>-->
-<!--        <filter-class>swadian.servlet.filter.FirstChainFilter</filter-class>-->
-<!--    </filter>-->
-<!--    <filter-mapping>-->
-<!--        <filter-name>FirstChainFilter</filter-name>-->
-<!--        <url-pattern>/LoginServlet</url-pattern>-->
-<!--    </filter-mapping>-->
-<!--    &lt;!&ndash;过滤器链中SecondChainFilter配置 &ndash;&gt;-->
-<!--    <filter>-->
-<!--        <filter-name>SecondChainFilter</filter-name>-->
-<!--        <filter-class>swadian.servlet.filter.SecondChainFilter</filter-class>-->
-<!--    </filter>-->
-<!--    <filter-mapping>-->
-<!--        <filter-name>SecondChainFilter</filter-name>-->
-<!--        <url-pattern>/LoginServlet</url-pattern>-->
-<!--    </filter-mapping>-->
+    <!--    这个的顺序决定了过滤链的顺序-->
+    <!--    &lt;!&ndash;过滤器链中FirstChainFilter配置 &ndash;&gt;-->
+    <!--    <filter>-->
+    <!--        <filter-name>FirstChainFilter</filter-name>-->
+    <!--        <filter-class>swadian.servlet.filter.FirstChainFilter</filter-class>-->
+    <!--    </filter>-->
+    <!--    <filter-mapping>-->
+    <!--        <filter-name>FirstChainFilter</filter-name>-->
+    <!--        <url-pattern>/LoginServlet</url-pattern>-->
+    <!--    </filter-mapping>-->
+    <!--    &lt;!&ndash;过滤器链中SecondChainFilter配置 &ndash;&gt;-->
+    <!--    <filter>-->
+    <!--        <filter-name>SecondChainFilter</filter-name>-->
+    <!--        <filter-class>swadian.servlet.filter.SecondChainFilter</filter-class>-->
+    <!--    </filter>-->
+    <!--    <filter-mapping>-->
+    <!--        <filter-name>SecondChainFilter</filter-name>-->
+    <!--        <url-pattern>/LoginServlet</url-pattern>-->
+    <!--    </filter-mapping>-->
 
 </web-app>

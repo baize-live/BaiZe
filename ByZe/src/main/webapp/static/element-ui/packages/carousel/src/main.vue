@@ -1,51 +1,51 @@
 <template>
   <div
-    :class="carouselClasses"
-    @mouseenter.stop="handleMouseEnter"
-    @mouseleave.stop="handleMouseLeave">
+      :class="carouselClasses"
+      @mouseenter.stop="handleMouseEnter"
+      @mouseleave.stop="handleMouseLeave">
     <div
-      class="el-carousel__container"
-      :style="{ height: height }">
+        :style="{ height: height }"
+        class="el-carousel__container">
       <transition
-        v-if="arrowDisplay"
-        name="carousel-arrow-left">
+          v-if="arrowDisplay"
+          name="carousel-arrow-left">
         <button
-          type="button"
-          v-show="(arrow === 'always' || hover) && (loop || activeIndex > 0)"
-          @mouseenter="handleButtonEnter('left')"
-          @mouseleave="handleButtonLeave"
-          @click.stop="throttledArrowClick(activeIndex - 1)"
-          class="el-carousel__arrow el-carousel__arrow--left">
+            v-show="(arrow === 'always' || hover) && (loop || activeIndex > 0)"
+            class="el-carousel__arrow el-carousel__arrow--left"
+            type="button"
+            @mouseenter="handleButtonEnter('left')"
+            @mouseleave="handleButtonLeave"
+            @click.stop="throttledArrowClick(activeIndex - 1)">
           <i class="el-icon-arrow-left"></i>
         </button>
       </transition>
       <transition
-        v-if="arrowDisplay"
-        name="carousel-arrow-right">
+          v-if="arrowDisplay"
+          name="carousel-arrow-right">
         <button
-          type="button"
-          v-show="(arrow === 'always' || hover) && (loop || activeIndex < items.length - 1)"
-          @mouseenter="handleButtonEnter('right')"
-          @mouseleave="handleButtonLeave"
-          @click.stop="throttledArrowClick(activeIndex + 1)"
-          class="el-carousel__arrow el-carousel__arrow--right">
+            v-show="(arrow === 'always' || hover) && (loop || activeIndex < items.length - 1)"
+            class="el-carousel__arrow el-carousel__arrow--right"
+            type="button"
+            @mouseenter="handleButtonEnter('right')"
+            @mouseleave="handleButtonLeave"
+            @click.stop="throttledArrowClick(activeIndex + 1)">
           <i class="el-icon-arrow-right"></i>
         </button>
       </transition>
       <slot></slot>
     </div>
     <ul
-      v-if="indicatorPosition !== 'none'"
-      :class="indicatorsClasses">
+        v-if="indicatorPosition !== 'none'"
+        :class="indicatorsClasses">
       <li
-        v-for="(item, index) in items"
-        :key="index"
-        :class="[
+          v-for="(item, index) in items"
+          :key="index"
+          :class="[
           'el-carousel__indicator',
           'el-carousel__indicator--' + direction,
           { 'is-active': index === activeIndex }]"
-        @mouseenter="throttledIndicatorHover(index)"
-        @click.stop="handleIndicatorClick(index)">
+          @mouseenter="throttledIndicatorHover(index)"
+          @click.stop="handleIndicatorClick(index)">
         <button class="el-carousel__button">
           <span v-if="hasLabel">{{ item.label }}</span>
         </button>
@@ -56,7 +56,7 @@
 
 <script>
 import throttle from 'throttle-debounce/throttle';
-import { addResizeListener, removeResizeListener } from 'element-ui/src/utils/resize-event';
+import {addResizeListener, removeResizeListener} from 'element-ui/src/utils/resize-event';
 
 export default {
   name: 'ElCarousel',
@@ -176,10 +176,10 @@ export default {
     itemInStage(item, index) {
       const length = this.items.length;
       if (index === length - 1 && item.inStage && this.items[0].active ||
-        (item.inStage && this.items[index + 1] && this.items[index + 1].active)) {
+          (item.inStage && this.items[index + 1] && this.items[index + 1].active)) {
         return 'left';
       } else if (index === 0 && item.inStage && this.items[length - 1].active ||
-        (item.inStage && this.items[index - 1] && this.items[index - 1].active)) {
+          (item.inStage && this.items[index - 1] && this.items[index - 1].active)) {
         return 'right';
       }
       return false;

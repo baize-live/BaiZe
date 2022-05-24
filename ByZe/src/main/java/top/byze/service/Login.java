@@ -9,20 +9,12 @@ import top.byze.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Map;
 
 @Slf4j
 public class Login {
     HttpServletRequest req;
     HttpServletResponse res;
-
-    private static class Res {
-        final static String TRUE = "1";
-        final static String FALSE = "0";
-    }
 
     public Login(HttpServletRequest req, HttpServletResponse res) {
         this.req = req;
@@ -273,5 +265,10 @@ public class Login {
         } catch (Exception e) {
             log.error("退出登录异常");
         }
+    }
+
+    private static class Res {
+        final static String TRUE = "1";
+        final static String FALSE = "0";
     }
 }

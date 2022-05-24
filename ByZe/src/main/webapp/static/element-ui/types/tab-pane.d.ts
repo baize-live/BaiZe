@@ -1,19 +1,19 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Tab Pane Component */
 export declare class ElTabPane extends ElementUIComponent {
-  /** Title of the tab */
-  label: string
+    /** Title of the tab */
+    label: string
 
-  /** Whether Tab is disabled */
-  disabled: boolean
+    /** Whether Tab is disabled */
+    disabled: boolean
 
-  /** Identifier corresponding to the activeName of Tabs, representing the alias of the tab-pane */
-  name: string
+    /** Identifier corresponding to the activeName of Tabs, representing the alias of the tab-pane */
+    name: string
 
-  /** Whether Tab is closable */
-  closable: boolean
+    /** Whether Tab is closable */
+    closable: boolean
 
-  /** Whether Tab is lazily rendered */
-  lazy: boolean
+    /** Whether Tab is lazily rendered */
+    lazy: boolean
 }

@@ -1,15 +1,19 @@
 # element-steps
+
 > A element-steps component for Vue.js.
 
 ## Demo
+
 http://element-component.github.io/element-steps
 
 ## Installation
+
 ```shell
 npm i element-steps -D
 ```
 
 ## Usage
+
 ```javascript
 import Vue from 'vue'
 import ElStep from 'element-steps'
@@ -40,6 +44,7 @@ Vue.component('el-step', ElStep)
 | align-center | 标题描述居中对齐 | boolean | - | false |
 
 ### Step Attributes
+
 | 参数      | 说明    | 类型      | 可选值       | 默认值   |
 |---------- |-------- |---------- |-------------  |-------- |
 | title | 标题 | string | — | — |
@@ -47,14 +52,15 @@ Vue.component('el-step', ElStep)
 | icon | 图标 | Element Icon 提供的图标，如果要使用自定义图标可以通过 slot 方式写入 | string | — |
 
 ### Step Slot
+
 | name | 说明  |
 |----|----|
 | icon | 图标 |
 | title | 标题 |
 | description | 描述性文字 |
 
-
 ## Development
+
 ```shell
 make dev
 
@@ -66,4 +72,5 @@ make build
 ```
 
 # License
+
 [MIT](https://opensource.org/licenses/MIT)

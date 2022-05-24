@@ -1,71 +1,83 @@
-import { VNode, VNodeDirective } from 'vue'
-import { ElementUIComponent } from './component'
+import {VNode, VNodeDirective} from 'vue'
+import {ElementUIComponent} from './component'
 
 export type PopoverTrigger = 'click' | 'focus' | 'hover' | 'manual'
-export type PopoverPlacement = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'
+export type PopoverPlacement =
+    'top'
+    | 'top-start'
+    | 'top-end'
+    | 'bottom'
+    | 'bottom-start'
+    | 'bottom-end'
+    | 'left'
+    | 'left-start'
+    | 'left-end'
+    | 'right'
+    | 'right-start'
+    | 'right-end'
 
 export interface PopoverSlots {
-  /** Content of popover */
-  default: VNode[],
+    /** Content of popover */
+    default: VNode[],
 
-  /** HTML element that triggers popover */
-  reference: VNode[]
+    /** HTML element that triggers popover */
+    reference: VNode[]
 
-  [key: string]: VNode[]
+    [key: string]: VNode[]
 }
 
 /** Popover directive definition */
 export interface ElPopoverDirective extends VNodeDirective {
-  name: 'popover',
-  arg: string
+    name: 'popover',
+    arg: string
 }
 
 /** Popover Component */
 export declare class ElPopover extends ElementUIComponent {
-  /** How the popover is triggered */
-  trigger: PopoverTrigger
+    /** How the popover is triggered */
+    trigger: PopoverTrigger
 
-  /** Popover title */
-  title: string
+    /** Popover title */
+    title: string
 
-  /** Popover content, can be replaced with a default slot */
-  content: string
+    /** Popover content, can be replaced with a default slot */
+    content: string
 
-  /** Popover width */
-  width: string | number
+    /** Popover width */
+    width: string | number
 
-  /** Popover placement */
-  placement: PopoverPlacement
+    /** Popover placement */
+    placement: PopoverPlacement
 
-  /** Whether Popover is disabled */
-  disabled: boolean
+    /** Whether Popover is disabled */
+    disabled: boolean
 
-  /** Whether popover is visible */
-  value: boolean
+    /** Whether popover is visible */
+    value: boolean
 
-  /** Popover offset */
-  offset: number
+    /** Popover offset */
+    offset: number
 
-  /** Popover transition animation */
-  transition: string
+    /** Popover transition animation */
+    transition: string
 
-  /** Whether a tooltip arrow is displayed or not. For more info, please refer to Vue-popper */
-  visibleArrow: boolean
+    /** Whether a tooltip arrow is displayed or not. For more info, please refer to Vue-popper */
+    visibleArrow: boolean
 
-  /** Parameters for popper.js */
-  popperOptions: object
+    /** Parameters for popper.js */
+    popperOptions: object
 
-  /** Custom class name for popover */
-  popperClass: string
+    /** Custom class name for popover */
+    popperClass: string
 
-  /** Delay before appearing when trigger is hover, in milliseconds */
-  openDelay: number
+    /** Delay before appearing when trigger is hover, in milliseconds */
+    openDelay: number
 
-  /** Delay before disappearing when trigger is hover, in milliseconds */
-  closeDelay: number
+    /** Delay before disappearing when trigger is hover, in milliseconds */
+    closeDelay: number
 
-  /** Popover tabindex */
-  tabindex: number
+    /** Popover tabindex */
+    tabindex: number
 
-  $slots: PopoverSlots
+    $slots: PopoverSlots
 }

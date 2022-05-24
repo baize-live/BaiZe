@@ -2,20 +2,20 @@ import Picker from '../picker';
 import Panel from '../panel/time-select';
 
 export default {
-  mixins: [Picker],
+    mixins: [Picker],
 
-  name: 'ElTimeSelect',
+    name: 'ElTimeSelect',
 
-  componentName: 'ElTimeSelect',
+    componentName: 'ElTimeSelect',
 
-  props: {
-    type: {
-      type: String,
-      default: 'time-select'
+    props: {
+        type: {
+            type: String,
+            default: 'time-select'
+        }
+    },
+
+    beforeCreate() {
+        this.panel = Panel;
     }
-  },
-
-  beforeCreate() {
-    this.panel = Panel;
-  }
 };

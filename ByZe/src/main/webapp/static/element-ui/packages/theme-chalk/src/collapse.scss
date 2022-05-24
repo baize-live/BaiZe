@@ -6,6 +6,7 @@
   border-top: 1px solid $--collapse-border-color;
   border-bottom: 1px solid $--collapse-border-color;
 }
+
 @include b(collapse-item) {
   @include when(disabled) {
     .el-collapse-item__header {
@@ -34,7 +35,7 @@
         transform: rotate(90deg);
       }
     }
-    &.focusing:focus:not(:hover){
+    &.focusing:focus:not(:hover) {
       color: $--color-primary;
     }
     @include when(active) {

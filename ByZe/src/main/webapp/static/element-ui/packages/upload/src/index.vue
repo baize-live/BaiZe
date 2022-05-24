@@ -4,7 +4,8 @@ import Upload from './upload';
 import ElProgress from 'element-ui/packages/progress';
 import Migrating from 'element-ui/src/mixins/migrating';
 
-function noop() {}
+function noop() {
+}
 
 export default {
   name: 'ElUpload',
@@ -241,10 +242,10 @@ export default {
     },
     submit() {
       this.uploadFiles
-        .filter(file => file.status === 'ready')
-        .forEach(file => {
-          this.$refs['upload-inner'].upload(file.raw);
-        });
+          .filter(file => file.status === 'ready')
+          .forEach(file => {
+            this.$refs['upload-inner'].upload(file.raw);
+          });
     },
     getMigratingConfig() {
       return {
@@ -270,22 +271,22 @@ export default {
 
     if (this.showFileList) {
       uploadList = (
-        <UploadList
-          disabled={this.uploadDisabled}
-          listType={this.listType}
-          files={this.uploadFiles}
-          on-remove={this.handleRemove}
-          handlePreview={this.onPreview}>
-          {
-            (props) => {
-              if (this.$scopedSlots.file) {
-                return this.$scopedSlots.file({
-                  file: props.file
-                });
+          <UploadList
+              disabled={this.uploadDisabled}
+              listType={this.listType}
+              files={this.uploadFiles}
+              on-remove={this.handleRemove}
+              handlePreview={this.onPreview}>
+            {
+              (props) => {
+                if (this.$scopedSlots.file) {
+                  return this.$scopedSlots.file({
+                    file: props.file
+                  });
+                }
               }
             }
-          }
-        </UploadList>
+          </UploadList>
       );
     }
 
@@ -322,16 +323,16 @@ export default {
     const uploadComponent = <upload {...uploadData}>{trigger}</upload>;
 
     return (
-      <div>
-        { this.listType === 'picture-card' ? uploadList : ''}
-        {
-          this.$slots.trigger
-            ? [uploadComponent, this.$slots.default]
-            : uploadComponent
-        }
-        {this.$slots.tip}
-        { this.listType !== 'picture-card' ? uploadList : ''}
-      </div>
+        <div>
+          {this.listType === 'picture-card' ? uploadList : ''}
+          {
+            this.$slots.trigger
+                ? [uploadComponent, this.$slots.default]
+                : uploadComponent
+          }
+          {this.$slots.tip}
+          {this.listType !== 'picture-card' ? uploadList : ''}
+        </div>
     );
   }
 };

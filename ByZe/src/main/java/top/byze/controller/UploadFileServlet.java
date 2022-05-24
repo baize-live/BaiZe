@@ -17,11 +17,6 @@ public class UploadFileServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) {
-        doWork(req, res);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) {
         doWork(req, res);
     }

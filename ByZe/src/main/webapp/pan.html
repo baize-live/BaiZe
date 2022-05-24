@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>ByZePAN</title>
-    <link rel="icon" href="static/img/32.png" sizes="32x32"/>
-    <link rel="icon" href="static/img/192.png" sizes="192x192"/>
-    <link rel="stylesheet" href="./static/element-ui/lib/theme-chalk/index.css">
+    <link href="static/img/32.png" rel="icon" sizes="32x32"/>
+    <link href="static/img/192.png" rel="icon" sizes="192x192"/>
+    <link href="./static/element-ui/lib/theme-chalk/index.css" rel="stylesheet">
     <script src="./static/js/vue.js"></script>
     <script src="./static/js/axios.js"></script>
     <script src="./static/element-ui/lib/index.js"></script>
@@ -21,7 +21,7 @@
     </div>
     <el-container>
         <el-main>
-            <el-button type="primary" round @click="enterPan">进入网盘</el-button>
+            <el-button @click="enterPan" round type="primary">进入网盘</el-button>
         </el-main>
     </el-container>
 </div>
@@ -69,7 +69,7 @@
                                     message: '已取消'
                                 });
                             });
-                        } else{
+                        } else {
                             that.$notify({
                                 type: 'info',
                                 message: '请先登录'

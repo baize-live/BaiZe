@@ -1,6 +1,6 @@
 <template>
   <transition name="viewer-fade">
-    <div tabindex="-1" ref="el-image-viewer__wrapper" class="el-image-viewer__wrapper" :style="{ 'z-index': zIndex }">
+    <div ref="el-image-viewer__wrapper" :style="{ 'z-index': zIndex }" class="el-image-viewer__wrapper" tabindex="-1">
       <div class="el-image-viewer__mask"></div>
       <!-- CLOSE -->
       <span class="el-image-viewer__btn el-image-viewer__close" @click="hide">
@@ -9,15 +9,15 @@
       <!-- ARROW -->
       <template v-if="!isSingle">
         <span
-          class="el-image-viewer__btn el-image-viewer__prev"
-          :class="{ 'is-disabled': !infinite && isFirst }"
-          @click="prev">
+            :class="{ 'is-disabled': !infinite && isFirst }"
+            class="el-image-viewer__btn el-image-viewer__prev"
+            @click="prev">
           <i class="el-icon-arrow-left"/>
         </span>
         <span
-          class="el-image-viewer__btn el-image-viewer__next"
-          :class="{ 'is-disabled': !infinite && isLast }"
-          @click="next">
+            :class="{ 'is-disabled': !infinite && isLast }"
+            class="el-image-viewer__btn el-image-viewer__next"
+            @click="next">
           <i class="el-icon-arrow-right"/>
         </span>
       </template>
@@ -36,24 +36,24 @@
       <!-- CANVAS -->
       <div class="el-image-viewer__canvas">
         <img
-          v-for="(url, i) in urlList"
-          v-if="i === index"
-          ref="img"
-          class="el-image-viewer__img"
-          :key="url"
-          :src="currentImg"
-          :style="imgStyle"
-          @load="handleImgLoad"
-          @error="handleImgError"
-          @mousedown="handleMouseDown">
+            v-for="(url, i) in urlList"
+            v-if="i === index"
+            :key="url"
+            ref="img"
+            :src="currentImg"
+            :style="imgStyle"
+            class="el-image-viewer__img"
+            @error="handleImgError"
+            @load="handleImgLoad"
+            @mousedown="handleMouseDown">
       </div>
     </div>
   </transition>
 </template>
 
 <script>
-import { on, off } from 'element-ui/src/utils/dom';
-import { rafThrottle, isFirefox } from 'element-ui/src/utils/util';
+import {off, on} from 'element-ui/src/utils/dom';
+import {isFirefox, rafThrottle} from 'element-ui/src/utils/util';
 
 const Mode = {
   CONTAIN: {
@@ -82,11 +82,13 @@ export default {
     },
     onSwitch: {
       type: Function,
-      default: () => {}
+      default: () => {
+      }
     },
     onClose: {
       type: Function,
-      default: () => {}
+      default: () => {
+      }
     },
     initialIndex: {
       type: Number,
@@ -124,7 +126,7 @@ export default {
       return this.urlList[this.index];
     },
     imgStyle() {
-      const { scale, deg, offsetX, offsetY, enableTransition } = this.transform;
+      const {scale, deg, offsetX, offsetY, enableTransition} = this.transform;
       const style = {
         transform: `scale(${scale}) rotate(${deg}deg)`,
         transition: enableTransition ? 'transform .3s' : '',
@@ -139,7 +141,7 @@ export default {
   },
   watch: {
     index: {
-      handler: function(val) {
+      handler: function (val) {
         this.reset();
         this.onSwitch(val);
       }
@@ -162,27 +164,27 @@ export default {
       this._keyDownHandler = rafThrottle(e => {
         const keyCode = e.keyCode;
         switch (keyCode) {
-          // ESC
+            // ESC
           case 27:
             this.hide();
             break;
-          // SPACE
+            // SPACE
           case 32:
             this.toggleMode();
             break;
-          // LEFT_ARROW
+            // LEFT_ARROW
           case 37:
             this.prev();
             break;
-          // UP_ARROW
+            // UP_ARROW
           case 38:
             this.handleActions('zoomIn');
             break;
-          // RIGHT_ARROW
+            // RIGHT_ARROW
           case 39:
             this.next();
             break;
-          // DOWN_ARROW
+            // DOWN_ARROW
           case 40:
             this.handleActions('zoomOut');
             break;
@@ -221,7 +223,7 @@ export default {
     handleMouseDown(e) {
       if (this.loading || e.button !== 0) return;
 
-      const { offsetX, offsetY } = this.transform;
+      const {offsetX, offsetY} = this.transform;
       const startX = e.pageX;
       const startY = e.pageY;
       this._dragHandler = rafThrottle(ev => {
@@ -266,13 +268,13 @@ export default {
     },
     handleActions(action, options = {}) {
       if (this.loading) return;
-      const { zoomRate, rotateDeg, enableTransition } = {
+      const {zoomRate, rotateDeg, enableTransition} = {
         zoomRate: 0.2,
         rotateDeg: 90,
         enableTransition: true,
         ...options
       };
-      const { transform } = this;
+      const {transform} = this;
       switch (action) {
         case 'zoomOut':
           if (transform.scale > 0.2) {

@@ -38,7 +38,7 @@ export default {
 
   computed: {
     avatarClass() {
-      const { size, icon, shape } = this;
+      const {size, icon, shape} = this;
       let classList = ['el-avatar'];
 
       if (size && typeof size === 'string') {
@@ -59,26 +59,26 @@ export default {
 
   methods: {
     handleError() {
-      const { error } = this;
+      const {error} = this;
       const errorFlag = error ? error() : undefined;
       if (errorFlag !== false) {
         this.isImageExist = false;
       }
     },
     renderAvatar() {
-      const { icon, src, alt, isImageExist, srcSet, fit } = this;
+      const {icon, src, alt, isImageExist, srcSet, fit} = this;
 
       if (isImageExist && src) {
         return <img
-          src={src}
-          onError={this.handleError}
-          alt={alt}
-          srcSet={srcSet}
-          style={{ 'object-fit': fit }}/>;
+            src={src}
+            onError={this.handleError}
+            alt={alt}
+            srcSet={srcSet}
+            style={{'object-fit': fit}}/>;
       }
 
       if (icon) {
-        return (<i class={icon} />);
+        return (<i class={icon}/>);
       }
 
       return this.$slots.default;
@@ -86,7 +86,7 @@ export default {
   },
 
   render() {
-    const { avatarClass, size } = this;
+    const {avatarClass, size} = this;
 
     const sizeStyle = typeof size === 'number' ? {
       height: `${size}px`,
@@ -95,7 +95,7 @@ export default {
     } : {};
 
     return (
-      <span class={ avatarClass } style={ sizeStyle }>
+        <span class={avatarClass} style={sizeStyle}>
         {
           this.renderAvatar()
         }

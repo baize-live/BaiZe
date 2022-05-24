@@ -30,11 +30,13 @@ export default {
     drag: Boolean,
     onPreview: {
       type: Function,
-      default: function() {}
+      default: function () {
+      }
     },
     onRemove: {
       type: Function,
-      default: function() {}
+      default: function () {
+      }
     },
     fileList: Array,
     autoUpload: Boolean,
@@ -72,9 +74,13 @@ export default {
       }
 
       let postFiles = Array.prototype.slice.call(files);
-      if (!this.multiple) { postFiles = postFiles.slice(0, 1); }
+      if (!this.multiple) {
+        postFiles = postFiles.slice(0, 1);
+      }
 
-      if (postFiles.length === 0) { return; }
+      if (postFiles.length === 0) {
+        return;
+      }
 
       postFiles.forEach(rawFile => {
         this.onStart(rawFile);
@@ -118,7 +124,7 @@ export default {
       }
     },
     abort(file) {
-      const { reqs } = this;
+      const {reqs} = this;
       if (file) {
         let uid = file;
         if (file.uid) uid = file.uid;
@@ -133,7 +139,7 @@ export default {
       }
     },
     post(rawFile) {
-      const { uid } = rawFile;
+      const {uid} = rawFile;
       const options = {
         headers: this.headers,
         withCredentials: this.withCredentials,
@@ -197,14 +203,15 @@ export default {
     };
     data.class[`el-upload--${listType}`] = true;
     return (
-      <div {...data} tabindex="0" >
-        {
-          drag
-            ? <upload-dragger disabled={disabled} on-file={uploadFiles}>{this.$slots.default}</upload-dragger>
-            : this.$slots.default
-        }
-        <input class="el-upload__input" type="file" ref="input" name={name} on-change={handleChange} multiple={multiple} accept={accept}></input>
-      </div>
+        <div {...data} tabindex="0">
+          {
+            drag
+                ? <upload-dragger disabled={disabled} on-file={uploadFiles}>{this.$slots.default}</upload-dragger>
+                : this.$slots.default
+          }
+          <input class="el-upload__input" type="file" ref="input" name={name} on-change={handleChange}
+                 multiple={multiple} accept={accept}></input>
+        </div>
     );
   }
 };

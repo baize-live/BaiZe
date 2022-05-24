@@ -13,9 +13,9 @@
   position: relative;
 
   .el-select__tags
-    >span {
-      display: contents;
-    }
+  > span {
+    display: contents;
+  }
 
   &:hover {
     .el-input__inner {

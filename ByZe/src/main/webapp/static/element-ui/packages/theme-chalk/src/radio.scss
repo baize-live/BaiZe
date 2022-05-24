@@ -42,9 +42,11 @@
       padding: $--radio-bordered-medium-padding;
       border-radius: $--button-medium-border-radius;
       height: $--radio-bordered-medium-height;
+
       .el-radio__label {
         font-size: $--button-medium-font-size;
       }
+
       .el-radio__inner {
         height: $--radio-bordered-medium-input-height;
         width: $--radio-bordered-medium-input-width;
@@ -56,9 +58,11 @@
       padding: $--radio-bordered-small-padding;
       border-radius: $--button-small-border-radius;
       height: $--radio-bordered-small-height;
+
       .el-radio__label {
         font-size: $--button-small-font-size;
       }
+
       .el-radio__inner {
         height: $--radio-bordered-small-input-height;
         width: $--radio-bordered-small-input-width;
@@ -70,9 +74,11 @@
       padding: $--radio-bordered-mini-padding;
       border-radius: $--button-mini-border-radius;
       height: $--radio-bordered-mini-height;
+
       .el-radio__label {
         font-size: $--button-mini-font-size;
       }
+
       .el-radio__inner {
         height: $--radio-bordered-mini-input-height;
         width: $--radio-bordered-mini-input-width;

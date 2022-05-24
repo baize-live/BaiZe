@@ -3,18 +3,18 @@
     <div class="el-timeline-item__tail"></div>
 
     <div v-if="!$slots.dot"
-      class="el-timeline-item__node"
-      :class="[
+         :class="[
         `el-timeline-item__node--${size || ''}`,
         `el-timeline-item__node--${type || ''}`
       ]"
-      :style="{
+         :style="{
         backgroundColor: color
       }"
+         class="el-timeline-item__node"
     >
       <i v-if="icon"
-        class="el-timeline-item__icon"
-        :class="icon"
+         :class="icon"
+         class="el-timeline-item__icon"
       ></i>
     </div>
     <div v-if="$slots.dot" class="el-timeline-item__dot">
@@ -23,8 +23,8 @@
 
     <div class="el-timeline-item__wrapper">
       <div v-if="!hideTimestamp && placement === 'top'"
-        class="el-timeline-item__timestamp is-top">
-        {{timestamp}}
+           class="el-timeline-item__timestamp is-top">
+        {{ timestamp }}
       </div>
 
       <div class="el-timeline-item__content">
@@ -32,42 +32,42 @@
       </div>
 
       <div v-if="!hideTimestamp && placement === 'bottom'"
-        class="el-timeline-item__timestamp is-bottom">
-        {{timestamp}}
+           class="el-timeline-item__timestamp is-bottom">
+        {{ timestamp }}
       </div>
     </div>
   </li>
 </template>
 
 <script>
-  export default {
-    name: 'ElTimelineItem',
+export default {
+  name: 'ElTimelineItem',
 
-    inject: ['timeline'],
+  inject: ['timeline'],
 
-    props: {
-      timestamp: String,
+  props: {
+    timestamp: String,
 
-      hideTimestamp: {
-        type: Boolean,
-        default: false
-      },
+    hideTimestamp: {
+      type: Boolean,
+      default: false
+    },
 
-      placement: {
-        type: String,
-        default: 'bottom'
-      },
-
+    placement: {
       type: String,
+      default: 'bottom'
+    },
 
-      color: String,
+    type: String,
 
-      size: {
-        type: String,
-        default: 'normal'
-      },
+    color: String,
 
-      icon: String
-    }
-  };
+    size: {
+      type: String,
+      default: 'normal'
+    },
+
+    icon: String
+  }
+};
 </script>

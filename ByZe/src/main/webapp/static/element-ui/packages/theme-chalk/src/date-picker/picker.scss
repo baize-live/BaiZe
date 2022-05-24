@@ -185,6 +185,7 @@
       background-color: $--input-disabled-fill;
       color: $--input-disabled-color;
       cursor: not-allowed;
+
       &::placeholder {
         color: $--input-disabled-placeholder-color;
       }

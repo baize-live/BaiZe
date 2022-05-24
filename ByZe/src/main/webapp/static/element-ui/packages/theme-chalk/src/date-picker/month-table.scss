@@ -9,16 +9,19 @@
     text-align: center;
     padding: 8px 0px;
     cursor: pointer;
+
     & div {
       height: 48px;
       padding: 6px 0;
       box-sizing: border-box;
     }
+
     &.today {
       .cell {
         color: $--color-primary;
         font-weight: bold;
       }
+
       &.start-date .cell,
       &.end-date .cell {
         color: $--color-white;
@@ -43,6 +46,7 @@
       color: $--datepicker-font-color;
       margin: 0 auto;
       border-radius: 18px;
+
       &:hover {
         color: $--datepicker-hover-font-color;
       }
@@ -50,10 +54,12 @@
 
     &.in-range div {
       background-color: $--datepicker-inrange-background-color;
+
       &:hover {
         background-color: $--datepicker-inrange-hover-background-color;
       }
     }
+
     &.start-date div,
     &.end-date div {
       color: $--color-white;

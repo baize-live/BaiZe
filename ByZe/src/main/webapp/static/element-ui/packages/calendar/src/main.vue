@@ -5,53 +5,53 @@
         {{ i18nDate }}
       </div>
       <div
-        class="el-calendar__button-group"
-        v-if="validatedRange.length === 0">
+          v-if="validatedRange.length === 0"
+          class="el-calendar__button-group">
         <el-button-group>
           <el-button
-            type="plain"
-            size="mini"
-            @click="selectDate('prev-month')">
+              size="mini"
+              type="plain"
+              @click="selectDate('prev-month')">
             {{ t('el.datepicker.prevMonth') }}
           </el-button>
           <el-button
-            type="plain"
-            size="mini"
-            @click="selectDate('today')">
+              size="mini"
+              type="plain"
+              @click="selectDate('today')">
             {{ t('el.datepicker.today') }}
           </el-button>
           <el-button
-            type="plain"
-            size="mini"
-            @click="selectDate('next-month')">
+              size="mini"
+              type="plain"
+              @click="selectDate('next-month')">
             {{ t('el.datepicker.nextMonth') }}
           </el-button>
         </el-button-group>
       </div>
     </div>
     <div
-      class="el-calendar__body"
-      v-if="validatedRange.length === 0"
-      key="no-range">
+        v-if="validatedRange.length === 0"
+        key="no-range"
+        class="el-calendar__body">
       <date-table
-        :date="date"
-        :selected-day="realSelectedDay"
-        :first-day-of-week="realFirstDayOfWeek"
-        @pick="pickDay" />
+          :date="date"
+          :first-day-of-week="realFirstDayOfWeek"
+          :selected-day="realSelectedDay"
+          @pick="pickDay"/>
     </div>
     <div
-      v-else
-      class="el-calendar__body"
-      key="has-range">
+        v-else
+        key="has-range"
+        class="el-calendar__body">
       <date-table
-        v-for="(range, index) in validatedRange"
-        :key="index"
-        :date="range[0]"
-        :selected-day="realSelectedDay"
-        :range="range"
-        :hide-header="index !== 0"
-        :first-day-of-week="realFirstDayOfWeek"
-        @pick="pickDay" />
+          v-for="(range, index) in validatedRange"
+          :key="index"
+          :date="range[0]"
+          :first-day-of-week="realFirstDayOfWeek"
+          :hide-header="index !== 0"
+          :range="range"
+          :selected-day="realSelectedDay"
+          @pick="pickDay"/>
     </div>
   </div>
 </template>
@@ -62,7 +62,7 @@ import fecha from 'element-ui/src/utils/date';
 import ElButton from 'element-ui/packages/button';
 import ElButtonGroup from 'element-ui/packages/button-group';
 import DateTable from './date-table';
-import { validateRangeInOneMonth } from 'element-ui/src/utils/date-util';
+import {validateRangeInOneMonth} from 'element-ui/src/utils/date-util';
 
 const validTypes = ['prev-month', 'today', 'next-month'];
 const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -86,9 +86,9 @@ export default {
       validator(range) {
         if (Array.isArray(range)) {
           return range.length === 2 && range.every(
-            item => typeof item === 'string' ||
-            typeof item === 'number' ||
-            item instanceof Date);
+              item => typeof item === 'string' ||
+                  typeof item === 'number' ||
+                  item instanceof Date);
         } else {
           return true;
         }

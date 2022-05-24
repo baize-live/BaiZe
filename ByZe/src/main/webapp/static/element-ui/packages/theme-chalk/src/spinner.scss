@@ -9,6 +9,7 @@
   display: inline-block;
   vertical-align: middle;
 }
+
 @include b(spinner-inner) {
   animation: rotate 2s linear infinite;
   width: 50px;

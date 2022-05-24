@@ -130,15 +130,24 @@ create event clearVerifyOver5min on schedule every 60 second
     from Verify
     where createTime < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 300 second);
 
+-- 创建一个存储过程
+create procedure setNowStorage(in ID int, in Storage int)
+BEGIN
+    update PanData set nowStorage = Storage where uid = ID;
+END;
 
-# # 关闭事件  clearVerifyOver5min ---> eventName
-# alter event clearVerifyOver5min disable;
-# # 开启事件
-# alter event clearVerifyOver5min enable;
-# # 删除事件
-# drop event if exists clearVerifyOver5min;
-# # 查看事件
-# show events;
+call setNowStorage(10000000, 0);
+commit;
 
-# insert into Verify (email, verifyCode) value ('192176794@qq.com', '123456');
-# insert into Verify (email, verifyCode) value ('164613454@qq.com', '123456');
+
+-- # 关闭事件  clearVerifyOver5min ---> eventName
+-- alter event clearVerifyOver5min disable;
+-- # 开启事件
+-- alter event clearVerifyOver5min enable;
+-- # 删除事件
+-- drop event if exists clearVerifyOver5min;
+-- # 查看事件
+-- show events;
+
+-- insert into Verify (email, verifyCode) value ('192176794@qq.com', '123456');
+-- insert into Verify (email, verifyCode) value ('164613454@qq.com', '123456');

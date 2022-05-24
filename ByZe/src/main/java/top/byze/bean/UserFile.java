@@ -10,6 +10,12 @@ public class UserFile {
     private String fileDir;
     private String deleteTime;
 
+    public UserFile(int UID, String fileName, String fileDir) {
+        this.UID = UID;
+        this.fileName = fileName;
+        this.fileDir = fileDir;
+    }
+
     public String getUFID() {
         return UFID;
     }

@@ -142,6 +142,7 @@ $directions: rtl, ltr, ttb, btt;
     margin-bottom: 32px;
     padding: $--dialog-padding-primary;
     padding-bottom: 0;
+
     & > :first-child {
       flex: 1;
     }
@@ -164,6 +165,7 @@ $directions: rtl, ltr, ttb, btt;
 
   &__body {
     flex: 1;
+
     & > * {
       box-sizing: border-box;
     }

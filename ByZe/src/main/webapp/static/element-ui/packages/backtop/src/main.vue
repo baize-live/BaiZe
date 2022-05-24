@@ -1,13 +1,13 @@
 <template>
   <transition name="el-fade-in">
     <div
-      v-if="visible"
-      @click.stop="handleClick"
-      :style="{
+        v-if="visible"
+        :style="{
         'right': styleRight,
         'bottom': styleBottom
       }"
-      class="el-backtop">
+        class="el-backtop"
+        @click.stop="handleClick">
       <slot>
         <el-icon name="caret-top"></el-icon>
       </slot>
@@ -20,8 +20,8 @@ import throttle from 'throttle-debounce/throttle';
 
 const cubic = value => Math.pow(value, 3);
 const easeInOutCubic = value => value < 0.5
-  ? cubic(value * 2) / 2
-  : 1 - cubic((1 - value) * 2) / 2;
+    ? cubic(value * 2) / 2
+    : 1 - cubic((1 - value) * 2) / 2;
 
 export default {
   name: 'ElBacktop',

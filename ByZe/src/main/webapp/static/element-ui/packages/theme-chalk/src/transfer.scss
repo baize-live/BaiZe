@@ -100,7 +100,7 @@
 
     & + .el-transfer-panel__item {
       margin-left: 0;
-      display: block!important;
+      display: block !important;
     }
 
     &.el-checkbox {
@@ -219,6 +219,7 @@
     height: 14px;
     width: 14px;
     border-radius: 3px;
+
     &::after {
       height: 6px;
       width: 3px;

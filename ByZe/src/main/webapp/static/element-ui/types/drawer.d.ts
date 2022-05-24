@@ -1,7 +1,8 @@
-import { ElementUIComponent } from './component'
-import { VNode } from 'vue'
+import {ElementUIComponent} from './component'
+import {VNode} from 'vue'
 
 type hide = (shouldCancel: boolean) => void
+
 declare enum Direction {
     LTR = 'ltr', // left to right
     RTL = 'rtl', // right to left
@@ -18,6 +19,7 @@ interface DrawerSlots {
 
     [key: string]: VNode[]
 }
+
 /** Drawer Component */
 export declare class ElDrawer extends ElementUIComponent {
     /* Equivalent to `Dialog`'s append to body attribute, when applying nested drawer, make sure this one is set to true */

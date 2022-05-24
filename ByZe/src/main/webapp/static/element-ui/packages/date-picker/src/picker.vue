@@ -1,84 +1,84 @@
 <template>
   <el-input
-    class="el-date-editor"
-    :class="'el-date-editor--' + type"
-    :readonly="!editable || readonly || type === 'dates' || type === 'week'"
-    :disabled="pickerDisabled"
-    :size="pickerSize"
-    :name="name"
-    v-bind="firstInputId"
-    v-if="!ranged"
-    v-clickoutside="handleClose"
-    :placeholder="placeholder"
-    @focus="handleFocus"
-    @keydown.native="handleKeydown"
-    :value="displayValue"
-    @input="value => userInput = value"
-    @change="handleChange"
-    @mouseenter.native="handleMouseEnter"
-    @mouseleave.native="showClose = false"
-    :validateEvent="false"
-    ref="reference">
+      v-if="!ranged"
+      ref="reference"
+      v-clickoutside="handleClose"
+      :class="'el-date-editor--' + type"
+      :disabled="pickerDisabled"
+      :name="name"
+      :placeholder="placeholder"
+      :readonly="!editable || readonly || type === 'dates' || type === 'week'"
+      :size="pickerSize"
+      :validateEvent="false"
+      :value="displayValue"
+      class="el-date-editor"
+      v-bind="firstInputId"
+      @change="handleChange"
+      @focus="handleFocus"
+      @input="value => userInput = value"
+      @keydown.native="handleKeydown"
+      @mouseenter.native="handleMouseEnter"
+      @mouseleave.native="showClose = false">
     <i slot="prefix"
-      class="el-input__icon"
-      :class="triggerClass"
-      @click="handleFocus">
+       :class="triggerClass"
+       class="el-input__icon"
+       @click="handleFocus">
     </i>
-    <i slot="suffix"
-      class="el-input__icon"
-      @click="handleClickIcon"
-      :class="[showClose ? '' + clearIcon : '']"
-      v-if="haveTrigger">
+    <i v-if="haveTrigger"
+       slot="suffix"
+       :class="[showClose ? '' + clearIcon : '']"
+       class="el-input__icon"
+       @click="handleClickIcon">
     </i>
   </el-input>
   <div
-    class="el-date-editor el-range-editor el-input__inner"
-    :class="[
+      v-else
+      ref="reference"
+      v-clickoutside="handleClose"
+      :class="[
       'el-date-editor--' + type,
       pickerSize ? `el-range-editor--${ pickerSize }` : '',
       pickerDisabled ? 'is-disabled' : '',
       pickerVisible ? 'is-active' : ''
     ]"
-    @click="handleRangeClick"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="showClose = false"
-    @keydown="handleKeydown"
-    ref="reference"
-    v-clickoutside="handleClose"
-    v-else>
+      class="el-date-editor el-range-editor el-input__inner"
+      @click="handleRangeClick"
+      @keydown="handleKeydown"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="showClose = false">
     <i :class="['el-input__icon', 'el-range__icon', triggerClass]"></i>
     <input
-      autocomplete="off"
-      :placeholder="startPlaceholder"
-      :value="displayValue && displayValue[0]"
-      :disabled="pickerDisabled"
-      v-bind="firstInputId"
-      :readonly="!editable || readonly"
-      :name="name && name[0]"
-      @input="handleStartInput"
-      @change="handleStartChange"
-      @focus="handleFocus"
-      class="el-range-input">
+        :disabled="pickerDisabled"
+        :name="name && name[0]"
+        :placeholder="startPlaceholder"
+        :readonly="!editable || readonly"
+        :value="displayValue && displayValue[0]"
+        autocomplete="off"
+        class="el-range-input"
+        v-bind="firstInputId"
+        @change="handleStartChange"
+        @focus="handleFocus"
+        @input="handleStartInput">
     <slot name="range-separator">
       <span class="el-range-separator">{{ rangeSeparator }}</span>
     </slot>
     <input
-      autocomplete="off"
-      :placeholder="endPlaceholder"
-      :value="displayValue && displayValue[1]"
-      :disabled="pickerDisabled"
-      v-bind="secondInputId"
-      :readonly="!editable || readonly"
-      :name="name && name[1]"
-      @input="handleEndInput"
-      @change="handleEndChange"
-      @focus="handleFocus"
-      class="el-range-input">
+        :disabled="pickerDisabled"
+        :name="name && name[1]"
+        :placeholder="endPlaceholder"
+        :readonly="!editable || readonly"
+        :value="displayValue && displayValue[1]"
+        autocomplete="off"
+        class="el-range-input"
+        v-bind="secondInputId"
+        @change="handleEndChange"
+        @focus="handleFocus"
+        @input="handleEndInput">
     <i
-      @click="handleClickIcon"
-      v-if="haveTrigger"
-      :class="[showClose ? '' + clearIcon : '']"
-      class="el-input__icon el-range__close-icon">
+        v-if="haveTrigger"
+        :class="[showClose ? '' + clearIcon : '']"
+        class="el-input__icon el-range__close-icon"
+        @click="handleClickIcon">
     </i>
   </div>
 </template>
@@ -86,7 +86,7 @@
 <script>
 import Vue from 'vue';
 import Clickoutside from 'element-ui/src/utils/clickoutside';
-import { formatDate, parseDate, isDateObject, getWeekNumber } from 'element-ui/src/utils/date-util';
+import {formatDate, getWeekNumber, isDateObject, parseDate} from 'element-ui/src/utils/date-util';
 import Popper from 'element-ui/src/utils/vue-popper';
 import Emitter from 'element-ui/src/mixins/emitter';
 import ElInput from 'element-ui/packages/input';
@@ -101,7 +101,7 @@ const NewPopper = {
   },
   methods: Popper.methods,
   data() {
-    return merge({ visibleArrow: true }, Popper.data);
+    return merge({visibleArrow: true}, Popper.data);
   },
   beforeDestroy: Popper.beforeDestroy
 };
@@ -132,15 +132,15 @@ const HAVE_TRIGGER_TYPES = [
   'datetimerange',
   'dates'
 ];
-const DATE_FORMATTER = function(value, format) {
+const DATE_FORMATTER = function (value, format) {
   if (format === 'timestamp') return value.getTime();
   return formatDate(value, format);
 };
-const DATE_PARSER = function(text, format) {
+const DATE_PARSER = function (text, format) {
   if (format === 'timestamp') return new Date(Number(text));
   return parseDate(text, format);
 };
-const RANGE_FORMATTER = function(value, format) {
+const RANGE_FORMATTER = function (value, format) {
   if (Array.isArray(value) && value.length === 2) {
     const start = value[0];
     const end = value[1];
@@ -151,7 +151,7 @@ const RANGE_FORMATTER = function(value, format) {
   }
   return '';
 };
-const RANGE_PARSER = function(array, format, separator) {
+const RANGE_PARSER = function (array, format, separator) {
   if (!Array.isArray(array)) {
     array = array.split(separator);
   }
@@ -186,8 +186,8 @@ const TYPE_VALUE_RESOLVER_MAP = {
       let date = formatDate(trueDate, format);
 
       date = /WW/.test(date)
-        ? date.replace(/WW/, week < 10 ? '0' + week : week)
-        : date.replace(/W/, week);
+          ? date.replace(/WW/, week < 10 ? '0' + week : week)
+          : date.replace(/W/, week);
       return date;
     },
     parser(text, format) {
@@ -252,7 +252,7 @@ const TYPE_VALUE_RESOLVER_MAP = {
     },
     parser(value, format) {
       return (typeof value === 'string' ? value.split(', ') : value)
-        .map(date => date instanceof Date ? date : DATE_PARSER(date, format));
+          .map(date => date instanceof Date ? date : DATE_PARSER(date, format));
     }
   }
 };
@@ -265,8 +265,8 @@ const PLACEMENT_MAP = {
 const parseAsFormatAndType = (value, customFormat, type, rangeSeparator = '-') => {
   if (!value) return null;
   const parser = (
-    TYPE_VALUE_RESOLVER_MAP[type] ||
-    TYPE_VALUE_RESOLVER_MAP['default']
+      TYPE_VALUE_RESOLVER_MAP[type] ||
+      TYPE_VALUE_RESOLVER_MAP['default']
   ).parser;
   const format = customFormat || DEFAULT_FORMATS[type];
   return parser(value, format, rangeSeparator);
@@ -275,8 +275,8 @@ const parseAsFormatAndType = (value, customFormat, type, rangeSeparator = '-') =
 const formatAsFormatAndType = (value, customFormat, type) => {
   if (!value) return null;
   const formatter = (
-    TYPE_VALUE_RESOLVER_MAP[type] ||
-    TYPE_VALUE_RESOLVER_MAP['default']
+      TYPE_VALUE_RESOLVER_MAP[type] ||
+      TYPE_VALUE_RESOLVER_MAP['default']
   ).formatter;
   const format = customFormat || DEFAULT_FORMATS[type];
   return formatter(value, format);
@@ -288,9 +288,9 @@ const formatAsFormatAndType = (value, customFormat, type) => {
  *   2. date string
  *   3. array of 1 or 2
  */
-const valueEquals = function(a, b) {
+const valueEquals = function (a, b) {
   // considers Date object and string
-  const dateEquals = function(a, b) {
+  const dateEquals = function (a, b) {
     const aIsDate = a instanceof Date;
     const bIsDate = b instanceof Date;
     if (aIsDate && bIsDate) {
@@ -316,17 +316,17 @@ const valueEquals = function(a, b) {
   return false;
 };
 
-const isString = function(val) {
+const isString = function (val) {
   return typeof val === 'string' || val instanceof String;
 };
 
-const validator = function(val) {
+const validator = function (val) {
   // either: String, Array of String, null / undefined
   return (
-    val === null ||
-    val === undefined ||
-    isString(val) ||
-    (Array.isArray(val) && val.length === 2 && val.every(isString))
+      val === null ||
+      val === undefined ||
+      isString(val) ||
+      (Array.isArray(val) && val.length === 2 && val.every(isString))
   );
 };
 
@@ -391,9 +391,9 @@ export default {
     }
   },
 
-  components: { ElInput },
+  components: {ElInput},
 
-  directives: { Clickoutside },
+  directives: {Clickoutside},
 
   data() {
     return {
@@ -512,8 +512,8 @@ export default {
         return this.userInput;
       } else if (formattedValue) {
         return this.type === 'dates'
-          ? formattedValue.join(', ')
-          : formattedValue;
+            ? formattedValue.join(', ')
+            : formattedValue;
       } else {
         return '';
       }
@@ -861,7 +861,7 @@ export default {
         }
       };
       updateOptions();
-      this.unwatchPickerOptions = this.$watch('pickerOptions', () => updateOptions(), { deep: true });
+      this.unwatchPickerOptions = this.$watch('pickerOptions', () => updateOptions(), {deep: true});
       this.$el.appendChild(this.picker.$el);
       this.picker.resetView && this.picker.resetView();
 

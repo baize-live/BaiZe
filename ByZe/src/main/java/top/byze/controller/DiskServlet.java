@@ -1,7 +1,6 @@
 package top.byze.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import top.byze.utils.FilterUtil;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,21 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @WebServlet(value = "/disk")
 public class DiskServlet extends HttpServlet {
-    // 业务类型
-    private static class Business {
-        final static String initData = "201";
-        final static String downloadFile = "202";
-        final static String updateFileList = "203";
-        final static String deleteFile = "204";
-        final static String lookupBin = "205";
-        final static String clearBin = "206";
-        final static String clearUserFile = "207";
-        final static String recoveryFile = "208";
-        final static String attributes = "209";
-        final static String getFriend = "210";
-        final static String modifyAttributes = "211";
-    }
-
     // 前端数据异常
     private void doException() {
         log.error("前端数据异常");
@@ -82,6 +66,21 @@ public class DiskServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) {
         doWork(req, res);
+    }
+
+    // 业务类型
+    private static class Business {
+        final static String initData = "201";
+        final static String downloadFile = "202";
+        final static String updateFileList = "203";
+        final static String deleteFile = "204";
+        final static String lookupBin = "205";
+        final static String clearBin = "206";
+        final static String clearUserFile = "207";
+        final static String recoveryFile = "208";
+        final static String attributes = "209";
+        final static String getFriend = "210";
+        final static String modifyAttributes = "211";
     }
 
 }

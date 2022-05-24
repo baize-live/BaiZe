@@ -1,16 +1,16 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Backtop Component */
 export declare class ElBacktop extends ElementUIComponent {
-  /** Backtop target */
-  target: string
-  
-  /** Backtop visibility height */
-  visibilityHeight: string | number
+    /** Backtop target */
+    target: string
 
-  /** Backtop right position */
-  right: string | number
+    /** Backtop visibility height */
+    visibilityHeight: string | number
 
-  /** Backtop bottom position */
-  bottom: string | number
+    /** Backtop right position */
+    right: string | number
+
+    /** Backtop bottom position */
+    bottom: string | number
 }

@@ -2,7 +2,6 @@ package top.byze.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
-import top.byze.bean.User;
 import top.byze.mapper.UserMapper;
 import top.byze.mapper.VerifyMapper;
 import top.byze.utils.MailUtil;
@@ -10,19 +9,12 @@ import top.byze.utils.MyBatis;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Random;
 
 @Slf4j
 public class Register {
     HttpServletRequest req;
     HttpServletResponse res;
-
-    private static class Res {
-        final static String TRUE = "1";
-        final static String FALSE = "0";
-    }
 
     public Register(HttpServletRequest req, HttpServletResponse res) {
         this.req = req;
@@ -143,7 +135,11 @@ public class Register {
             }
         } catch (Exception e) {
             log.info(email + " 注册异常");
-
         }
+    }
+
+    private static class Res {
+        final static String TRUE = "1";
+        final static String FALSE = "0";
     }
 }

@@ -1,53 +1,53 @@
 <template>
   <div
-    class="el-upload-dragger"
-    :class="{
+      :class="{
       'is-dragover': dragover
     }"
-    @drop.prevent="onDrop"
-    @dragover.prevent="onDragover"
-    @dragleave.prevent="dragover = false"
+      class="el-upload-dragger"
+      @drop.prevent="onDrop"
+      @dragover.prevent="onDragover"
+      @dragleave.prevent="dragover = false"
   >
     <slot></slot>
   </div>
 </template>
 <script>
-  export default {
-    name: 'ElUploadDrag',
-    props: {
-      disabled: Boolean
-    },
-    inject: {
-      uploader: {
-        default: ''
+export default {
+  name: 'ElUploadDrag',
+  props: {
+    disabled: Boolean
+  },
+  inject: {
+    uploader: {
+      default: ''
+    }
+  },
+  data() {
+    return {
+      dragover: false
+    };
+  },
+  methods: {
+    onDragover() {
+      if (!this.disabled) {
+        this.dragover = true;
       }
     },
-    data() {
-      return {
-        dragover: false
-      };
-    },
-    methods: {
-      onDragover() {
-        if (!this.disabled) {
-          this.dragover = true;
-        }
-      },
-      onDrop(e) {
-        if (this.disabled || !this.uploader) return;
-        const accept = this.uploader.accept;
-        this.dragover = false;
-        if (!accept) {
-          this.$emit('file', e.dataTransfer.files);
-          return;
-        }
-        this.$emit('file', [].slice.call(e.dataTransfer.files).filter(file => {
-          const { type, name } = file;
-          const extension = name.indexOf('.') > -1
-            ? `.${ name.split('.').pop() }`
+    onDrop(e) {
+      if (this.disabled || !this.uploader) return;
+      const accept = this.uploader.accept;
+      this.dragover = false;
+      if (!accept) {
+        this.$emit('file', e.dataTransfer.files);
+        return;
+      }
+      this.$emit('file', [].slice.call(e.dataTransfer.files).filter(file => {
+        const {type, name} = file;
+        const extension = name.indexOf('.') > -1
+            ? `.${name.split('.').pop()}`
             : '';
-          const baseType = type.replace(/\/.*$/, '');
-          return accept.split(',')
+        const baseType = type.replace(/\/.*$/, '');
+        return accept.split(',')
             .map(type => type.trim())
             .filter(type => type)
             .some(acceptedType => {
@@ -62,9 +62,9 @@
               }
               return false;
             });
-        }));
-      }
+      }));
     }
-  };
+  }
+};
 </script>
 

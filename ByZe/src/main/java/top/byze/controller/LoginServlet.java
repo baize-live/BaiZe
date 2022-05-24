@@ -10,15 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @WebServlet(value = "/login")
 public class LoginServlet extends HttpServlet {
-    // 业务类型
-    private static class Business {
-        final static String IsOpenPan = "105";
-        final static String OpenPan = "106";
-        final static String IsOpenYou = "107";
-        final static String OpenYou = "108";
-        final static String LOGOUT = "109";
-    }
-
     // 前端数据异常
     private void doException() {
         log.error("前端数据异常");
@@ -53,13 +44,17 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) {
+    protected void doPost(HttpServletRequest req, HttpServletResponse res) {
         doWork(req, res);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) {
-        doWork(req, res);
+    // 业务类型
+    private static class Business {
+        final static String IsOpenPan = "105";
+        final static String OpenPan = "106";
+        final static String IsOpenYou = "107";
+        final static String OpenYou = "108";
+        final static String LOGOUT = "109";
     }
 
 

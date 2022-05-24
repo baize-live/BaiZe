@@ -1,20 +1,20 @@
 <template>
-  <footer class="el-footer" :style="{ height }">
+  <footer :style="{ height }" class="el-footer">
     <slot></slot>
   </footer>
 </template>
 
 <script>
-  export default {
-    name: 'ElFooter',
+export default {
+  name: 'ElFooter',
 
-    componentName: 'ElFooter',
+  componentName: 'ElFooter',
 
-    props: {
-      height: {
-        type: String,
-        default: '60px'
-      }
+  props: {
+    height: {
+      type: String,
+      default: '60px'
     }
-  };
+  }
+};
 </script>

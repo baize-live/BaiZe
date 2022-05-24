@@ -1,20 +1,20 @@
 <template>
   <span>
     <transition
-      :name="transition"
-      @after-enter="handleAfterEnter"
-      @after-leave="handleAfterLeave">
+        :name="transition"
+        @after-enter="handleAfterEnter"
+        @after-leave="handleAfterLeave">
       <div
-        class="el-popover el-popper"
-        :class="[popperClass, content && 'el-popover--plain']"
-        ref="popper"
-        v-show="!disabled && showPopper"
-        :style="{ width: width + 'px' }"
-        role="tooltip"
-        :id="tooltipId"
-        :aria-hidden="(disabled || !showPopper) ? 'true' : 'false'"
+          v-show="!disabled && showPopper"
+          :id="tooltipId"
+          ref="popper"
+          :aria-hidden="(disabled || !showPopper) ? 'true' : 'false'"
+          :class="[popperClass, content && 'el-popover--plain']"
+          :style="{ width: width + 'px' }"
+          class="el-popover el-popper"
+          role="tooltip"
       >
-        <div class="el-popover__title" v-if="title" v-text="title"></div>
+        <div v-if="title" class="el-popover__title" v-text="title"></div>
         <slot>{{ content }}</slot>
       </div>
     </transition>
@@ -23,9 +23,8 @@
 </template>
 <script>
 import Popper from 'element-ui/src/utils/vue-popper';
-import { on, off } from 'element-ui/src/utils/dom';
-import { addClass, removeClass } from 'element-ui/src/utils/dom';
-import { generateId } from 'element-ui/src/utils/util';
+import {addClass, off, on, removeClass} from 'element-ui/src/utils/dom';
+import {generateId} from 'element-ui/src/utils/util';
 
 export default {
   name: 'ElPopover',
@@ -196,11 +195,11 @@ export default {
         reference = this.referenceElm = this.$slots.reference[0].elm;
       }
       if (!this.$el ||
-        !reference ||
-        this.$el.contains(e.target) ||
-        reference.contains(e.target) ||
-        !popper ||
-        popper.contains(e.target)) return;
+          !reference ||
+          this.$el.contains(e.target) ||
+          reference.contains(e.target) ||
+          !popper ||
+          popper.contains(e.target)) return;
       this.showPopper = false;
     },
     handleAfterEnter() {

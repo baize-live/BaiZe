@@ -25,7 +25,7 @@
   }
 
   @include e(body) {
-    border-radius:2px;
+    border-radius: 2px;
     border: 1px solid $--datepicker-border-color;
   }
 }

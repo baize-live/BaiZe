@@ -1,16 +1,16 @@
 <template>
   <div
-    :class="[
+      :class="[
       'el-cascader-panel',
       border && 'is-bordered'
     ]"
-    @keydown="handleKeyDown">
+      @keydown="handleKeyDown">
     <cascader-menu
-      ref="menu"
-      v-for="(menu, index) in menus"
-      :index="index"
-      :key="index"
-      :nodes="menu"></cascader-menu>
+        v-for="(menu, index) in menus"
+        :key="index"
+        ref="menu"
+        :index="index"
+        :nodes="menu"></cascader-menu>
   </div>
 </template>
 
@@ -20,15 +20,9 @@ import Store from './store';
 import merge from 'element-ui/src/utils/merge';
 import AriaUtils from 'element-ui/src/utils/aria-utils';
 import scrollIntoView from 'element-ui/src/utils/scroll-into-view';
-import {
-  noop,
-  coerceTruthyValueToArray,
-  isEqual,
-  isEmpty,
-  valueEquals
-} from 'element-ui/src/utils/util';
+import {coerceTruthyValueToArray, isEmpty, isEqual, noop, valueEquals} from 'element-ui/src/utils/util';
 
-const { keys: KeyCode } = AriaUtils;
+const {keys: KeyCode} = AriaUtils;
 const DefaultProps = {
   expandTrigger: 'click', // or hover
   multiple: false,
@@ -47,7 +41,7 @@ const DefaultProps = {
 const isLeaf = el => !el.getAttribute('aria-owns');
 
 const getSibling = (el, distance) => {
-  const { parentNode } = el;
+  const {parentNode} = el;
   if (parentNode) {
     const siblings = parentNode.querySelectorAll('.el-cascader-node[tabindex="-1"]');
     const index = Array.prototype.indexOf.call(siblings, el);
@@ -116,7 +110,7 @@ export default {
 
   computed: {
     config() {
-      return merge({ ...DefaultProps }, this.props || {});
+      return merge({...DefaultProps}, this.props || {});
     },
     multiple() {
       return this.config.multiple;
@@ -137,7 +131,7 @@ export default {
 
   watch: {
     options: {
-      handler: function() {
+      handler: function () {
         this.initStore();
       },
       immediate: true,
@@ -164,7 +158,7 @@ export default {
 
   methods: {
     initStore() {
-      const { config, options } = this;
+      const {config, options} = this;
       if (config.lazy && isEmpty(options)) {
         this.lazyLoad();
       } else {
@@ -174,14 +168,14 @@ export default {
       }
     },
     syncCheckedValue() {
-      const { value, checkedValue } = this;
+      const {value, checkedValue} = this;
       if (!isEqual(value, checkedValue)) {
         this.checkedValue = value;
         this.syncMenuState();
       }
     },
     syncMenuState() {
-      const { multiple, checkStrictly } = this;
+      const {multiple, checkStrictly} = this;
       this.syncActivePath();
       multiple && this.syncMultiCheckState();
       checkStrictly && this.calculateCheckedNodePaths();
@@ -195,7 +189,7 @@ export default {
       });
     },
     syncActivePath() {
-      const { store, multiple, activePath, checkedValue } = this;
+      const {store, multiple, activePath, checkedValue} = this;
 
       if (!isEmpty(activePath)) {
         const nodes = activePath.map(node => this.getNodeByValue(node.getValue()));
@@ -214,17 +208,17 @@ export default {
       nodes.forEach(node => this.handleExpand(node, true /* silent */));
     },
     calculateCheckedNodePaths() {
-      const { checkedValue, multiple } = this;
+      const {checkedValue, multiple} = this;
       const checkedValues = multiple
-        ? coerceTruthyValueToArray(checkedValue)
-        : [ checkedValue ];
+          ? coerceTruthyValueToArray(checkedValue)
+          : [checkedValue];
       this.checkedNodePaths = checkedValues.map(v => {
         const checkedNode = this.getNodeByValue(v);
         return checkedNode ? checkedNode.pathNodes : [];
       });
     },
     handleKeyDown(e) {
-      const { target, keyCode } = e;
+      const {target, keyCode} = e;
 
       switch (keyCode) {
         case KeyCode.up:
@@ -261,8 +255,8 @@ export default {
       }
     },
     handleExpand(node, silent) {
-      const { activePath } = this;
-      const { level } = node;
+      const {activePath} = this;
+      const {level} = node;
       const path = activePath.slice(0, level - 1);
       const menus = this.menus.slice(0, level);
 
@@ -287,9 +281,9 @@ export default {
       this.checkedValue = value;
     },
     lazyLoad(node, onFullfiled) {
-      const { config } = this;
+      const {config} = this;
       if (!node) {
-        node = node || { root: true, level: 0 };
+        node = node || {root: true, level: 0};
         this.store = new Store([], config);
         this.menus = [this.store.getNodes()];
       }
@@ -328,10 +322,10 @@ export default {
 
     /**
      * public methods
-    */
+     */
     calculateMultiCheckedValue() {
       this.checkedValue = this.getCheckedNodes(this.leafOnly)
-        .map(node => node.getValueByOption());
+          .map(node => node.getValueByOption());
     },
     scrollIntoView() {
       if (this.$isServer) return;
@@ -342,7 +336,7 @@ export default {
         if (menuElement) {
           const container = menuElement.querySelector('.el-scrollbar__wrap');
           const activeNode = menuElement.querySelector('.el-cascader-node.is-active') ||
-            menuElement.querySelector('.el-cascader-node.in-active-path');
+              menuElement.querySelector('.el-cascader-node.in-active-path');
           scrollIntoView(container, activeNode);
         }
       });
@@ -355,23 +349,23 @@ export default {
       return this.store.getFlattedNodes(leafOnly, cached);
     },
     getCheckedNodes(leafOnly) {
-      const { checkedValue, multiple } = this;
+      const {checkedValue, multiple} = this;
       if (multiple) {
         const nodes = this.getFlattedNodes(leafOnly);
         return nodes.filter(node => node.checked);
       } else {
         return isEmpty(checkedValue)
-          ? []
-          : [this.getNodeByValue(checkedValue)];
+            ? []
+            : [this.getNodeByValue(checkedValue)];
       }
     },
     clearCheckedNodes() {
-      const { config, leafOnly } = this;
-      const { multiple, emitPath } = config;
+      const {config, leafOnly} = this;
+      const {multiple, emitPath} = config;
       if (multiple) {
         this.getCheckedNodes(leafOnly)
-          .filter(node => !node.isDisabled)
-          .forEach(node => node.doCheck(false));
+            .filter(node => !node.isDisabled)
+            .forEach(node => node.doCheck(false));
         this.calculateMultiCheckedValue();
       } else {
         this.checkedValue = emitPath ? [] : null;

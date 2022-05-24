@@ -1,29 +1,28 @@
-import { ElementUIComponent } from './component'
-import { ElPopover } from './popover'
+import {ElPopover} from './popover'
 
 /** Popconfirm Component */
 export declare class ElPopconfirm extends ElPopover {
-  /** Popconfirm title */
-  title: string
+    /** Popconfirm title */
+    title: string
 
-  /** Popconfirm ok text */
-  confirmButtonText: string
-  
-  /** Popconfirm cancel text */
-  cancelButtonText: string
+    /** Popconfirm ok text */
+    confirmButtonText: string
 
-  /** Popconfirm ok type */
-  confirmButtonType: string
+    /** Popconfirm cancel text */
+    cancelButtonText: string
 
-  /** Popconfirm cancal type */
-  cancelButtonType: string
+    /** Popconfirm ok type */
+    confirmButtonType: string
 
-  /** Popconfirm icon */
-  icon: string
+    /** Popconfirm cancal type */
+    cancelButtonType: string
 
-  /** Popconfirm icon color */
-  iconColor: string
+    /** Popconfirm icon */
+    icon: string
 
-  /** Popconfirm hide icon */
-  hideIcon: boolean
+    /** Popconfirm icon color */
+    iconColor: string
+
+    /** Popconfirm hide icon */
+    hideIcon: boolean
 }

@@ -1,38 +1,38 @@
 <template>
   <el-popover
-    v-bind="$attrs"
-    v-model="visible"
-    trigger="click"
+      v-model="visible"
+      trigger="click"
+      v-bind="$attrs"
   >
-  <div class="el-popconfirm">
-    <p class="el-popconfirm__main">
-    <i
-      v-if="!hideIcon"
-      :class="icon"
-      class="el-popconfirm__icon"
-      :style="{color: iconColor}"
-    ></i>
-      {{title}}
-    </p>
-    <div class="el-popconfirm__action">
-      <el-button 
-        size="mini" 
-        :type="cancelButtonType" 
-        @click="cancel"
-      >
-        {{cancelButtonText}}
-      </el-button>
-      <el-button 
-        size="mini" 
-        :type="confirmButtonType" 
-        @click="confirm"
-      >
-        {{confirmButtonText}}
-      </el-button>
+    <div class="el-popconfirm">
+      <p class="el-popconfirm__main">
+        <i
+            v-if="!hideIcon"
+            :class="icon"
+            :style="{color: iconColor}"
+            class="el-popconfirm__icon"
+        ></i>
+        {{ title }}
+      </p>
+      <div class="el-popconfirm__action">
+        <el-button
+            :type="cancelButtonType"
+            size="mini"
+            @click="cancel"
+        >
+          {{ cancelButtonText }}
+        </el-button>
+        <el-button
+            :type="confirmButtonType"
+            size="mini"
+            @click="confirm"
+        >
+          {{ confirmButtonText }}
+        </el-button>
+      </div>
     </div>
-  </div>
-  <slot name="reference" slot="reference"></slot>
-</el-popover>
+    <slot slot="reference" name="reference"></slot>
+  </el-popover>
 </template>
 
 <script>

@@ -1,6 +1,13 @@
 <script>
 import fecha from 'element-ui/src/utils/date';
-import { range as rangeArr, getFirstDayOfMonth, getPrevMonthLastDays, getMonthDays, getI18nSettings, validateRangeInOneMonth } from 'element-ui/src/utils/date-util';
+import {
+  getFirstDayOfMonth,
+  getI18nSettings,
+  getMonthDays,
+  getPrevMonthLastDays,
+  range as rangeArr,
+  validateRangeInOneMonth
+} from 'element-ui/src/utils/date-util';
 
 export default {
   props: {
@@ -48,7 +55,7 @@ export default {
       return `${prefix}-${day}`;
     },
 
-    getCellClass({ text, type}) {
+    getCellClass({text, type}) {
       const classes = [type];
       if (type === 'current') {
         const date = this.getFormateDate(text, type);
@@ -62,14 +69,14 @@ export default {
       return classes;
     },
 
-    pickDay({ text, type }) {
+    pickDay({text, type}) {
       const date = this.getFormateDate(text, type);
       this.$emit('pick', date);
     },
 
-    cellRenderProxy({ text, type }) {
+    cellRenderProxy({text, type}) {
       let render = this.elCalendar.$scopedSlots.dateCell;
-      if (!render) return <span>{ text }</span>;
+      if (!render) return <span>{text}</span>;
 
       const day = this.getFormateDate(text, type);
       const date = new Date(day);
@@ -78,7 +85,7 @@ export default {
         type: `${type}-month`,
         day
       };
-      return render({ date, data });
+      return render({date, data});
     }
   },
 
@@ -147,7 +154,7 @@ export default {
 
     weekDays() {
       const start = this.firstDayOfWeek;
-      const { WEEK_DAYS } = this;
+      const {WEEK_DAYS} = this;
 
       if (typeof start !== 'number' || start === 0) {
         return WEEK_DAYS.slice();
@@ -159,33 +166,33 @@ export default {
 
   render() {
     const thead = this.hideHeader ? null : (<thead>
-      {
-        this.weekDays.map(day => <th key={day}>{ day }</th>)
-      }
+    {
+      this.weekDays.map(day => <th key={day}>{day}</th>)
+    }
     </thead>);
     return (
-      <table
-        class={{
-          'el-calendar-table': true,
-          'is-range': this.isInRange
-        }}
-        cellspacing="0"
-        cellpadding="0">
-        {
-          thead
-        }
-        <tbody>
+        <table
+            class={{
+              'el-calendar-table': true,
+              'is-range': this.isInRange
+            }}
+            cellspacing="0"
+            cellpadding="0">
+          {
+            thead
+          }
+          <tbody>
           {
             this.rows.map((row, index) => <tr
-              class={{
-                'el-calendar-table__row': true,
-                'el-calendar-table__row--hide-border': index === 0 && this.hideHeader
-              }}
-              key={index}>
+                class={{
+                  'el-calendar-table__row': true,
+                  'el-calendar-table__row--hide-border': index === 0 && this.hideHeader
+                }}
+                key={index}>
               {
                 row.map((cell, key) => <td key={key}
-                  class={ this.getCellClass(cell) }
-                  onClick={this.pickDay.bind(this, cell)}>
+                                           class={this.getCellClass(cell)}
+                                           onClick={this.pickDay.bind(this, cell)}>
                   <div class="el-calendar-day">
                     {
                       this.cellRenderProxy(cell)
@@ -195,8 +202,8 @@ export default {
               }
             </tr>)
           }
-        </tbody>
-      </table>);
+          </tbody>
+        </table>);
   }
 };
 </script>

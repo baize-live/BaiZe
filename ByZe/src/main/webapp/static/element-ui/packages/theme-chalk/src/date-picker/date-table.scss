@@ -11,14 +11,17 @@
         div {
           background-color: $--datepicker-inrange-background-color;
         }
+
         td.available:hover {
           color: $--datepicker-font-color;
         }
+
         td:first-child div {
           margin-left: 5px;
           border-top-left-radius: 15px;
           border-bottom-left-radius: 15px;
         }
+
         td:last-child div {
           margin-right: 5px;
           border-top-right-radius: 15px;
@@ -66,10 +69,12 @@
 
     &.today {
       position: relative;
+
       span {
         color: $--color-primary;
         font-weight: bold;
       }
+
       &.start-date span,
       &.end-date span {
         color: $--color-white;
@@ -82,6 +87,7 @@
 
     &.in-range div {
       background-color: $--datepicker-inrange-background-color;
+
       &:hover {
         background-color: $--datepicker-inrange-hover-background-color;
       }
@@ -91,6 +97,7 @@
       color: $--color-white;
       background-color: $--datepicker-active-color;
     }
+
     &.start-date div,
     &.end-date div {
       color: $--color-white;
@@ -125,6 +132,7 @@
       margin-right: 5px;
       background-color: $--datepicker-inrange-background-color;
       border-radius: 15px;
+
       &:hover {
         background-color: $--datepicker-inrange-hover-background-color;
       }

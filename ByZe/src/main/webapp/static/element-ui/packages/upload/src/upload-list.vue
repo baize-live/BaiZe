@@ -1,31 +1,31 @@
 <template>
   <transition-group
-    tag="ul"
-    :class="[
+      :class="[
       'el-upload-list',
       'el-upload-list--' + listType,
       { 'is-disabled': disabled }
     ]"
-    name="el-list"
+      name="el-list"
+      tag="ul"
   >
     <li
-      v-for="file in files"
-      :class="['el-upload-list__item', 'is-' + file.status, focusing ? 'focusing' : '']"
-      :key="file.uid"
-      tabindex="0"
-      @keydown.delete="!disabled && $emit('remove', file)"
-      @focus="focusing = true"
-      @blur="focusing = false"
-      @click="focusing = false"
+        v-for="file in files"
+        :key="file.uid"
+        :class="['el-upload-list__item', 'is-' + file.status, focusing ? 'focusing' : '']"
+        tabindex="0"
+        @blur="focusing = false"
+        @click="focusing = false"
+        @focus="focusing = true"
+        @keydown.delete="!disabled && $emit('remove', file)"
     >
       <slot :file="file">
         <img
-          class="el-upload-list__item-thumbnail"
-          v-if="file.status !== 'uploading' && ['picture-card', 'picture'].indexOf(listType) > -1"
-          :src="file.url" alt=""
+            v-if="file.status !== 'uploading' && ['picture-card', 'picture'].indexOf(listType) > -1"
+            :src="file.url"
+            alt="" class="el-upload-list__item-thumbnail"
         >
         <a class="el-upload-list__item-name" @click="handleClick(file)">
-          <i class="el-icon-document"></i>{{file.name}}
+          <i class="el-icon-document"></i>{{ file.name }}
         </a>
         <label class="el-upload-list__item-status-label">
           <i :class="{
@@ -34,26 +34,27 @@
             'el-icon-check': ['picture-card', 'picture'].indexOf(listType) > -1
           }"></i>
         </label>
-        <i class="el-icon-close" v-if="!disabled" @click="$emit('remove', file)"></i>
-        <i class="el-icon-close-tip" v-if="!disabled">{{ t('el.upload.deleteTip') }}</i> <!--因为close按钮只在li:focus的时候 display, li blur后就不存在了，所以键盘导航时永远无法 focus到 close按钮上-->
+        <i v-if="!disabled" class="el-icon-close" @click="$emit('remove', file)"></i>
+        <i v-if="!disabled" class="el-icon-close-tip">{{ t('el.upload.deleteTip') }}</i>
+        <!--因为close按钮只在li:focus的时候 display, li blur后就不存在了，所以键盘导航时永远无法 focus到 close按钮上-->
         <el-progress
-          v-if="file.status === 'uploading'"
-          :type="listType === 'picture-card' ? 'circle' : 'line'"
-          :stroke-width="listType === 'picture-card' ? 6 : 2"
-          :percentage="parsePercentage(file.percentage)">
+            v-if="file.status === 'uploading'"
+            :percentage="parsePercentage(file.percentage)"
+            :stroke-width="listType === 'picture-card' ? 6 : 2"
+            :type="listType === 'picture-card' ? 'circle' : 'line'">
         </el-progress>
-        <span class="el-upload-list__item-actions" v-if="listType === 'picture-card'">
+        <span v-if="listType === 'picture-card'" class="el-upload-list__item-actions">
           <span
-            class="el-upload-list__item-preview"
-            v-if="handlePreview && listType === 'picture-card'"
-            @click="handlePreview(file)"
+              v-if="handlePreview && listType === 'picture-card'"
+              class="el-upload-list__item-preview"
+              @click="handlePreview(file)"
           >
             <i class="el-icon-zoom-in"></i>
           </span>
           <span
-            v-if="!disabled"
-            class="el-upload-list__item-delete"
-            @click="$emit('remove', file)"
+              v-if="!disabled"
+              class="el-upload-list__item-delete"
+              @click="$emit('remove', file)"
           >
             <i class="el-icon-delete"></i>
           </span>
@@ -63,43 +64,43 @@
   </transition-group>
 </template>
 <script>
-  import Locale from 'element-ui/src/mixins/locale';
-  import ElProgress from 'element-ui/packages/progress';
+import Locale from 'element-ui/src/mixins/locale';
+import ElProgress from 'element-ui/packages/progress';
 
-  export default {
+export default {
 
-    name: 'ElUploadList',
+  name: 'ElUploadList',
 
-    mixins: [Locale],
+  mixins: [Locale],
 
-    data() {
-      return {
-        focusing: false
-      };
-    },
-    components: { ElProgress },
+  data() {
+    return {
+      focusing: false
+    };
+  },
+  components: {ElProgress},
 
-    props: {
-      files: {
-        type: Array,
-        default() {
-          return [];
-        }
-      },
-      disabled: {
-        type: Boolean,
-        default: false
-      },
-      handlePreview: Function,
-      listType: String
-    },
-    methods: {
-      parsePercentage(val) {
-        return parseInt(val, 10);
-      },
-      handleClick(file) {
-        this.handlePreview && this.handlePreview(file);
+  props: {
+    files: {
+      type: Array,
+      default() {
+        return [];
       }
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    handlePreview: Function,
+    listType: String
+  },
+  methods: {
+    parsePercentage(val) {
+      return parseInt(val, 10);
+    },
+    handleClick(file) {
+      this.handlePreview && this.handlePreview(file);
     }
-  };
+  }
+};
 </script>

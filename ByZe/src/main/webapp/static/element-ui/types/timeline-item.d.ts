@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 export type TimelineItemPlacement = 'top' | 'bottom'
 export type TimelineItemType = 'primary' | 'success' | 'warning' | 'danger' | 'info'
@@ -6,15 +6,15 @@ export type TimelineItemSize = 'normal' | 'large'
 
 /** TimelineItem Component */
 export declare class ElTimelineItem extends ElementUIComponent {
-  timestamp: string
+    timestamp: string
 
-  hideTimestamp: boolean
+    hideTimestamp: boolean
 
-  placement: TimelineItemPlacement
+    placement: TimelineItemPlacement
 
-  type: TimelineItemType
+    type: TimelineItemType
 
-  size: TimelineItemSize
+    size: TimelineItemSize
 
-  icon: string
+    icon: string
 }

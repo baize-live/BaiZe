@@ -10,15 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @WebServlet(value = "/register")
 public class RegisterServlet extends HttpServlet {
-    // 业务类型
-    private static class Business {
-        final static String CHECK_EMAIL = "101";
-        final static String SEND_VERIFICATION_CODE = "102";
-        final static String REGISTER = "103";
-        final static String LOGIN = "104";
-        final static String isLogin = "110";
-    }
-
     // 前端数据异常
     private void doException() {
         log.error("前端数据异常");
@@ -53,13 +44,17 @@ public class RegisterServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) {
+    protected void doPost(HttpServletRequest req, HttpServletResponse res) {
         doWork(req, res);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) {
-        doWork(req, res);
+    // 业务类型
+    private static class Business {
+        final static String CHECK_EMAIL = "101";
+        final static String SEND_VERIFICATION_CODE = "102";
+        final static String REGISTER = "103";
+        final static String LOGIN = "104";
+        final static String isLogin = "110";
     }
 
 

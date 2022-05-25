@@ -1,11 +1,12 @@
 package top.byze.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 
-
+@Slf4j
 public class FileUtil {
 
     // 创建目录
@@ -21,7 +22,7 @@ public class FileUtil {
         try {
             fileItem.write(new File(path));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.toString());
         }
     }
 
@@ -30,7 +31,7 @@ public class FileUtil {
         try {
             FileUtils.delete(new File(path));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.toString());
         }
     }
 }

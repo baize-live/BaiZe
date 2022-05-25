@@ -640,9 +640,8 @@ public class Disk {
             while (database.getResultSet().next()) {
                 UID = Integer.parseInt(database.getResultSet().getString("UID"));
             }
-            log.info(getUid);
             // 路径
-            String path = ConfigUtil.getUserFilePath() + "User" + user.getUid();
+            String path = ConfigUtil.getUserFilePath() + "User" + UID;
             if (ServletFileUpload.isMultipartContent(req)) {
                 FromMap fromMap = FromUtil.parseParam(req);
                 // 前端传来的currentDir
@@ -655,11 +654,9 @@ public class Disk {
                     // 存储在数据库中
                     String saveUserFile = "insert into userFile (uid, fileName, fileType, fileSize, fileDir, fileState) values " +
                             "(" + UID + ", '" + name + "','-'," + fileSize + ",'" + fileDir + "','Y');";
-                    log.info(saveUserFile);
                     database.workDatabase(saveUserFile);
                     // 更新当前存储
                     String setNowStorage = "call addStorage(" + UID + ", " + fileSize + ");";
-                    log.info(setNowStorage);
                     database.workDatabase(setNowStorage);
                     log.info(user.getEmail() + " 文件 " + name + " 保存成功");
                 }

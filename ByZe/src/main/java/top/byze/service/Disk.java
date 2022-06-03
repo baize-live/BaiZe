@@ -335,34 +335,34 @@ public class Disk {
         }
     }
 
-//    // 上传文件
-//    public void uploadFile() {
-//        // 从session中获得user
-//        User user = SessionUtil.getUser(req);
-//        // 获得用户全部属性
-//        user = getUser(user.getEmail());
-//        PanData panData = getPanData(user.getUid());
-//        String path = ConfigUtil.getUserFilePath() + "User" + user.getUid();
-//        if (ServletFileUpload.isMultipartContent(req)) {
-//            FromMap fromMap = FromUtil.parseParam(req);
-//            // 前端传来的currentDir
-//            String fileDir = fromMap.getParamMap().get("currentDir");
-//            Map<String, FileItem> map = fromMap.getFileMap();
-//            for (String name : map.keySet()) {
-//                long fileSize = Math.round(map.get(name).getSize() * 1.0 / 1024 / 1024);
-//                // 保存在服务器上
-//                FileUtil.saveFile(map.get(name), path + fileDir + name);
-//                // 存储在数据库中
-//                saveUserFile(user.getUid(), name, '-', fileSize, 'Y', fileDir);
-//                // 增大当前存储
-//                synchronized (req.getSession()) {
-//                    long nowStorage = panData.getNowStorage() + fileSize;
-//                    setNowStorage(user.getUid(), nowStorage);
-//                }
-//                log.info(user.getEmail() + " 文件 " + name + " 保存成功");
-//            }
-//        }
-//    }
+    // 上传文件
+    public void uploadFile() {
+        // 从session中获得user
+        User user = SessionUtil.getUser(req);
+        // 获得用户全部属性
+        user = getUser(user.getEmail());
+        PanData panData = getPanData(user.getUid());
+        String path = ConfigUtil.getUserFilePath() + "User" + user.getUid();
+        if (ServletFileUpload.isMultipartContent(req)) {
+            FromMap fromMap = FromUtil.parseParam(req);
+            // 前端传来的currentDir
+            String fileDir = fromMap.getParamMap().get("currentDir");
+            Map<String, FileItem> map = fromMap.getFileMap();
+            for (String name : map.keySet()) {
+                long fileSize = Math.round(map.get(name).getSize() * 1.0 / 1024 / 1024);
+                // 保存在服务器上
+                FileUtil.saveFile(map.get(name), path + fileDir + name);
+                // 存储在数据库中
+                saveUserFile(user.getUid(), name, '-', fileSize, 'Y', fileDir);
+                // 增大当前存储
+                synchronized (req.getSession()) {
+                    long nowStorage = panData.getNowStorage() + fileSize;
+                    setNowStorage(user.getUid(), nowStorage);
+                }
+                log.info(user.getEmail() + " 文件 " + name + " 保存成功");
+            }
+        }
+    }
 
     // 更新页面
     public void updateFileList() {
@@ -466,30 +466,30 @@ public class Disk {
     }
 
     // 清空垃圾箱
-//    public void clearBin() {
-//        // 从session中获得user
-//        User user = SessionUtil.getUser(req);
-//        // 获得用户全部属性
-//        user = getUser(user.getEmail());
-//        int uid = user.getUid();
-//        // 添加Size
-//        PanData panData = getPanData(uid);
-//        List<UserFile> fileList = lookupBin(uid);
-//        long fileSizeSum = getFileSizeSum(fileList);
-//        long nowStorage = panData.getNowStorage() - fileSizeSum;
-//        setNowStorage(uid, nowStorage);
-//        // 清空回收站 数据库
-//        clearBin(uid);
-//        // 在磁盘上删除
-//        clearFileListInDir(uid, fileList);
-//        // 告诉前端
-//        try {
-//            this.res.getWriter().println(Res.TRUE);
-//            log.info(user.getEmail() + " 清空回收站成功");
-//        } catch (Exception e) {
-//            log.info(user.getEmail() + " 清空回收站失败");
-//        }
-//    }
+    public void clearBin() {
+        // 从session中获得user
+        User user = SessionUtil.getUser(req);
+        // 获得用户全部属性
+        user = getUser(user.getEmail());
+        int uid = user.getUid();
+        // 添加Size
+        PanData panData = getPanData(uid);
+        List<UserFile> fileList = lookupBin(uid);
+        long fileSizeSum = getFileSizeSum(fileList);
+        long nowStorage = panData.getNowStorage() - fileSizeSum;
+        setNowStorage(uid, nowStorage);
+        // 清空回收站 数据库
+        clearBin(uid);
+        // 在磁盘上删除
+        clearFileListInDir(uid, fileList);
+        // 告诉前端
+        try {
+            this.res.getWriter().println(Res.TRUE);
+            log.info(user.getEmail() + " 清空回收站成功");
+        } catch (Exception e) {
+            log.info(user.getEmail() + " 清空回收站失败");
+        }
+    }
 
     // 还原垃圾箱中的某个文件
     public void recoveryFile() {
@@ -561,110 +561,110 @@ public class Disk {
     }
 
     // ============ 作业
-    public void clearBin() {
-        // 从session中获得user
-        User user = SessionUtil.getUser(req);
-        // 数据库类
-        Database database = new Database();
-        // 用户UID
-        int UID = 0;
-        // 垃圾桶中的文件列表
-        List<UserFile> fileList = new ArrayList<>();
-
-        try {
-            // 开启事务
-            database.getConnection().setAutoCommit(false);
-            // 获得UID
-            String getUid = "select uid from user where email = '" + user.getEmail() + "';";
-            database.findDatabase(getUid);
-            while (database.getResultSet().next()) {
-                UID = Integer.parseInt(database.getResultSet().getString("UID"));
-            }
-            // 获得垃圾桶中的文件列表
-            String getFileListInBin = "select uid, fileDir, fileName, fileSize from userFile where uid = " + UID + " and fileState = 'N';";
-            database.findDatabase(getFileListInBin);
-            while (database.getResultSet().next()) {
-                fileList.add(new UserFile(
-                        Integer.parseInt(database.getResultSet().getString("UID")),
-                        database.getResultSet().getString("fileName"),
-                        database.getResultSet().getString("fileDir")
-                ));
-            }
-            // 更新当前存储
-            long fileSizeSum = getFileSizeSum(fileList);
-            String setNowStorage = "update panData set nowStorage = nowStorage -" + fileSizeSum + " where uid = " + UID + ";";
-            database.workDatabase(setNowStorage);
-            // 清空回收站 数据库
-            String clearBin = "delete from userFile where uid = " + UID + " and fileState = 'N';";
-            database.workDatabase(clearBin);
-            // 在磁盘上删除
-            clearFileListInDir(UID, fileList);
-            // 数据库上提交
-            database.getConnection().commit();
-            // 恢复自动提交
-            database.getConnection().setAutoCommit(true);
-        } catch (Exception e) {
-            log.error("Sql 执行异常");
-            // 数据库上回滚
-            try {
-                database.getConnection().setAutoCommit(true);
-                database.getConnection().rollback();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-        } finally {
-            database.closeDatabase();
-        }
-
-        // 告诉前端
-        try {
-            this.res.getWriter().println(Res.TRUE);
-            log.info(user.getEmail() + " 清空回收站成功");
-        } catch (Exception e) {
-            log.info(user.getEmail() + " 清空回收站失败");
-        }
-    }
-
-    // 上传文件
-    public void uploadFile() {
-        // 从session中获得user
-        User user = SessionUtil.getUser(req);
-        // 数据库类
-        Database database = new Database();
-        // 用户UID
-        int UID = 0;
-        try {
-            // 用户ID
-            String getUid = "select uid from user where email = '" + user.getEmail() + "';";
-            database.findDatabase(getUid);
-            while (database.getResultSet().next()) {
-                UID = Integer.parseInt(database.getResultSet().getString("UID"));
-            }
-            // 路径
-            String path = ConfigUtil.getUserFilePath() + "User" + UID;
-            if (ServletFileUpload.isMultipartContent(req)) {
-                FromMap fromMap = FromUtil.parseParam(req);
-                // 前端传来的currentDir
-                String fileDir = fromMap.getParamMap().get("currentDir");
-                Map<String, FileItem> map = fromMap.getFileMap();
-                for (String name : map.keySet()) {
-                    long fileSize = Math.round(map.get(name).getSize() * 1.0 / 1024 / 1024);
-                    // 保存在服务器上
-                    FileUtil.saveFile(map.get(name), path + fileDir + name);
-                    // 存储在数据库中
-                    String saveUserFile = "insert into userFile (uid, fileName, fileType, fileSize, fileDir, fileState) values " +
-                            "(" + UID + ", '" + name + "','-'," + fileSize + ",'" + fileDir + "','Y');";
-                    database.workDatabase(saveUserFile);
-                    // 更新当前存储
-                    String setNowStorage = "call addStorage(" + UID + ", " + fileSize + ");";
-                    database.workDatabase(setNowStorage);
-                    log.info(user.getEmail() + " 文件 " + name + " 保存成功");
-                }
-            }
-        } catch (SQLException e) {
-            log.error("Sql 执行异常");
-        }
-    }
+//    public void clearBin() {
+//        // 从session中获得user
+//        User user = SessionUtil.getUser(req);
+//        // 数据库类
+//        Database database = new Database();
+//        // 用户UID
+//        int UID = 0;
+//        // 垃圾桶中的文件列表
+//        List<UserFile> fileList = new ArrayList<>();
+//
+//        try {
+//            // 开启事务
+//            database.getConnection().setAutoCommit(false);
+//            // 获得UID
+//            String getUid = "select uid from user where email = '" + user.getEmail() + "';";
+//            database.findDatabase(getUid);
+//            while (database.getResultSet().next()) {
+//                UID = Integer.parseInt(database.getResultSet().getString("UID"));
+//            }
+//            // 获得垃圾桶中的文件列表
+//            String getFileListInBin = "select uid, fileDir, fileName, fileSize from userFile where uid = " + UID + " and fileState = 'N';";
+//            database.findDatabase(getFileListInBin);
+//            while (database.getResultSet().next()) {
+//                fileList.add(new UserFile(
+//                        Integer.parseInt(database.getResultSet().getString("UID")),
+//                        database.getResultSet().getString("fileName"),
+//                        database.getResultSet().getString("fileDir")
+//                ));
+//            }
+//            // 更新当前存储
+//            long fileSizeSum = getFileSizeSum(fileList);
+//            String setNowStorage = "update panData set nowStorage = nowStorage -" + fileSizeSum + " where uid = " + UID + ";";
+//            database.workDatabase(setNowStorage);
+//            // 清空回收站 数据库
+//            String clearBin = "delete from userFile where uid = " + UID + " and fileState = 'N';";
+//            database.workDatabase(clearBin);
+//            // 在磁盘上删除
+//            clearFileListInDir(UID, fileList);
+//            // 数据库上提交
+//            database.getConnection().commit();
+//            // 恢复自动提交
+//            database.getConnection().setAutoCommit(true);
+//        } catch (Exception e) {
+//            log.error("Sql 执行异常");
+//            // 数据库上回滚
+//            try {
+//                database.getConnection().setAutoCommit(true);
+//                database.getConnection().rollback();
+//            } catch (SQLException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//        } finally {
+//            database.closeDatabase();
+//        }
+//
+//        // 告诉前端
+//        try {
+//            this.res.getWriter().println(Res.TRUE);
+//            log.info(user.getEmail() + " 清空回收站成功");
+//        } catch (Exception e) {
+//            log.info(user.getEmail() + " 清空回收站失败");
+//        }
+//    }
+//
+//    // 上传文件
+//    public void uploadFile() {
+//        // 从session中获得user
+//        User user = SessionUtil.getUser(req);
+//        // 数据库类
+//        Database database = new Database();
+//        // 用户UID
+//        int UID = 0;
+//        try {
+//            // 用户ID
+//            String getUid = "select uid from user where email = '" + user.getEmail() + "';";
+//            database.findDatabase(getUid);
+//            while (database.getResultSet().next()) {
+//                UID = Integer.parseInt(database.getResultSet().getString("UID"));
+//            }
+//            // 路径
+//            String path = ConfigUtil.getUserFilePath() + "User" + UID;
+//            if (ServletFileUpload.isMultipartContent(req)) {
+//                FromMap fromMap = FromUtil.parseParam(req);
+//                // 前端传来的currentDir
+//                String fileDir = fromMap.getParamMap().get("currentDir");
+//                Map<String, FileItem> map = fromMap.getFileMap();
+//                for (String name : map.keySet()) {
+//                    long fileSize = Math.round(map.get(name).getSize() * 1.0 / 1024 / 1024);
+//                    // 保存在服务器上
+//                    FileUtil.saveFile(map.get(name), path + fileDir + name);
+//                    // 存储在数据库中
+//                    String saveUserFile = "insert into userFile (uid, fileName, fileType, fileSize, fileDir, fileState) values " +
+//                            "(" + UID + ", '" + name + "','-'," + fileSize + ",'" + fileDir + "','Y');";
+//                    database.workDatabase(saveUserFile);
+//                    // 更新当前存储
+//                    String setNowStorage = "call addStorage(" + UID + ", " + fileSize + ");";
+//                    database.workDatabase(setNowStorage);
+//                    log.info(user.getEmail() + " 文件 " + name + " 保存成功");
+//                }
+//            }
+//        } catch (SQLException e) {
+//            log.error("Sql 执行异常");
+//        }
+//    }
 
     private static class Res {
         final static String TRUE = "1";

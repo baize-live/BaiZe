@@ -435,6 +435,10 @@ new Vue({
 
         download(data, name) {
             let that = this
+            that.$notify({
+                type: 'success',
+                message: name + ' 开始下载'
+            });
             axios.post(this.url, data, {responseType: 'blob'})
                 .then(function (res) {
                     const blob = new Blob([res.data])

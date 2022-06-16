@@ -5,6 +5,9 @@ import top.byze.bean.User;
 
 import java.util.List;
 
+/**
+ * @author CodeXS
+ */
 public interface UserMapper {
     List<User> selectAll();
 

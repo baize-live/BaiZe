@@ -5,11 +5,13 @@ import top.byze.bean.User;
 import top.byze.mapper.UserMapper;
 import top.byze.utils.MyBatis;
 
-import java.io.IOException;
 import java.util.List;
 
+/**
+ * @author CodeXS
+ */
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         // 获得SqlSession对象 用它执行sql
         MyBatis myBatis = new MyBatis();
         SqlSession sqlSession = myBatis.getSqlSession();
@@ -19,7 +21,6 @@ public class Main {
         for (User user : users) {
             System.out.println(user);
         }
-
         // 提交事务
         sqlSession.commit();
         // 释放资源

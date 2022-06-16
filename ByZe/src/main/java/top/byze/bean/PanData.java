@@ -1,11 +1,14 @@
 package top.byze.bean;
 
+/**
+ * @author CodeXS
+ */
 public class PanData {
     private String pid;
     private String uid;
     private String grade;
     private String icon;
-    private int OutOfDate;
+    private int outOfDate;
     private long nowStorage;
     private long maxStorage;
     private String createTime;
@@ -23,7 +26,7 @@ public class PanData {
     }
 
     public int getOutOfDate() {
-        return OutOfDate;
+        return outOfDate;
     }
 
     public long getNowStorage() {

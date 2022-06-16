@@ -9,9 +9,12 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * @author CodeXS
+ */
 @Slf4j
 public class MyBatis {
-    SqlSession sqlSession;
+    final SqlSession sqlSession;
 
     public MyBatis() {
         // 加载mybatis的核心配置文件, 获取SqlSessionFactory

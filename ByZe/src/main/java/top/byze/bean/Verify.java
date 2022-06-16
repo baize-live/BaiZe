@@ -1,5 +1,8 @@
 package top.byze.bean;
 
+/**
+ * @author CodeXS
+ */
 public class Verify {
 
     private String vid;

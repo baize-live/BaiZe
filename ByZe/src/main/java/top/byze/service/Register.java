@@ -11,10 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Random;
 
+/**
+ * @author CodeXS
+ */
 @Slf4j
 public class Register {
-    HttpServletRequest req;
-    HttpServletResponse res;
+    final HttpServletRequest req;
+    final HttpServletResponse res;
 
     public Register(HttpServletRequest req, HttpServletResponse res) {
         this.req = req;
@@ -22,10 +25,11 @@ public class Register {
     }
 
     private static String generateVerifyCode() {
+        final int size = 6;
         Random random = new Random();
         char[] chars = ("0123456789").toCharArray();
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < size; ++i) {
             int num = random.nextInt(chars.length);
             char c = chars[num];
             stringBuilder.append(c);

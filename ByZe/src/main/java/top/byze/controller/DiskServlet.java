@@ -7,10 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author CodeXS
+ */
 @Slf4j
 @WebServlet(value = "/disk")
 public class DiskServlet extends HttpServlet {
-    // 前端数据异常
+
     private void doException() {
         log.error("前端数据异常");
     }
@@ -24,37 +27,37 @@ public class DiskServlet extends HttpServlet {
         }
 
         switch (business) {
-            case Business.initData:
+            case Business.INIT_DATA:
                 new top.byze.service.Disk(req, res).initData();
                 break;
-            case Business.downloadFile:
+            case Business.DOWNLOAD_FILE:
                 new top.byze.service.Disk(req, res).downloadFile();
                 break;
-            case Business.updateFileList:
+            case Business.UPDATE_FILE_LIST:
                 new top.byze.service.Disk(req, res).updateFileList();
                 break;
-            case Business.deleteFile:
+            case Business.DELETE_FILE:
                 new top.byze.service.Disk(req, res).deleteFile();
                 break;
-            case Business.lookupBin:
+            case Business.LOOKUP_BIN:
                 new top.byze.service.Disk(req, res).lookupBin();
                 break;
-            case Business.clearBin:
+            case Business.CLEAR_BIN:
                 new top.byze.service.Disk(req, res).clearBin();
                 break;
-            case Business.clearUserFile:
+            case Business.CLEAR_USER_FILE:
                 new top.byze.service.Disk(req, res).clearUserFile();
                 break;
-            case Business.recoveryFile:
+            case Business.RECOVERY_FILE:
                 new top.byze.service.Disk(req, res).recoveryFile();
                 break;
-            case Business.attributes:
-                new top.byze.service.Disk(req, res).Attributes();
+            case Business.ATTRIBUTES:
+                new top.byze.service.Disk(req, res).attributes();
                 break;
-            case Business.getFriend:
+            case Business.GET_FRIEND:
                 new top.byze.service.Disk(req, res).getFriend();
                 break;
-            case Business.modifyAttributes:
+            case Business.MODIFY_ATTRIBUTES:
                 new top.byze.service.Disk(req, res).modifyAttributes();
                 break;
             default:
@@ -68,19 +71,22 @@ public class DiskServlet extends HttpServlet {
         doWork(req, res);
     }
 
-    // 业务类型
+    /**
+     * 业务类型
+     */
     private static class Business {
-        final static String initData = "201";
-        final static String downloadFile = "202";
-        final static String updateFileList = "203";
-        final static String deleteFile = "204";
-        final static String lookupBin = "205";
-        final static String clearBin = "206";
-        final static String clearUserFile = "207";
-        final static String recoveryFile = "208";
-        final static String attributes = "209";
-        final static String getFriend = "210";
-        final static String modifyAttributes = "211";
+        final static String INIT_DATA = "201";
+        final static String DOWNLOAD_FILE = "202";
+        final static String UPDATE_FILE_LIST = "203";
+        final static String DELETE_FILE = "204";
+
+        final static String LOOKUP_BIN = "205";
+        final static String CLEAR_BIN = "206";
+        final static String CLEAR_USER_FILE = "207";
+        final static String RECOVERY_FILE = "208";
+        final static String ATTRIBUTES = "209";
+        final static String GET_FRIEND = "210";
+        final static String MODIFY_ATTRIBUTES = "211";
     }
 
 }

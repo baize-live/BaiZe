@@ -8,8 +8,10 @@ import top.byze.bean.FromMap;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * @author CodeXS
+ */
 public class FromUtil {
-
     public static FromMap parseParam(HttpServletRequest req) {
         FromMap result = new FromMap();
         //创建一个FileItem工厂 通过DiskFileItemFactory对象创建文件上传核心组件
@@ -34,5 +36,4 @@ public class FromUtil {
         }
         return result;
     }
-
 }

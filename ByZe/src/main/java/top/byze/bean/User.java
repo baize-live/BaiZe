@@ -1,12 +1,15 @@
 package top.byze.bean;
 
+/**
+ * @author CodeXS
+ */
 public class User {
     private final String password;
     private final String email;
     private int uid;
     private String username;
     private String phone;
-    private String IDCard;
+    private String idCard;
     private String realName;
     private String isOpenYou;
     private String isOpenPan;
@@ -37,8 +40,8 @@ public class User {
         return email;
     }
 
-    public String getIDCard() {
-        return IDCard;
+    public String getIdCard() {
+        return idCard;
     }
 
     public String getRealName() {
@@ -61,7 +64,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
-                ", IDCard='" + IDCard + '\'' +
+                ", idCard='" + idCard + '\'' +
                 ", realName='" + realName + '\'' +
                 ", isOpenYou='" + isOpenYou + '\'' +
                 ", isOpenPan='" + isOpenPan + '\'' +

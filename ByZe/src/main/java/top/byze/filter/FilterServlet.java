@@ -7,6 +7,9 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
+/**
+ * @author CodeXS
+ */
 @Slf4j
 @WebFilter(value = {"/disk", "/login", "/register", "/uploadFile"})
 public class FilterServlet implements Filter {

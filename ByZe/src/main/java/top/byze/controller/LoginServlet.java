@@ -7,10 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author CodeXS
+ */
 @Slf4j
 @WebServlet(value = "/login")
 public class LoginServlet extends HttpServlet {
-    // 前端数据异常
+
     private void doException() {
         log.error("前端数据异常");
     }
@@ -22,16 +25,16 @@ public class LoginServlet extends HttpServlet {
             return;
         }
         switch (business) {
-            case Business.IsOpenPan:
+            case Business.IS_OPEN_PAN:
                 new top.byze.service.Login(req, res).isOpenPan();
                 break;
-            case Business.OpenPan:
+            case Business.OPEN_PAN:
                 new top.byze.service.Login(req, res).openPan();
                 break;
-            case Business.IsOpenYou:
+            case Business.IS_OPEN_YOU:
                 new top.byze.service.Login(req, res).isOpenYou();
                 break;
-            case Business.OpenYou:
+            case Business.OPEN_YOU:
                 new top.byze.service.Login(req, res).openYou();
                 break;
             case Business.LOGOUT:
@@ -48,14 +51,15 @@ public class LoginServlet extends HttpServlet {
         doWork(req, res);
     }
 
-    // 业务类型
+    /**
+     * 业务类型
+     */
     private static class Business {
-        final static String IsOpenPan = "105";
-        final static String OpenPan = "106";
-        final static String IsOpenYou = "107";
-        final static String OpenYou = "108";
+        final static String IS_OPEN_PAN = "105";
+        final static String OPEN_PAN = "106";
+        final static String IS_OPEN_YOU = "107";
+        final static String OPEN_YOU = "108";
         final static String LOGOUT = "109";
     }
-
 
 }

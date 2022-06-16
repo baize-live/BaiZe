@@ -26,7 +26,7 @@
           and fileState = 'N';
     </select>
 
-    <select id="selectFilesOutOFfDateInDB" resultType="top.byze.bean.UserFile">
+    <select id="selectFilesOutOfDateInDatabase" resultType="top.byze.bean.UserFile">
         select *
         from UserFile
         where fileState = 'N'
@@ -69,7 +69,7 @@
           and fileDir = #{fileDir}
     </delete>
 
-    <delete id="clearFilesOutOFfDateInDB">
+    <delete id="clearFilesOutOfDateInDatabase">
         delete
         from UserFile
         where fileState = 'N'

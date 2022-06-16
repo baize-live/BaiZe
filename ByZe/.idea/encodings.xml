@@ -5,8 +5,8 @@
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/top/byze/logs/error.log" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/top/byze/logs/info.log" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/top/byze/logs/web.log" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/top/byze/logs/info.log" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/top/byze/logs/web.log" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

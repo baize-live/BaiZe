@@ -7,10 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author CodeXS
+ */
 @Slf4j
 @WebServlet(value = "/register")
 public class RegisterServlet extends HttpServlet {
-    // 前端数据异常
+
     private void doException() {
         log.error("前端数据异常");
     }
@@ -34,7 +37,7 @@ public class RegisterServlet extends HttpServlet {
             case Business.LOGIN:
                 new top.byze.service.Login(req, res).login();
                 break;
-            case Business.isLogin:
+            case Business.IS_LOGIN:
                 new top.byze.service.Login(req, res).isLogin();
                 break;
             default:
@@ -48,14 +51,15 @@ public class RegisterServlet extends HttpServlet {
         doWork(req, res);
     }
 
-    // 业务类型
+    /**
+     * 业务类型
+     */
     private static class Business {
         final static String CHECK_EMAIL = "101";
         final static String SEND_VERIFICATION_CODE = "102";
         final static String REGISTER = "103";
         final static String LOGIN = "104";
-        final static String isLogin = "110";
+        final static String IS_LOGIN = "110";
     }
-
 
 }

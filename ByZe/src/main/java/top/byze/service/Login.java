@@ -11,10 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
+/**
+ * @author CodeXS
+ */
 @Slf4j
 public class Login {
-    HttpServletRequest req;
-    HttpServletResponse res;
+    final HttpServletRequest req;
+    final HttpServletResponse res;
 
     public Login(HttpServletRequest req, HttpServletResponse res) {
         this.req = req;
@@ -66,12 +69,12 @@ public class Login {
             // 获取 UserMapper 接口的代理对象
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             userMapper.openPan(email);
-            int Uid = userMapper.getUid(email);
+            int userId = userMapper.getUid(email);
             // 2. 在panData表中添加用户信息
             PanDataMapper panDataMapper = sqlSession.getMapper(PanDataMapper.class);
-            panDataMapper.initData(Uid);
+            panDataMapper.initData(userId);
             // 3. 创建的文件目录
-            String path = ConfigUtil.getUserFilePath() + "User" + Uid;
+            String path = ConfigUtil.getUserFilePath() + "User" + userId;
             FileUtil.createDir(path);
             // 关闭资源
             myBatis.closeSqlSession();

@@ -19,15 +19,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author CodeXS
+ */
 @Slf4j
 public class Disk {
-    HttpServletRequest req;
-    HttpServletResponse res;
+    final HttpServletRequest req;
+    final HttpServletResponse res;
 
     public Disk(HttpServletRequest req, HttpServletResponse res) {
         this.req = req;
@@ -51,13 +52,13 @@ public class Disk {
     }
 
     // 获得网盘数据
-    private static PanData getPanData(int Uid) {
+    private static PanData getPanData(int userId) {
         PanData panData = null;
         try {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
             PanDataMapper panDataMapper = sqlSession.getMapper(PanDataMapper.class);
-            panData = panDataMapper.getPanData(Uid);
+            panData = panDataMapper.getPanData(userId);
             myBatis.closeSqlSession();
         } catch (Exception e) {
             log.error("获得网盘数据异常");
@@ -111,16 +112,17 @@ public class Disk {
     }
 
     // 查找数据库中的过期文件(表示回收站中过期的文件)
-    private static List<UserFile> selectFilesOutOFfDateInDB(int uid, int days) {
+    private static List<UserFile> selectFilesOutOfDateInDatabase(int uid, int days) {
         List<UserFile> fileList = null;
         try {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
             UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
-            fileList = userFileMapper.selectFilesOutOFfDateInDB(uid, days);
+            fileList = userFileMapper.selectFilesOutOfDateInDatabase(uid, days);
             myBatis.closeSqlSession();
         } catch (Exception e) {
             log.error("查找数据库中的过期文件异常");
+            log.error(e.toString());
         }
         return fileList;
     }
@@ -204,12 +206,12 @@ public class Disk {
     }
 
     // 清除数据库中的过期文件 这个时间可以个性化设置
-    private static void clearFilesOutOFfDateInDB(int uid, int days) {
+    private static void clearFilesOutOfDateInDatabase(int uid, int days) {
         try {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
             UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
-            userFileMapper.clearFilesOutOFfDateInDB(uid, days);
+            userFileMapper.clearFilesOutOfDateInDatabase(uid, days);
             myBatis.closeSqlSession();
         } catch (Exception e) {
             log.error("清除数据库中的过期文件异常");
@@ -236,7 +238,7 @@ public class Disk {
                 .append("username=").append(user.getUsername()).append("&")
                 .append("uid=").append(user.getUid()).append("&")
                 .append("email=").append(user.getEmail()).append("&")
-                .append("idCard=").append(user.getIDCard() == null ? " " : user.getIDCard()).append("&")
+                .append("idCard=").append(user.getIdCard() == null ? " " : user.getIdCard()).append("&")
                 .append("realName=").append(user.getRealName() == null ? " " : user.getRealName()).append("&")
                 .append("phone=").append(user.getPhone() == null ? " " : user.getPhone()).append("&")
                 .append("icon=").append(panData.getIcon()).append("&")
@@ -416,11 +418,11 @@ public class Disk {
         // 查看垃圾箱前 删除过期文件
         PanData panData = getPanData(uid);
         int days = panData.getOutOfDate();
-        List<UserFile> fileList = selectFilesOutOFfDateInDB(uid, days);
+        List<UserFile> fileList = selectFilesOutOfDateInDatabase(uid, days);
         // 删除磁盘中的过期文件
         clearFileListInDir(uid, fileList);
         // 删除数据库中的过期文件
-        clearFilesOutOFfDateInDB(uid, days);
+        clearFilesOutOfDateInDatabase(uid, days);
         // 查看垃圾箱
         fileList = lookupBin(uid);
         StringBuilder stringBuilder = new StringBuilder();
@@ -512,7 +514,7 @@ public class Disk {
     }
 
     // 返回用户属性
-    public void Attributes() {
+    public void attributes() {
         // 从session中获得user
         User user = SessionUtil.getUser(req);
         // 获得用户全部属性
@@ -560,112 +562,7 @@ public class Disk {
         }
     }
 
-    // ============ 作业
-//    public void clearBin() {
-//        // 从session中获得user
-//        User user = SessionUtil.getUser(req);
-//        // 数据库类
-//        Database database = new Database();
-//        // 用户UID
-//        int UID = 0;
-//        // 垃圾桶中的文件列表
-//        List<UserFile> fileList = new ArrayList<>();
-//
-//        try {
-//            // 开启事务
-//            database.getConnection().setAutoCommit(false);
-//            // 获得UID
-//            String getUid = "select uid from user where email = '" + user.getEmail() + "';";
-//            database.findDatabase(getUid);
-//            while (database.getResultSet().next()) {
-//                UID = Integer.parseInt(database.getResultSet().getString("UID"));
-//            }
-//            // 获得垃圾桶中的文件列表
-//            String getFileListInBin = "select uid, fileDir, fileName, fileSize from userFile where uid = " + UID + " and fileState = 'N';";
-//            database.findDatabase(getFileListInBin);
-//            while (database.getResultSet().next()) {
-//                fileList.add(new UserFile(
-//                        Integer.parseInt(database.getResultSet().getString("UID")),
-//                        database.getResultSet().getString("fileName"),
-//                        database.getResultSet().getString("fileDir")
-//                ));
-//            }
-//            // 更新当前存储
-//            long fileSizeSum = getFileSizeSum(fileList);
-//            String setNowStorage = "update panData set nowStorage = nowStorage -" + fileSizeSum + " where uid = " + UID + ";";
-//            database.workDatabase(setNowStorage);
-//            // 清空回收站 数据库
-//            String clearBin = "delete from userFile where uid = " + UID + " and fileState = 'N';";
-//            database.workDatabase(clearBin);
-//            // 在磁盘上删除
-//            clearFileListInDir(UID, fileList);
-//            // 数据库上提交
-//            database.getConnection().commit();
-//            // 恢复自动提交
-//            database.getConnection().setAutoCommit(true);
-//        } catch (Exception e) {
-//            log.error("Sql 执行异常");
-//            // 数据库上回滚
-//            try {
-//                database.getConnection().setAutoCommit(true);
-//                database.getConnection().rollback();
-//            } catch (SQLException ex) {
-//                throw new RuntimeException(ex);
-//            }
-//        } finally {
-//            database.closeDatabase();
-//        }
-//
-//        // 告诉前端
-//        try {
-//            this.res.getWriter().println(Res.TRUE);
-//            log.info(user.getEmail() + " 清空回收站成功");
-//        } catch (Exception e) {
-//            log.info(user.getEmail() + " 清空回收站失败");
-//        }
-//    }
-//
-//    // 上传文件
-//    public void uploadFile() {
-//        // 从session中获得user
-//        User user = SessionUtil.getUser(req);
-//        // 数据库类
-//        Database database = new Database();
-//        // 用户UID
-//        int UID = 0;
-//        try {
-//            // 用户ID
-//            String getUid = "select uid from user where email = '" + user.getEmail() + "';";
-//            database.findDatabase(getUid);
-//            while (database.getResultSet().next()) {
-//                UID = Integer.parseInt(database.getResultSet().getString("UID"));
-//            }
-//            // 路径
-//            String path = ConfigUtil.getUserFilePath() + "User" + UID;
-//            if (ServletFileUpload.isMultipartContent(req)) {
-//                FromMap fromMap = FromUtil.parseParam(req);
-//                // 前端传来的currentDir
-//                String fileDir = fromMap.getParamMap().get("currentDir");
-//                Map<String, FileItem> map = fromMap.getFileMap();
-//                for (String name : map.keySet()) {
-//                    long fileSize = Math.round(map.get(name).getSize() * 1.0 / 1024 / 1024);
-//                    // 保存在服务器上
-//                    FileUtil.saveFile(map.get(name), path + fileDir + name);
-//                    // 存储在数据库中
-//                    String saveUserFile = "insert into userFile (uid, fileName, fileType, fileSize, fileDir, fileState) values " +
-//                            "(" + UID + ", '" + name + "','-'," + fileSize + ",'" + fileDir + "','Y');";
-//                    database.workDatabase(saveUserFile);
-//                    // 更新当前存储
-//                    String setNowStorage = "call addStorage(" + UID + ", " + fileSize + ");";
-//                    database.workDatabase(setNowStorage);
-//                    log.info(user.getEmail() + " 文件 " + name + " 保存成功");
-//                }
-//            }
-//        } catch (SQLException e) {
-//            log.error("Sql 执行异常");
-//        }
-//    }
-
+    // 返回值
     private static class Res {
         final static String TRUE = "1";
         final static String FALSE = "0";

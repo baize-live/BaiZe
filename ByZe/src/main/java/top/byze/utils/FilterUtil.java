@@ -8,14 +8,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+/**
+ * @author CodeXS
+ */
 @Slf4j
 public class FilterUtil {
-    static final String charset = "UTF-8";
-    static final String contentType = "text/html;charset=UTF-8";
+    private static final String CHARSET = "UTF-8";
+    private static final String CONTENT_TYPE = "text/html;charset=UTF-8";
 
     public static void setEncode(ServletRequest req, ServletResponse res) throws UnsupportedEncodingException {
-        req.setCharacterEncoding(charset);
-        res.setContentType(contentType);
+        req.setCharacterEncoding(CHARSET);
+        res.setContentType(CONTENT_TYPE);
     }
 
     public static void setRedirect(String url, HttpServletResponse res) throws IOException {

@@ -15,8 +15,11 @@
   <component name="ChangeListManager">
     <list default="true" id="2d414ce0-4ee6-46b5-a191-61980a578332" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserFileMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserFileMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/service/Disk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/service/Disk.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/bean/PanData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/bean/PanData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/bean/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/bean/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/bean/Verify.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/bean/Verify.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/top/byze/util/mapTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/top/byze/util/mapTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +110,7 @@
       <recent name="E:\Program\BaiZe\ByZe\src\main\webapp\static\js" />
     </key>
   </component>
-  <component name="RunManager" selected="Docker.docker">
+  <component name="RunManager" selected="JUnit.mapTest.test">
     <configuration name="HTTP" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="top.byze.util.http" />
       <module name="ByZe" />
@@ -291,10 +294,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.mapTest.test" />
         <item itemvalue="JUnit.mapTest.utilTest" />
         <item itemvalue="JUnit.SqlUtil.insertUser" />
         <item itemvalue="应用程序.HTTP" />
-        <item itemvalue="JUnit.mapTest.test" />
       </list>
     </recent_temporary>
   </component>
@@ -371,6 +374,7 @@
       <workItem from="1655377327910" duration="31000" />
       <workItem from="1655519050511" duration="19977000" />
       <workItem from="1655553145043" duration="2482000" />
+      <workItem from="1655565215532" duration="2600000" />
     </task>
     <servers />
   </component>

@@ -46,4 +46,5 @@ public interface UserMapper {
      */
     @InsertProvider(type = User.class, method = "insertUser")
     void insertUser(User user);
+
 }

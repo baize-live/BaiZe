@@ -33,7 +33,7 @@ public class User {
         }.toString();
     }
 
-    public static String selectUser(User user) {
+    public static String selectUser() {
         return new SQL() {
             {
                 SELECT("*");
@@ -79,7 +79,7 @@ public class User {
         }.toString();
     }
 
-    public static String insertUser(User user) {
+    public static String insertUser() {
         return new SQL() {
             {
                 INSERT_INTO("user");

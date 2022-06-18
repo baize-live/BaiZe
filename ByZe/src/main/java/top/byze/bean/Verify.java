@@ -19,7 +19,7 @@ public class Verify {
     /**
      * 以下两个函数 VerifyMapper 接口中使用
      */
-    public static String selectVerify(Verify verify) {
+    public static String selectVerify() {
         return new SQL() {
             {
                 SELECT("*");
@@ -29,7 +29,7 @@ public class Verify {
         }.toString();
     }
 
-    public static String insertVerify(Verify verify) {
+    public static String insertVerify() {
         return new SQL() {
             {
                 INSERT_INTO("verify");

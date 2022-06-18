@@ -22,7 +22,7 @@ public class PanData {
     /**
      * 以下三个函数 PanDataMapper 接口中使用
      */
-    public static String selectPanData(PanData panData) {
+    public static String selectPanData() {
         return new SQL() {
             {
                 SELECT("*");
@@ -32,7 +32,7 @@ public class PanData {
         }.toString();
     }
 
-    public static String insertPanData(PanData panData) {
+    public static String insertPanData() {
         return new SQL() {
             {
                 INSERT_INTO("panData");

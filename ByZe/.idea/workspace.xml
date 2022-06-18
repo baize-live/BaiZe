@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AnalysisUIOptions">
-    <option name="SPLITTER_PROPORTION" value="0.24808896" />
+    <option name="SPLITTER_PROPORTION" value="0.44815588" />
     <option name="GROUP_BY_SEVERITY" value="true" />
   </component>
   <component name="ArtifactsWorkspaceSettings">
@@ -14,29 +14,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d414ce0-4ee6-46b5-a191-61980a578332" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/top/byze/util/http.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/top/byze/util/mapTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/19c2caed-8e0a-47ce-a833-c277b8fa4daa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/19c2caed-8e0a-47ce-a833-c277b8fa4daa.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/19c2caed-8e0a-47ce-a833-c277b8fa4daa/storage_v2/_src_/schema/library.uyToCQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/42143f02-e643-41e4-a714-b005b999605a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/42143f02-e643-41e4-a714-b005b999605a.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/bean/FromMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/bean/FromMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BaiZeDB.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/BaiZeDB.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/bean/PanData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/bean/PanData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/bean/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/bean/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/bean/UserFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/bean/UserFile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/bean/Verify.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/bean/Verify.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/controller/DiskServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/controller/DiskServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/controller/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/controller/LoginServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/controller/RegisterServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/controller/RegisterServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/controller/UploadFileServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/controller/UploadFileServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/filter/FilterLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/filter/FilterLogin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/filter/FilterServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/filter/FilterServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/filter/FilterStatic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/filter/FilterStatic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/PanDataMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/PanDataMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserFileMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserFileMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserMapper.java" afterDir="false" />
@@ -44,17 +31,12 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/service/Disk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/service/Disk.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/service/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/service/Login.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/service/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/service/Register.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/utils/ConfigUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/utils/ConfigUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/utils/CookieUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/utils/CookieUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/utils/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/utils/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/utils/FileUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/utils/FileUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/utils/FilterUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/utils/FilterUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/utils/FromUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/utils/FromUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/utils/MailUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/utils/MailUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/utils/MyBatis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/utils/MyBatis.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/utils/SessionUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/utils/SessionUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/UserFileMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/UserFileMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/PanDataMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/UserFileMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/UserMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/VerifyMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/top/byze/util/http.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/top/byze/util/mapTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/top/byze/util/mapTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +74,7 @@
     </option>
   </component>
   <component name="NamedScopeManager">
-    <scope name="Main" pattern="src:*..*||src:top.byze.*||src:top.byze.bean.*||src:top.byze.controller.*||src:top.byze.filter.*||src:top.byze.logs.*||src:top.byze.mapper.*||src:top.byze.service.*||src:top.byze.utils.*" />
+    <scope name="Main" pattern="src:*..*||src:top.byze.bean.*||src:top.byze.controller.*||src:top.byze.filter.*||src:top.byze.logs.*||src:top.byze.mapper.*||src:top.byze.service.*||src:top.byze.utils.*||src:top.byze.*" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="ProjectErrors" />
@@ -106,31 +88,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Program/Test/HttpPlainDemo&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.4301181&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;service.view.auto.scroll.to.source&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/Program/BaiZe/ByZe",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.4301181",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "service.view.auto.scroll.to.source": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\Program\BaiZe\ByZe\src\main\webapp\static\js" />
@@ -166,6 +148,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SqlUtil.insertUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ByZe" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="top.byze.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="top.byze.utils" />
+      <option name="MAIN_CLASS_NAME" value="top.byze.utils.SqlUtil" />
+      <option name="METHOD_NAME" value="insertUser" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="mapTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ByZe" />
       <extension name="coverage">
@@ -177,6 +175,22 @@
       <option name="PACKAGE_NAME" value="top.byze.util" />
       <option name="MAIN_CLASS_NAME" value="top.byze.util.mapTest" />
       <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mapTest.utilTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ByZe" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="top.byze.util.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="top.byze.util" />
+      <option name="MAIN_CLASS_NAME" value="top.byze.util.mapTest" />
+      <option name="METHOD_NAME" value="utilTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -288,6 +302,8 @@
     </configuration>
     <list>
       <item itemvalue="Docker.docker" />
+      <item itemvalue="JUnit.SqlUtil.insertUser" />
+      <item itemvalue="JUnit.mapTest.utilTest" />
       <item itemvalue="JUnit.mapTest.test" />
       <item itemvalue="Tomcat 服务器.Tomcat 8.5" />
       <item itemvalue="应用程序.Main" />
@@ -295,8 +311,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.mapTest.test" />
+        <item itemvalue="JUnit.mapTest.utilTest" />
+        <item itemvalue="JUnit.SqlUtil.insertUser" />
         <item itemvalue="应用程序.HTTP" />
+        <item itemvalue="JUnit.mapTest.test" />
       </list>
     </recent_temporary>
   </component>
@@ -369,6 +387,9 @@
       <workItem from="1655295309296" duration="3943000" />
       <workItem from="1655303692923" duration="4251000" />
       <workItem from="1655351493696" duration="681000" />
+      <workItem from="1655354575635" duration="1404000" />
+      <workItem from="1655377327910" duration="31000" />
+      <workItem from="1655519050511" duration="19977000" />
     </task>
     <servers />
   </component>

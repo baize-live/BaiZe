@@ -1,33 +1,49 @@
 package top.byze.mapper;
 
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.InsertProvider;
+import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 import top.byze.bean.User;
 
 import java.util.List;
 
 /**
  * @author CodeXS
+ * <p>
+ * 用户表的映射器
  */
 public interface UserMapper {
+
+    /**
+     * 获得所有用户
+     *
+     * @return List<User> 用户列表
+     */
+    @SelectProvider(type = User.class, method = "selectAll")
     List<User> selectAll();
 
-    User getUser(@Param("email") String email);
+    /**
+     * 获得指定用户
+     *
+     * @param user 用户
+     * @return User 用户
+     */
+    @SelectProvider(type = User.class, method = "selectUser")
+    User selectUser(User user);
 
-    int getUid(@Param("email") String email);
+    /**
+     * 设置用户属性
+     *
+     * @param user 用户
+     */
+    @UpdateProvider(type = User.class, method = "updateUser")
+    void updateUser(User user);
 
-    boolean isOpenPan(@Param("email") String email);
-
-    boolean isOpenYou(@Param("email") String email);
-
-    void openPan(@Param("email") String email);
-
-    void openYou(@Param("email") String email);
-
-    void modifyAttributes(@Param("email") String email, @Param("idCard") String idCard, @Param("realName") String realName, @Param("phone") String phone);
-
-    boolean checkEmail(@Param("email") String email);
-
-    boolean findUser(@Param("email") String email, @Param("password") String password);
-
-    void addUser(@Param("username") String username, @Param("password") String password, @Param("email") String email);
+    /**
+     * 插入新的用户
+     *
+     * @param user 用户
+     */
+    @InsertProvider(type = User.class, method = "insertUser")
+    void insertUser(User user);
 }

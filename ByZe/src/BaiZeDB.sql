@@ -7,8 +7,8 @@ DROP TABLE IF EXISTS User;
 create table User
 (
     UID        int AUTO_INCREMENT COMMENT 'UID',
-    username   varchar(20) NOT NULL COMMENT '用户名',
-    password   varchar(30) NOT NULL COMMENT '密码',
+    username   varchar(20) DEFAULT NULL COMMENT '用户名',
+    password   varchar(30) DEFAULT NULL COMMENT '密码',
     email      varchar(30) NOT NULL COMMENT '电子邮件',
     phone      varchar(20) DEFAULT NULL COMMENT '手机',
     IDCard     varchar(20) DEFAULT NULL COMMENT '身份证号',
@@ -30,7 +30,7 @@ create table PanData
 (
     PID        int AUTO_INCREMENT COMMENT 'PID',
     UID        int COMMENT '用户ID',
-    grade      char        DEFAULT '0' COMMENT '会员等级',
+    grade      int         DEFAULT 1 COMMENT '会员等级',
     icon       varchar(50) DEFAULT '192.png' COMMENT '头像',
     OutOfDate  int         DEFAULT 30 COMMENT '过期时间',
     nowStorage int         DEFAULT 0 COMMENT '当前存储',

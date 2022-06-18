@@ -2,6 +2,7 @@ package top.byze.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
+import top.byze.bean.PanData;
 import top.byze.bean.User;
 import top.byze.mapper.PanDataMapper;
 import top.byze.mapper.UserMapper;
@@ -24,8 +25,11 @@ public class Login {
         this.res = res;
     }
 
-    // =================数据库交互 使用静态
-    // 是否开通网盘
+    // ========================================与数据库交互=============================================== //
+
+    /**
+     * 是否开通网盘
+     */
     private static boolean isOpenPan(String email) {
         boolean flag = false;
         try {
@@ -33,7 +37,7 @@ public class Login {
             SqlSession sqlSession = myBatis.getSqlSession();
             // 获取 UserMapper 接口的代理对象
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            flag = userMapper.isOpenPan(email);
+            flag = "1".equals(userMapper.selectUser(new User(email)).getIsOpenPan());
             // 关闭资源
             myBatis.closeSqlSession();
         } catch (Exception e) {
@@ -42,7 +46,9 @@ public class Login {
         return flag;
     }
 
-    // 是否开通游戏
+    /**
+     * 是否开通游戏
+     */
     private static boolean isOpenYou(String email) {
         boolean flag = false;
         try {
@@ -50,7 +56,7 @@ public class Login {
             SqlSession sqlSession = myBatis.getSqlSession();
             // 获取 UserMapper 接口的代理对象
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            flag = userMapper.isOpenYou(email);
+            flag = "1".equals(userMapper.selectUser(new User(email)).getIsOpenYou());
             // 关闭资源
             myBatis.closeSqlSession();
         } catch (Exception e) {
@@ -59,20 +65,21 @@ public class Login {
         return flag;
     }
 
-    // 开通网盘
+    /**
+     * 开通网盘
+     */
     private static boolean openPan(String email) {
         boolean flag = false;
         try {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
             // 1. 修改user表中用户的isOpenPan字段
-            // 获取 UserMapper 接口的代理对象
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            userMapper.openPan(email);
-            int userId = userMapper.getUid(email);
+            userMapper.updateUser(new User(email).setIsOpenPan("1"));
+            int userId = userMapper.selectUser(new User(email)).getUid();
             // 2. 在panData表中添加用户信息
             PanDataMapper panDataMapper = sqlSession.getMapper(PanDataMapper.class);
-            panDataMapper.initData(userId);
+            panDataMapper.insertPanData(new PanData(userId));
             // 3. 创建的文件目录
             String path = ConfigUtil.getUserFilePath() + "User" + userId;
             FileUtil.createDir(path);
@@ -85,7 +92,9 @@ public class Login {
         return flag;
     }
 
-    // 开通游戏
+    /**
+     * 开通游戏
+     */
     private static boolean openYou(String email) {
         boolean flag = false;
         try {
@@ -93,7 +102,7 @@ public class Login {
             SqlSession sqlSession = myBatis.getSqlSession();
             // 获取 UserMapper 接口的代理对象
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            userMapper.openYou(email);
+            userMapper.updateUser(new User(email).setIsOpenYou("1"));
             // 关闭资源
             myBatis.closeSqlSession();
             flag = true;
@@ -103,14 +112,19 @@ public class Login {
         return flag;
     }
 
-    // 查找用户
+    /**
+     * 查找用户
+     */
     private static boolean findUser(String email, String password) {
         boolean flag = false;
         try {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            flag = userMapper.findUser(email, password);
+            User user = userMapper.selectUser(new User(email));
+            if (user != null && user.getPassword().equals(password)) {
+                flag = true;
+            }
             myBatis.closeSqlSession();
         } catch (Exception e) {
             log.error("查找用户异常");
@@ -118,19 +132,30 @@ public class Login {
         return flag;
     }
 
-    // 添加cookies
+    /**
+     * 添加cookies
+     */
     private static void addCookies(String email, String password, HttpServletResponse res) {
-        User user = new User(password, email);
+        User user = new User(email).setPassword(password);
         CookieUtil.set(user, res);
     }
 
-    // 设置session
+    /**
+     * 设置session
+     */
     private static void setSession(String email, String password, HttpServletRequest req) {
-        User user = new User(password, email);
+        User user = new User(email).setPassword(password);
         SessionUtil.set(user, req);
     }
 
-    // =================提供给Filter的接口
+    // ========================================Filter接口================================================== //
+
+    /**
+     * 返回是否登录
+     *
+     * @param req 请求
+     * @return true:已登录，false:未登录
+     */
     public static boolean isLogin(HttpServletRequest req) {
         boolean flag = false;
 
@@ -140,7 +165,7 @@ public class Login {
                 String email = cookies.get("email");
                 String password = cookies.get("password");
                 if (Login.findUser(email, password)) {
-                    SessionUtil.set(new User(password, email), req);
+                    SessionUtil.set(new User(email).setPassword(password), req);
                     flag = true;
                 }
             }
@@ -151,14 +176,22 @@ public class Login {
         return flag;
     }
 
-    // 返回是否开通网盘
+    /**
+     * 返回是否开通网盘
+     *
+     * @param req HttpServletRequest
+     * @return boolean
+     */
     public static boolean isOpenPan(HttpServletRequest req) {
         User user = SessionUtil.getUser(req);
         return isOpenPan(user.getEmail());
     }
 
-    // =================提供给Servlet的接口
-    // 登录
+    // ========================================Servlet接口================================================= //
+
+    /**
+     * 登录
+     */
     public void login() {
         String email = this.req.getParameter("email");
         String password = this.req.getParameter("password");
@@ -178,7 +211,9 @@ public class Login {
         }
     }
 
-    // 返回是否开通网盘
+    /**
+     * 返回是否开通网盘
+     */
     public void isOpenPan() {
         // 查询数据库 判断是否开启白泽网盘
         User user = SessionUtil.getUser(req);
@@ -196,7 +231,9 @@ public class Login {
         }
     }
 
-    // 返回是否开通游戏
+    /**
+     * 返回是否开通游戏
+     */
     public void isOpenYou() {
         // 查询数据库 判断是否开启白泽库
         User user = SessionUtil.getUser(req);
@@ -214,7 +251,9 @@ public class Login {
         }
     }
 
-    // 开通网盘
+    /**
+     * 开通网盘
+     */
     public void openPan() {
         User user = SessionUtil.getUser(req);
         try {
@@ -230,7 +269,9 @@ public class Login {
         }
     }
 
-    // 开通游戏
+    /**
+     * 开通游戏
+     */
     public void openYou() {
         User user = SessionUtil.getUser(req);
         try {
@@ -246,7 +287,9 @@ public class Login {
         }
     }
 
-    // 登出
+    /**
+     * 登出
+     */
     public void logout() {
         // 清除cookies
         CookieUtil.delete(this.req, this.res);
@@ -257,7 +300,9 @@ public class Login {
         }
     }
 
-    // 是否登录
+    /**
+     * 是否登录
+     */
     public void isLogin() {
         try {
             if (isLogin(req)) {
@@ -270,8 +315,12 @@ public class Login {
         }
     }
 
+    /**
+     * 返回值
+     */
     private static class Res {
         final static String TRUE = "1";
         final static String FALSE = "0";
     }
+
 }

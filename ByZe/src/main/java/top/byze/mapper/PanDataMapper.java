@@ -1,35 +1,40 @@
 package top.byze.mapper;
 
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.InsertProvider;
+import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 import top.byze.bean.PanData;
 
 /**
  * @author CodeXS
+ * <p>
+ * 网盘数据的映射器
  */
-
 public interface PanDataMapper {
 
     /**
-     * 获得初始数据
+     * 获得网盘数据
      *
-     * @param uid 用户id
+     * @param panData 网盘数据
+     * @return PanData 网盘数据
      */
-    void initData(@Param("UID") int uid);
+    @SelectProvider(type = PanData.class, method = "selectPanData")
+    PanData selectPanData(PanData panData);
 
     /**
-     * 拿到用户的网盘数据
+     * 插入网盘数据
      *
-     * @param uid 用户id
-     * @return 用户所有的网盘数据
+     * @param panData 网盘数据
      */
-    PanData getPanData(@Param("UID") int uid);
+    @InsertProvider(type = PanData.class, method = "insertPanData")
+    void insertPanData(PanData panData);
 
     /**
-     * 设置当前存储
+     * 更新网盘数据
      *
-     * @param uid        用户id
-     * @param nowStorage 当前存储
+     * @param panData 网盘数据
      */
-    void setNowStorage(@Param("UID") int uid, @Param("nowStorage") long nowStorage);
+    @UpdateProvider(type = PanData.class, method = "updatePanData")
+    void updatePanData(PanData panData);
 
 }

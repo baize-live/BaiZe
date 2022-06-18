@@ -4,27 +4,23 @@ package top.byze.bean;
  * @author CodeXS
  */
 public class UserFile {
-    private final int userId;
+    private final Integer uid;
     private final String fileName;
     private final String fileDir;
-    private String userFileId;
+    private Integer userFileId;
     private String fileType;
-    private long fileSize;
+    private Integer fileSize;
     private String fileState;
     private String deleteTime;
 
-    public UserFile(int userId, String fileName, String fileDir) {
-        this.userId = userId;
+    public UserFile(Integer uid, String fileName, String fileDir) {
+        this.uid = uid;
         this.fileName = fileName;
         this.fileDir = fileDir;
     }
 
-    public String getUserFileId() {
-        return userFileId;
-    }
-
-    public int getUserId() {
-        return userId;
+    public Integer getUid() {
+        return uid;
     }
 
     public String getFileName() {
@@ -35,7 +31,7 @@ public class UserFile {
         return fileType;
     }
 
-    public long getFileSize() {
+    public Integer getFileSize() {
         return fileSize;
     }
 
@@ -51,17 +47,4 @@ public class UserFile {
         return deleteTime;
     }
 
-    @Override
-    public String toString() {
-        return "UserFile{" +
-                "UFID='" + userFileId + '\'' +
-                ", UID='" + userId + '\'' +
-                ", fileName='" + fileName + '\'' +
-                ", fileType='" + fileType + '\'' +
-                ", fileSize='" + fileSize + '\'' +
-                ", fileState='" + fileState + '\'' +
-                ", lastDir='" + fileDir + '\'' +
-                ", deleteTime='" + deleteTime + '\'' +
-                '}';
-    }
 }

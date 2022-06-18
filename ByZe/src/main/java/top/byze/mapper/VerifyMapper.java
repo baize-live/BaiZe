@@ -1,26 +1,31 @@
 package top.byze.mapper;
 
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.InsertProvider;
+import org.apache.ibatis.annotations.SelectProvider;
+import top.byze.bean.Verify;
 
 /**
  * @author CodeXS
+ * <p>
+ * 验证码表的映射器
  */
 public interface VerifyMapper {
 
     /**
-     * 检查验证码是否正确
+     * 获得验证码
      *
-     * @param email      注册邮箱
-     * @param verifyCode 验证码
-     * @return 返回bool
+     * @param verify 验证码
+     * @return 验证码
      */
-    boolean checkVerifyCode(@Param("email") String email, @Param("verifyCode") String verifyCode);
+    @SelectProvider(type = Verify.class, method = "selectVerify")
+    Verify selectVerify(Verify verify);
 
     /**
-     * 保存生成的验证码
+     * 插入验证码
      *
-     * @param email      注册邮箱
-     * @param verifyCode 验证码
+     * @param verify 验证码
      */
-    void saveVerifyCode(@Param("email") String email, @Param("verifyCode") String verifyCode);
+    @InsertProvider(type = Verify.class, method = "insertVerify")
+    void insertVerify(Verify verify);
+
 }

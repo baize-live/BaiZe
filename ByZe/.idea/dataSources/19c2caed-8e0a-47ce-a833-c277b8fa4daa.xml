@@ -932,17 +932,17 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="280" parent="1" name="root"/>
-    <user id="281" parent="1" name="mysql.session">
+    <user id="280" parent="1" name="mysql.session">
       <CanLogin>0</CanLogin>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="282" parent="1" name="mysql.sys">
+    <user id="281" parent="1" name="mysql.sys">
       <CanLogin>0</CanLogin>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
+    <user id="282" parent="1" name="root"/>
     <routine id="283" parent="274" name="setNowStorage">
       <Definer>root@%</Definer>
       <RoutineKind>procedure</RoutineKind>
@@ -951,6 +951,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     <scheduled-event id="284" parent="274" name="clearVerifyOver5min">
       <Definer>root@%</Definer>
       <Interval>&apos;60&apos; SECOND</Interval>
+      <LastExecuted>2022-06-18.23:31:00</LastExecuted>
       <SourceTextLength>94</SourceTextLength>
       <Starts>&apos;2022-01-01 00:00:00&apos;</Starts>
       <Status>enabled</Status>
@@ -5031,7 +5032,7 @@ mysql&gt; SELECT VERSION(), sys.version_patch();
       <Primary>1</Primary>
     </key>
     <column id="685" parent="287" name="PID">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>3</AutoIncrement>
       <Comment>PID</Comment>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
@@ -5044,8 +5045,8 @@ mysql&gt; SELECT VERSION(), sys.version_patch();
     </column>
     <column id="687" parent="287" name="grade">
       <Comment>会员等级</Comment>
-      <DataType>char(1)|0s</DataType>
-      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <DataType>int|0s</DataType>
+      <DefaultExpression>1</DefaultExpression>
       <Position>3</Position>
     </column>
     <column id="688" parent="287" name="icon">
@@ -5119,7 +5120,7 @@ mysql&gt; SELECT VERSION(), sys.version_patch();
       <Primary>1</Primary>
     </key>
     <column id="700" parent="289" name="UID">
-      <AutoIncrement>10000000</AutoIncrement>
+      <AutoIncrement>10000004</AutoIncrement>
       <Comment>UID</Comment>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
@@ -5128,13 +5129,11 @@ mysql&gt; SELECT VERSION(), sys.version_patch();
     <column id="701" parent="289" name="username">
       <Comment>用户名</Comment>
       <DataType>varchar(20)|0s</DataType>
-      <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
     <column id="702" parent="289" name="password">
       <Comment>密码</Comment>
       <DataType>varchar(30)|0s</DataType>
-      <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
     <column id="703" parent="289" name="email">
@@ -5191,7 +5190,7 @@ mysql&gt; SELECT VERSION(), sys.version_patch();
       <UnderlyingIndexName>UniqueEmail</UnderlyingIndexName>
     </key>
     <column id="713" parent="290" name="UFID">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>29</AutoIncrement>
       <Comment>UFID</Comment>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
@@ -5267,7 +5266,7 @@ fileName</ColNames>
       <UnderlyingIndexName>UniqueName</UnderlyingIndexName>
     </key>
     <column id="725" parent="291" name="VID">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>4</AutoIncrement>
       <Comment>VID</Comment>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>

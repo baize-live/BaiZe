@@ -49,7 +49,7 @@ public interface UserFileMapper {
      * @param days 时限
      * @return List<UserFile> 文件列表
      */
-    @Select("select * from UserFile where fileState = 'N' and deleteTime &lt; DATE_SUB(CURRENT_TIMESTAMP, INTERVAL #{days} day);")
+    @Select("select * from UserFile where fileState = 'N' and deleteTime < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL #{days} day);")
     List<UserFile> selectFilesOutOfDateInDatabase(@Param("UID") int uid, @Param("days") int days);
 
     /**
@@ -93,7 +93,7 @@ public interface UserFileMapper {
      * @param uid  用户
      * @param days 时限
      */
-    @Delete("delete from UserFile where fileState = 'N' and deleteTime &lt; DATE_SUB(CURRENT_TIMESTAMP, INTERVAL #{days} day);")
+    @Delete("delete from UserFile where fileState = 'N' and deleteTime < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL #{days} day);")
     void clearFilesOutOfDateInDatabase(@Param("UID") int uid, @Param("days") int days);
 
     /**

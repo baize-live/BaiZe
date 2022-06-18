@@ -534,10 +534,10 @@ public class Disk {
         User user = SessionUtil.getUser(req);
         // 获得用户全部属性
         user = getUser(user.getEmail());
-        int uid = user.getUid();
+        Integer uid = user.getUid();
         // 查看垃圾箱前 删除过期文件
         PanData panData = getPanData(uid);
-        int days = panData.getOutOfDate();
+        Integer days = panData.getOutOfDate();
         List<UserFile> fileList = selectFilesOutOfDateInDatabase(uid, days);
         // 删除磁盘中的过期文件
         clearFileListInDir(uid, fileList);

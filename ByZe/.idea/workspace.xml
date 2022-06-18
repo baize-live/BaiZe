@@ -14,29 +14,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d414ce0-4ee6-46b5-a191-61980a578332" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/19c2caed-8e0a-47ce-a833-c277b8fa4daa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/19c2caed-8e0a-47ce-a833-c277b8fa4daa.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BaiZeDB.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/BaiZeDB.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/bean/PanData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/bean/PanData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/bean/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/bean/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/bean/UserFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/bean/UserFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/bean/Verify.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/bean/Verify.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/controller/UploadFileServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/controller/UploadFileServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/PanDataMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/PanDataMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserFileMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserFileMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/VerifyMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/VerifyMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/service/Disk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/service/Disk.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/service/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/service/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/service/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/service/Register.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/PanDataMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/UserFileMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/UserMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/top/byze/mapper/VerifyMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/top/byze/util/http.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/top/byze/util/mapTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/top/byze/util/mapTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,31 +68,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/Program/BaiZe/ByZe",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.4301181",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "service.view.auto.scroll.to.source": "true",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Program/BaiZe/ByZe&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.4301181&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;service.view.auto.scroll.to.source&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\Program\BaiZe\ByZe\src\main\webapp\static\js" />
@@ -390,6 +370,7 @@
       <workItem from="1655354575635" duration="1404000" />
       <workItem from="1655377327910" duration="31000" />
       <workItem from="1655519050511" duration="19977000" />
+      <workItem from="1655553145043" duration="2482000" />
     </task>
     <servers />
   </component>

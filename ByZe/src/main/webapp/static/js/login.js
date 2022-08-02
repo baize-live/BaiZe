@@ -222,7 +222,7 @@ new Vue({
     data: {
         email: "",
         password: "",
-        url: basePath + "/register",
+        url: basePath + "/login",
         business: {
             login: "104",
         }
@@ -301,5 +301,4 @@ new Vue({
         },
     }
 });
-
 

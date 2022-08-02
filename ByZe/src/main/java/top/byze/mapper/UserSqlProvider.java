@@ -13,7 +13,7 @@ public class UserSqlProvider {
             {
                 SELECT("*");
                 FROM("user");
-                if (user.getConditionTypeId() != null) {
+                if (user.getSelectConditionTypeId() != null) {
                     // 目前只有 通过邮箱查询 在可预见的未来 也只会通过邮箱
                     WHERE("email = #{email}");
                 } else {

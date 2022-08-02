@@ -19,7 +19,7 @@ public class User {
     private String createTime;
 
     // 非数据库字段 用于生成不同的sql语句
-    private Integer conditionTypeId;
+    private Integer selectConditionTypeId;
 
     // 构造函数 email 为唯一标识
     public User(String email) {
@@ -62,8 +62,8 @@ public class User {
         return this;
     }
 
-    public User setConditionTypeId(Integer conditionTypeId) {
-        this.conditionTypeId = conditionTypeId;
+    public User setSelectConditionTypeId(Integer selectConditionTypeId) {
+        this.selectConditionTypeId = selectConditionTypeId;
         return this;
     }
 
@@ -80,7 +80,7 @@ public class User {
                 ", isOpenYou='" + isOpenYou + '\'' +
                 ", isOpenPan='" + isOpenPan + '\'' +
                 ", createTime='" + createTime + '\'' +
-                ", conditionTypeId=" + conditionTypeId +
+                ", selectConditionTypeId=" + selectConditionTypeId +
                 '}';
     }
 }

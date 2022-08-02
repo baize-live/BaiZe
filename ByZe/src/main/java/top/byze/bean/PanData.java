@@ -1,10 +1,11 @@
 package top.byze.bean;
 
-import org.apache.ibatis.jdbc.SQL;
+import lombok.Getter;
 
 /**
  * @author CodeXS
  */
+@Getter
 public class PanData {
     private final Integer uid;
     private Integer pid;
@@ -19,67 +20,9 @@ public class PanData {
         this.uid = uid;
     }
 
-    /**
-     * 以下三个函数 PanDataMapper 接口中使用
-     */
-    public static String selectPanData() {
-        return new SQL() {
-            {
-                SELECT("*");
-                FROM("panData");
-                WHERE("uid = #{uid}");
-            }
-        }.toString();
-    }
-
-    public static String insertPanData() {
-        return new SQL() {
-            {
-                INSERT_INTO("panData");
-                VALUES("uid", "#{uid}");
-            }
-        }.toString();
-    }
-
-    public static String updatePanData(PanData panData) {
-        return new SQL() {
-            {
-                UPDATE("panData");
-                if (panData.getIcon() != null) {
-                    SET("icon = #{icon}");
-                }
-                if (panData.getGrade() != null) {
-                    SET("grade = #{grade}");
-                }
-                if (panData.getOutOfDate() != null) {
-                    SET("outOfDate = #{outOfDate}");
-                }
-                if (panData.getNowStorage() != null) {
-                    SET("nowStorage = #{nowStorage}");
-                }
-                if (panData.getMaxStorage() != null) {
-                    SET("maxStorage = #{maxStorage}");
-                }
-                WHERE("uid = #{uid}");
-            }
-        }.toString();
-    }
-
-    public Integer getUid() {
-        return uid;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
     public PanData setIcon(String icon) {
         this.icon = icon;
         return this;
-    }
-
-    public Integer getGrade() {
-        return grade;
     }
 
     public PanData setGrade(Integer grade) {
@@ -87,17 +30,9 @@ public class PanData {
         return this;
     }
 
-    public Integer getOutOfDate() {
-        return outOfDate;
-    }
-
     public PanData setOutOfDate(Integer outOfDate) {
         this.outOfDate = outOfDate;
         return this;
-    }
-
-    public Integer getNowStorage() {
-        return nowStorage;
     }
 
     public PanData setNowStorage(Integer nowStorage) {
@@ -105,13 +40,8 @@ public class PanData {
         return this;
     }
 
-    public Integer getMaxStorage() {
-        return maxStorage;
-    }
-
     public PanData setMaxStorage(Integer maxStorage) {
         this.maxStorage = maxStorage;
         return this;
     }
-
 }

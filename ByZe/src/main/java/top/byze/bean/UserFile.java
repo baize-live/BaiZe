@@ -1,50 +1,83 @@
 package top.byze.bean;
 
+import lombok.Getter;
+
 /**
  * @author CodeXS
  */
+@Getter
 public class UserFile {
-    private final Integer uid;
-    private final String fileName;
-    private final String fileDir;
-    private Integer userFileId;
+    private Integer uid;
+    private String fileName;
+    private String fileDir;
+    private Integer ufId;
     private String fileType;
     private Integer fileSize;
     private String fileState;
     private String deleteTime;
 
+    // 非数据库字段 用于生成不同的sql语句
+    private Integer selectConditionTypeId;
+    private Integer updateConditionTypeId;
+    private Integer deleteConditionTypeId;
+
+    public UserFile() {
+    }
+
+    // 唯一标识一个文件
     public UserFile(Integer uid, String fileName, String fileDir) {
         this.uid = uid;
         this.fileName = fileName;
         this.fileDir = fileDir;
     }
 
-    public Integer getUid() {
-        return uid;
+    public UserFile setUid(Integer uid) {
+        this.uid = uid;
+        return this;
     }
 
-    public String getFileName() {
-        return fileName;
+    public UserFile setFileName(String fileName) {
+        this.fileName = fileName;
+        return this;
     }
 
-    public String getFileType() {
-        return fileType;
+    public UserFile setFileDir(String fileDir) {
+        this.fileDir = fileDir;
+        return this;
     }
 
-    public Integer getFileSize() {
-        return fileSize;
+    public UserFile setFileType(String fileType) {
+        this.fileType = fileType;
+        return this;
     }
 
-    public String getFileState() {
-        return fileState;
+    public UserFile setFileSize(Integer fileSize) {
+        this.fileSize = fileSize;
+        return this;
     }
 
-    public String getFileDir() {
-        return fileDir;
+    public UserFile setFileState(String fileState) {
+        this.fileState = fileState;
+        return this;
     }
 
-    public String getDeleteTime() {
-        return deleteTime;
+    public UserFile setDeleteTime(String deleteTime) {
+        this.deleteTime = deleteTime;
+        return this;
     }
 
+    public UserFile setSelectConditionTypeId(Integer selectConditionTypeId) {
+        this.selectConditionTypeId = selectConditionTypeId;
+        return this;
+    }
+
+    public UserFile setUpdateConditionTypeId(Integer updateConditionTypeId) {
+        this.updateConditionTypeId = updateConditionTypeId;
+        return this;
+    }
+
+    public UserFile setDeleteConditionTypeId(Integer deleteConditionTypeId) {
+        this.deleteConditionTypeId = deleteConditionTypeId;
+        return this;
+    }
 }

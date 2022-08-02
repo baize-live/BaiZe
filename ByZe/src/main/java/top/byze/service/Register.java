@@ -6,11 +6,8 @@ import top.byze.bean.User;
 import top.byze.bean.Verify;
 import top.byze.mapper.UserMapper;
 import top.byze.mapper.VerifyMapper;
-import top.byze.utils.MailUtil;
 import top.byze.utils.MyBatis;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Random;
 
 /**
@@ -18,28 +15,21 @@ import java.util.Random;
  */
 @Slf4j
 public class Register {
-    final HttpServletRequest req;
-    final HttpServletResponse res;
-
-    public Register(HttpServletRequest req, HttpServletResponse res) {
-        this.req = req;
-        this.res = res;
-    }
-
     // ========================================与数据库交互=============================================== //
 
     /**
      * 检查邮箱是否已经注册
      */
-    private static boolean checkEmail(String email) {
+    public static boolean checkEmail(String email) {
         boolean flag = false;
         try {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            flag = userMapper.selectUser(new User(email)) != null;
+            flag = !userMapper.selectUser(new User(email)).isEmpty();
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("检查邮箱异常");
         }
         return flag;
@@ -48,7 +38,7 @@ public class Register {
     /**
      * 保存验证码
      */
-    private static void saveVerifyCode(String email, String verifyCode) {
+    public static void saveVerifyCode(String email, String verifyCode) {
         try {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
@@ -63,7 +53,7 @@ public class Register {
     /**
      * 检查验证码
      */
-    private static boolean checkVerifyCode(String email, String verifyCode) {
+    public static boolean checkVerifyCode(String email, String verifyCode) {
         Verify flag = null;
         try {
             MyBatis myBatis = new MyBatis();
@@ -80,7 +70,7 @@ public class Register {
     /**
      * 添加用户
      */
-    private static void addUser(String username, String password, String email) {
+    public static void addUser(String username, String password, String email) {
         try {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
@@ -101,7 +91,7 @@ public class Register {
     /**
      * 生成验证码
      */
-    private static String generateVerifyCode() {
+    public static String generateVerifyCode() {
         final int size = 6;
         Random random = new Random();
         char[] chars = ("0123456789").toCharArray();
@@ -112,75 +102,5 @@ public class Register {
             stringBuilder.append(c);
         }
         return stringBuilder.toString();
-    }
-
-    // ========================================Servlet接口================================================= //
-
-    /**
-     * 检查邮箱
-     */
-    public void checkEmail() {
-        try {
-            String email = this.req.getParameter("email");
-            // 判断是否存在此邮箱
-            if (checkEmail(email)) {
-                this.res.getWriter().println(Res.FALSE);
-                log.info("此邮箱已被注册");
-            } else {
-                this.res.getWriter().println(Res.TRUE);
-                log.info("此邮箱未被注册");
-            }
-        } catch (Exception e) {
-            log.error("这里有异常");
-        }
-    }
-
-    /**
-     * 发送验证码
-     */
-    public void sendVerifyCode() {
-        // 获取注册码
-        String email = this.req.getParameter("email");
-        String verifyCode = generateVerifyCode();
-        // 保存验证码
-        saveVerifyCode(email, verifyCode);
-        // 发送邮件
-        try {
-            new MailUtil(email, verifyCode).sendMain();
-            this.res.getWriter().println(Res.TRUE);
-            log.info("验证码发送成功");
-        } catch (Exception e) {
-            log.error("验证码发送异常");
-        }
-    }
-
-    /**
-     * 注册
-     */
-    public void register() {
-        String email = this.req.getParameter("email");
-        String username = this.req.getParameter("username");
-        String password = this.req.getParameter("password");
-        String verifyCode = this.req.getParameter("verifyCode");
-        try {
-            if (checkVerifyCode(email, verifyCode)) {
-                addUser(username, password, email);
-                this.res.getWriter().println(Res.TRUE);
-                log.info(email + " 注册成功");
-            } else {
-                this.res.getWriter().println(Res.FALSE);
-                log.info(email + " 验证码错误");
-            }
-        } catch (Exception e) {
-            log.info(email + " 注册异常");
-        }
-    }
-
-    /**
-     * 返回值
-     */
-    private static class Res {
-        final static String TRUE = "1";
-        final static String FALSE = "0";
     }
 }

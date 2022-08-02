@@ -1,6 +1,8 @@
 package top.byze.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import top.byze.service.Register;
+import top.byze.utils.MailUtil;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @WebServlet(value = "/register")
 public class RegisterServlet extends HttpServlet {
-
     private void doException() {
         log.error("前端数据异常");
     }
@@ -26,19 +27,13 @@ public class RegisterServlet extends HttpServlet {
         }
         switch (business) {
             case Business.REGISTER:
-                new top.byze.service.Register(req, res).register();
+                register(req, res);
                 break;
             case Business.CHECK_EMAIL:
-                new top.byze.service.Register(req, res).checkEmail();
+                checkEmail(req, res);
                 break;
             case Business.SEND_VERIFICATION_CODE:
-                new top.byze.service.Register(req, res).sendVerifyCode();
-                break;
-            case Business.LOGIN:
-                new top.byze.service.Login(req, res).login();
-                break;
-            case Business.IS_LOGIN:
-                new top.byze.service.Login(req, res).isLogin();
+                sendVerifyCode(req, res);
                 break;
             default:
                 log.error("前端数据异常");
@@ -52,14 +47,79 @@ public class RegisterServlet extends HttpServlet {
     }
 
     /**
+     * 检查邮箱
+     */
+    public void checkEmail(HttpServletRequest req, HttpServletResponse res) {
+        try {
+            String email = req.getParameter("email");
+            // 判断是否存在此邮箱
+            if (Register.checkEmail(email)) {
+                res.getWriter().println(Res.FALSE);
+                log.info("此邮箱已被注册");
+            } else {
+                res.getWriter().println(Res.TRUE);
+                log.info("此邮箱未被注册");
+            }
+        } catch (Exception e) {
+            log.error("这里有异常");
+        }
+    }
+
+    /**
+     * 发送验证码
+     */
+    public void sendVerifyCode(HttpServletRequest req, HttpServletResponse res) {
+        // 获取注册码
+        String email = req.getParameter("email");
+        String verifyCode = Register.generateVerifyCode();
+        // 保存验证码
+        Register.saveVerifyCode(email, verifyCode);
+        // 发送邮件
+        try {
+            new MailUtil(email, verifyCode).sendMain();
+            res.getWriter().println(Res.TRUE);
+            log.info("验证码发送成功");
+        } catch (Exception e) {
+            log.error("验证码发送异常");
+        }
+    }
+
+    /**
+     * 注册
+     */
+    public void register(HttpServletRequest req, HttpServletResponse res) {
+        String email = req.getParameter("email");
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        String verifyCode = req.getParameter("verifyCode");
+        try {
+            if (Register.checkVerifyCode(email, verifyCode)) {
+                Register.addUser(username, password, email);
+                res.getWriter().println(Res.TRUE);
+                log.info(email + " 注册成功");
+            } else {
+                res.getWriter().println(Res.FALSE);
+                log.info(email + " 验证码错误");
+            }
+        } catch (Exception e) {
+            log.info(email + " 注册异常");
+        }
+    }
+
+    /**
      * 业务类型
      */
     private static class Business {
         final static String CHECK_EMAIL = "101";
         final static String SEND_VERIFICATION_CODE = "102";
         final static String REGISTER = "103";
-        final static String LOGIN = "104";
-        final static String IS_LOGIN = "110";
     }
 
+    /**
+     * 返回值
+     */
+    private static class Res {
+        final static String TRUE = "1";
+        final static String FALSE = "0";
+    }
 }

@@ -17,7 +17,7 @@ public class Main {
         SqlSession sqlSession = myBatis.getSqlSession();
         // 获取UserMapper接口的代理对象
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-        List<User> users = userMapper.selectAll();
+        List<User> users = userMapper.selectUser(new User("1921676794@qq.com"));
         for (User user : users) {
             System.out.println(user);
         }

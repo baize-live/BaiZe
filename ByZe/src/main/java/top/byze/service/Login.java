@@ -133,6 +133,7 @@ public class Login {
             }
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("查找用户异常");
         }
         return flag;

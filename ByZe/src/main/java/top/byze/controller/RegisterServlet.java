@@ -36,6 +36,9 @@ public class RegisterServlet extends HttpServlet {
             case Business.SEND_VERIFICATION_CODE:
                 sendVerifyCode(req, res);
                 break;
+            case Business.LOGIN:
+                login(req, res);
+                break;
             case Business.IS_LOGIN:
                 isLogin(req, res);
                 break;
@@ -111,6 +114,28 @@ public class RegisterServlet extends HttpServlet {
     }
 
     /**
+     * 登录
+     */
+    public void login(HttpServletRequest req, HttpServletResponse res) {
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+        boolean flag = Login.findUser(email, password);
+        try {
+            if (flag) {
+                Login.addCookies(email, password, res);
+                Login.setSession(email, password, req);
+                res.getWriter().println(Res.TRUE);
+                log.info(email + " 登录成功");
+            } else {
+                res.getWriter().println(Res.FALSE);
+                log.info(email + " 登录失败");
+            }
+        } catch (Exception e) {
+            log.error("登录异常");
+        }
+    }
+
+    /**
      * 是否登录
      */
     public void isLogin(HttpServletRequest req, HttpServletResponse res) {
@@ -132,6 +157,7 @@ public class RegisterServlet extends HttpServlet {
         final static String CHECK_EMAIL = "101";
         final static String SEND_VERIFICATION_CODE = "102";
         final static String REGISTER = "103";
+        final static String LOGIN = "104";
         final static String IS_LOGIN = "110";
     }
 

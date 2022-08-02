@@ -27,13 +27,13 @@ public interface UserFileMapper {
     /**
      * 更新用户文件
      */
-    @UpdateProvider(type = UserSqlProvider.class, method = "updateUserFile")
+    @UpdateProvider(type = UserFileSqlProvider.class, method = "updateUserFile")
     void updateUserFile(UserFile userFile);
 
     /**
      * 删除用户文件
      */
-    @DeleteProvider(type = UserSqlProvider.class, method = "deleteUserFile")
+    @DeleteProvider(type = UserFileSqlProvider.class, method = "deleteUserFile")
     void deleteUserFile(UserFile userFile);
 
     /**

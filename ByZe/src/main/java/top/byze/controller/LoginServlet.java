@@ -45,36 +45,12 @@ public class LoginServlet extends HttpServlet {
             case Business.LOGOUT:
                 logout(req, res);
                 break;
-            case Business.LOGIN:
-                login(req, res);
-                break;
             default:
                 doException();
                 break;
         }
     }
 
-    /**
-     * 登录
-     */
-    public void login(HttpServletRequest req, HttpServletResponse res) {
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-        boolean flag = Login.findUser(email, password);
-        try {
-            if (flag) {
-                Login.addCookies(email, password, res);
-                Login.setSession(email, password, req);
-                res.getWriter().println(Res.TRUE);
-                log.info(email + " 登录成功");
-            } else {
-                res.getWriter().println(Res.FALSE);
-                log.info(email + " 登录失败");
-            }
-        } catch (Exception e) {
-            log.error("登录异常");
-        }
-    }
 
     /**
      * 返回是否开通网盘
@@ -177,7 +153,6 @@ public class LoginServlet extends HttpServlet {
      * 业务类型
      */
     private static class Business {
-        final static String LOGIN = "104";
         final static String IS_OPEN_PAN = "105";
         final static String OPEN_PAN = "106";
         final static String IS_OPEN_YOU = "107";

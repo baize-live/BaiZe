@@ -13,7 +13,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d414ce0-4ee6-46b5-a191-61980a578332" name="变更" comment="" />
+    <list default="true" id="2d414ce0-4ee6-46b5-a191-61980a578332" name="变更" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/controller/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/controller/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/controller/RegisterServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/controller/RegisterServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserFileMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserFileMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/VerifyMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/VerifyMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/service/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/service/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/login.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -100,7 +108,7 @@
       <recent name="E:\Program\BaiZe\ByZe\src\main\webapp\static\js" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UserTest.userTest">
+  <component name="RunManager" selected="Docker.docker">
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="top.byze.Main" />
       <module name="ByZe" />
@@ -241,7 +249,7 @@
           <artifact name="ByZe:war" />
         </option>
         <option name="ToolBeforeRunTask" enabled="true" actionId="Tool_External Tools_copy" />
-        <option name="RemoteToolBeforeRunTask" enabled="true" actionId="RemoteTool_Remote Tools_clear" />
+        <option name="RemoteToolBeforeRunTask" enabled="true" actionId="RemoteTool_远程工具_clear" />
       </method>
     </configuration>
     <list>
@@ -347,7 +355,7 @@
       <workItem from="1657678577905" duration="3796000" />
       <workItem from="1657705491365" duration="631000" />
       <workItem from="1657788376689" duration="6718000" />
-      <workItem from="1659440295426" duration="14626000" />
+      <workItem from="1659440295426" duration="15558000" />
     </task>
     <servers />
   </component>

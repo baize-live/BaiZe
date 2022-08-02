@@ -13,38 +13,21 @@ import java.util.List;
  * 用户表的映射器
  */
 public interface UserMapper {
+    /**
+     * 查询用户
+     */
+    @SelectProvider(type = UserSqlProvider.class, method = "selectUser")
+    List<User> selectUser(User user);
 
     /**
-     * 获得所有用户
-     *
-     * @return List<User> 用户列表
+     * 更新用户
      */
-    @SelectProvider(type = User.class, method = "selectAll")
-    List<User> selectAll();
-
-    /**
-     * 获得指定用户
-     *
-     * @param user 用户
-     * @return User 用户
-     */
-    @SelectProvider(type = User.class, method = "selectUser")
-    User selectUser(User user);
-
-    /**
-     * 设置用户属性
-     *
-     * @param user 用户
-     */
-    @UpdateProvider(type = User.class, method = "updateUser")
+    @UpdateProvider(type = UserSqlProvider.class, method = "updateUser")
     void updateUser(User user);
 
     /**
-     * 插入新的用户
-     *
-     * @param user 用户
+     * 插入用户
      */
-    @InsertProvider(type = User.class, method = "insertUser")
+    @InsertProvider(type = UserSqlProvider.class, method = "insertUser")
     void insertUser(User user);
-
 }

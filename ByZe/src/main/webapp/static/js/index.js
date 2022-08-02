@@ -14,7 +14,7 @@ new Vue({
             // 我自己的数据
             isLoginBoolean: false,
             Quotes: "",
-            url: basePath + "/login",
+            url: basePath,
             business: {
                 logoutString: "109",
                 isLoginString: "110",
@@ -69,7 +69,7 @@ new Vue({
         isLogin: function () {
             let data = "business=" + this.business.isLoginString;
             let that = this;
-            axios.post(this.url, data)
+            axios.post(this.url + "/register", data)
                 .then(function (res) {
                     if (res.data == "1") {
                         that.$notify({
@@ -96,7 +96,7 @@ new Vue({
         logout: function () {
             let data = "business=" + this.business.logoutString;
             let that = this;
-            axios.post(this.url, data)
+            axios.post(this.url + "/login", data)
                 .then(function (res) {
                     if (res.data == "1") {
                         that.$notify({

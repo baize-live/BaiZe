@@ -13,15 +13,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d414ce0-4ee6-46b5-a191-61980a578332" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/19c2caed-8e0a-47ce-a833-c277b8fa4daa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/19c2caed-8e0a-47ce-a833-c277b8fa4daa.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/42143f02-e643-41e4-a714-b005b999605a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/42143f02-e643-41e4-a714-b005b999605a.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/bean/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/bean/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserSqlProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/top/byze/mapper/UserSqlProvider.java" afterDir="false" />
-    </list>
+    <list default="true" id="2d414ce0-4ee6-46b5-a191-61980a578332" name="变更" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -355,7 +347,7 @@
       <workItem from="1657678577905" duration="3796000" />
       <workItem from="1657705491365" duration="631000" />
       <workItem from="1657788376689" duration="6718000" />
-      <workItem from="1659440295426" duration="14093000" />
+      <workItem from="1659440295426" duration="14626000" />
     </task>
     <servers />
   </component>

@@ -48,9 +48,6 @@ public class LoginServlet extends HttpServlet {
             case Business.LOGIN:
                 login(req, res);
                 break;
-            case Business.IS_LOGIN:
-                isLogin(req, res);
-                break;
             default:
                 doException();
                 break;
@@ -76,21 +73,6 @@ public class LoginServlet extends HttpServlet {
             }
         } catch (Exception e) {
             log.error("登录异常");
-        }
-    }
-
-    /**
-     * 是否登录
-     */
-    public void isLogin(HttpServletRequest req, HttpServletResponse res) {
-        try {
-            if (Login.isLogin(req)) {
-                res.getWriter().println(Res.TRUE);
-            } else {
-                res.getWriter().println(Res.FALSE);
-            }
-        } catch (Exception e) {
-            log.error("退出登录异常");
         }
     }
 
@@ -201,6 +183,5 @@ public class LoginServlet extends HttpServlet {
         final static String IS_OPEN_YOU = "107";
         final static String OPEN_YOU = "108";
         final static String LOGOUT = "109";
-        final static String IS_LOGIN = "110";
     }
 }

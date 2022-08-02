@@ -1,6 +1,7 @@
 package top.byze.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import top.byze.service.Login;
 import top.byze.service.Register;
 import top.byze.utils.MailUtil;
 
@@ -34,6 +35,9 @@ public class RegisterServlet extends HttpServlet {
                 break;
             case Business.SEND_VERIFICATION_CODE:
                 sendVerifyCode(req, res);
+                break;
+            case Business.IS_LOGIN:
+                isLogin(req, res);
                 break;
             default:
                 log.error("前端数据异常");
@@ -107,12 +111,28 @@ public class RegisterServlet extends HttpServlet {
     }
 
     /**
+     * 是否登录
+     */
+    public void isLogin(HttpServletRequest req, HttpServletResponse res) {
+        try {
+            if (Login.isLogin(req)) {
+                res.getWriter().println(Res.TRUE);
+            } else {
+                res.getWriter().println(Res.FALSE);
+            }
+        } catch (Exception e) {
+            log.error("退出登录异常");
+        }
+    }
+
+    /**
      * 业务类型
      */
     private static class Business {
         final static String CHECK_EMAIL = "101";
         final static String SEND_VERIFICATION_CODE = "102";
         final static String REGISTER = "103";
+        final static String IS_LOGIN = "110";
     }
 
     /**

@@ -48,7 +48,7 @@ public class UserFileSqlProvider {
     public static String updateUserFile(UserFile userFile) {
         return new SQL() {
             {
-                UPDATE("user");
+                UPDATE("userFile");
                 if (userFile.getUid() != null) {
                     SET("uid = #{uid}");
                 }
@@ -92,7 +92,7 @@ public class UserFileSqlProvider {
         return new SQL() {
             {
                 INSERT_INTO("userFile");
-                VALUES("UID", "#{UID}");
+                VALUES("uid", "#{uid}");
                 VALUES("fileDir", "#{fileDir}");
                 VALUES("fileName", "#{fileName}");
                 VALUES("fileType", "#{fileType}");

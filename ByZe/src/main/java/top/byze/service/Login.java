@@ -38,6 +38,7 @@ public class Login {
             // 关闭资源
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("检查是否开通网盘异常");
         }
         return flag;
@@ -61,6 +62,7 @@ public class Login {
             // 关闭资源
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("检查是否开通游戏异常");
         }
         return flag;
@@ -93,6 +95,7 @@ public class Login {
             myBatis.closeSqlSession();
             flag = true;
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("开通网盘异常");
         }
         return flag;
@@ -113,6 +116,7 @@ public class Login {
             myBatis.closeSqlSession();
             flag = true;
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("开通游戏异常");
         }
         return flag;

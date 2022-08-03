@@ -65,6 +65,7 @@ public class Disk {
             }
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("获得网盘数据异常");
         }
         return panData;
@@ -83,9 +84,10 @@ public class Disk {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
             UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
-            fileList = userFileMapper.selectUserFile(new UserFile().setUid(uid).setFileDir(fileDir));
+            fileList = userFileMapper.selectUserFile(new UserFile().setUid(uid).setFileDir(fileDir).setSelectConditionTypeId(UserFileSqlProvider.Select_By_UID_FileDir_FileState_Y));
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("获得指定目录下的文件链表异常");
         }
         return fileList;
@@ -108,6 +110,7 @@ public class Disk {
             fileList = userFileMapper.selectUserFile(new UserFile(uid, fileName, fileDir));
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("查看指定文件异常");
         }
         return fileList;
@@ -125,9 +128,10 @@ public class Disk {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
             UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
-            fileList = userFileMapper.selectUserFile(new UserFile().setUid(uid));
+            fileList = userFileMapper.selectUserFile(new UserFile().setUid(uid).setSelectConditionTypeId(UserFileSqlProvider.Select_By_UID_FileState_N));
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("查看回收站的所有文件异常");
         }
         return fileList;
@@ -149,8 +153,8 @@ public class Disk {
             fileList = userFileMapper.selectFilesOutOfDateInDatabase(uid, days);
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("查找数据库中的过期文件异常");
-            log.error(e.toString());
         }
         return fileList;
     }
@@ -169,9 +173,10 @@ public class Disk {
             MyBatis myBatis = new MyBatis();
             SqlSession sqlSession = myBatis.getSqlSession();
             UserFileMapper userFileMapper = sqlSession.getMapper(UserFileMapper.class);
-            userFileMapper.insertUserFile(new UserFile().setUid(uid).setFileName(fileName).setFileDir(fileDir).setFileSize(fileSize));
+            userFileMapper.insertUserFile(new UserFile().setUid(uid).setFileName(fileName).setFileDir(fileDir).setFileSize(fileSize).setFileType(fileType));
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("保存用户上传文件异常");
         }
     }
@@ -190,6 +195,7 @@ public class Disk {
             panDataMapper.updatePanData(new PanData(uid).setNowStorage(nowStorage));
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("设置当前存储异常");
         }
     }
@@ -209,6 +215,7 @@ public class Disk {
             userFileMapper.updateUserFile(new UserFile(uid, fileName, fileDir).setFileState("N"));
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("删除指定文件异常");
         }
     }
@@ -226,6 +233,7 @@ public class Disk {
             userFileMapper.deleteUserFile(new UserFile().setUid(uid).setDeleteConditionTypeId(UserFileSqlProvider.Delete_By_UID_FileState_N));
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("清空回收站异常");
         }
     }
@@ -245,6 +253,7 @@ public class Disk {
             userFileMapper.deleteUserFile(new UserFile(uid, fileName, fileDir));
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("清除指定文件异常");
         }
     }
@@ -264,6 +273,7 @@ public class Disk {
             userFileMapper.updateUserFile(new UserFile(uid, fileName, fileDir).setFileState("Y"));
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("恢复指定文件异常");
         }
     }
@@ -282,6 +292,7 @@ public class Disk {
             userFileMapper.clearFilesOutOfDateInDatabase(uid, days);
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("清除数据库中的过期文件异常");
         }
     }
@@ -302,6 +313,7 @@ public class Disk {
             userMapper.updateUser(new User(email).setIdCard(idCard).setRealName(realName).setPhone(phone));
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("修改用户属性异常");
         }
     }

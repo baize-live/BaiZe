@@ -379,5 +379,4 @@ public class DiskServlet extends HttpServlet {
         final static String TRUE = "1";
         final static String FALSE = "0";
     }
-
 }

@@ -46,6 +46,7 @@ public class Register {
             verifyMapper.insertVerify(new Verify(email, verifyCode));
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("保存验证码异常");
         }
     }
@@ -62,6 +63,7 @@ public class Register {
             flag = verifyMapper.selectVerify(new Verify(email, verifyCode));
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("检查验证码异常");
         }
         return flag != null;
@@ -82,6 +84,7 @@ public class Register {
             // 关闭资源
             myBatis.closeSqlSession();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("添加用户异常");
         }
     }

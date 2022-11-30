@@ -19,7 +19,7 @@ public class MailUtil {
      * SMTP_PORT 服务器端口
      */
     private static final String SENDER = "1921676794@qq.com";
-    private static final String AUTH_CODE = "qqumdhxxrhzsdfcb";
+    private static final String AUTH_CODE = "dfuumrrynbvucaaj";
     private static final String SMTP_HOST = "smtp.qq.com";
     private static final String SMTP_PORT = "465";
     private static final String SMTP_AUTH = "true";

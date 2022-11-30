@@ -1,0 +1,66 @@
+
+                                 客户端                                   服务器
+
+   Login               信息编号1   id   password                             bool
+
+                                                                            /  "1"   homeNum
+   CreateHome          信息编号2   id                                   bool
+                                                                            \  "0"
+
+                                                                            /  "1"
+   InHome              信息编号3   id   homeNum                         bool
+                                                                            \  "0"
+
+
+   OutHome             信息编号4   id   homeNum                              无
+
+                                                                            /  "1"
+   WatchGame           信息编号5   id   homeNum                         bool
+                                                                            \  "0"
+
+   prepare             信息编号6   id   homeNum   "1"||"0"              transmitInformation
+
+
+   PlayChess           信息编号7   id   homeNum  row  col  isSuccess    transmitInformation
+
+   BackChess           信息编号8   id   homeNum
+
+                                                                              "1"   time text
+                                                                            /
+   sendDialogue        信息编号9   id   homeNum  time "什么话"           bool
+                                                                            \ "0"
+
+                                                                                    /  "1"  row col isSuccess
+                                                                            /  "1"
+                                                                           /        \  "2"  "什么话"
+   isInformation       信息编号10  id   homeNum                         bool
+                                                                           \
+                                                                            \  "0"
+   UpdateGameWindow    信息编号11                                       总数num   num个 房间编号
+
+
+   UpdateHome          信息编号12  id   homeNum
+
+   UpdateHome(观战者)  信息编号13  id   homeNum
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

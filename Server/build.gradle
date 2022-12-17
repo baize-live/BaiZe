@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'live.baize'
+version = '0.1'
+sourceCompatibility = '1.8'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenLocal()
+    maven { url "https://maven.aliyun.com/repository/public/" }
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok'
+
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.0'
+    implementation 'com.baomidou:mybatis-plus-boot-starter:3.1.0'
+    implementation 'com.alibaba:druid:1.2.15'
+    implementation 'commons-io:commons-io:2.11.0'                               // io工具类
+    implementation 'commons-fileupload:commons-fileupload:1.4'                   // 封装的文件上传类
+//    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.2'           // log4j
+//    implementation 'org.apache.logging.log4j:log4j-api:2.17.2'                  // log4j api
+//    implementation 'org.apache.logging.log4j:log4j-core:2.17.2'                 // log4j core
+//    implementation 'org.slf4j:slf4j-api:2.0.5'                                  // 使用@slf4j
+    implementation 'javax.mail:mail:1.4.7'                                      // 邮件mail
+
+//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+//    implementation 'org.springframework.session:spring-session-data-redis'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

@@ -27,6 +27,9 @@ target/
 User*/
 
 .idea/
+.run/
+.gradle/
+build/
 
 cmake-build-debug/
 cmake-build-release/

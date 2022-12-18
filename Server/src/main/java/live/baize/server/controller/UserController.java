@@ -8,18 +8,13 @@ import live.baize.server.service.user.UserUtil;
 import live.baize.server.service.user.VerifyUtil;
 import live.baize.server.service.utils.MailUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServlet;
 
-/**
- * @author CodeXS
- */
 @Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController extends HttpServlet {
@@ -30,6 +25,8 @@ public class UserController extends HttpServlet {
     private UserUtil userUtil;
     @Resource
     private VerifyUtil verifyUtil;
+
+    // TODO: 负责参数 校验
 
     /**
      * 检查邮箱
@@ -55,17 +52,19 @@ public class UserController extends HttpServlet {
      */
     @GetMapping("/sendVerifyCode")
     public Response sendVerifyCode(@RequestParam("email") String email) {
-        // 获取注册码
+        // 获取验证码
         String verifyCode = verifyUtil.generateVerifyCode();
         // 保存验证码
-        verifyUtil.saveVerifyCode(email, verifyCode);
-        // 发送邮件
-        try {
-            mailUtil.sendVerifyCode(email, verifyCode);
-            return new Response(ResponseEnum.VerifyCode_Send_Success);
-        } catch (Exception e) {
-            throw new SystemException(ResponseEnum.VerifyCode_Send_Failure, e.getCause());
+        if (verifyUtil.saveVerifyCode(email, verifyCode)) {
+            // 发送邮件
+            try {
+                mailUtil.sendVerifyCode(email, verifyCode);
+                return new Response(ResponseEnum.VerifyCode_Send_Success);
+            } catch (Exception e) {
+                throw new SystemException(ResponseEnum.VerifyCode_Send_Failure, e.getCause());
+            }
         }
+        return new Response(ResponseEnum.VerifyCode_Send_Failure);
     }
 
     /**
@@ -99,9 +98,8 @@ public class UserController extends HttpServlet {
             userUtil.setCookies(email, password);
             userUtil.setSession(email, password);
             return new Response(ResponseEnum.Login_Success);
-        } else {
-            return new Response(ResponseEnum.Login_Failure);
         }
+        return new Response(ResponseEnum.Login_Failure);
     }
 
     /**
@@ -137,12 +135,10 @@ public class UserController extends HttpServlet {
      */
     @GetMapping("/openDisk")
     public Response openDisk() {
-        // 查询数据库 判断是否开启游戏
         if (userUtil.openDisk()) {
             return new Response(ResponseEnum.OpenDisk_Success);
-        } else {
-            return new Response(ResponseEnum.OpenDisk_Failure);
         }
+        return new Response(ResponseEnum.OpenDisk_Failure);
     }
 
     /**
@@ -153,9 +149,8 @@ public class UserController extends HttpServlet {
         // 查询数据库 判断是否开启白泽网盘
         if (userUtil.isOpenDisk()) {
             return new Response(ResponseEnum.Has_OpenDisk);
-        } else {
-            return new Response(ResponseEnum.Not_OpenDisk);
         }
+        return new Response(ResponseEnum.Not_OpenDisk);
     }
 
     /**
@@ -163,12 +158,10 @@ public class UserController extends HttpServlet {
      */
     @GetMapping("/openGame")
     public Response openGame() {
-        // 查询数据库 判断是否开启游戏
         if (userUtil.openGame()) {
             return new Response(ResponseEnum.OpenGame_Success);
-        } else {
-            return new Response(ResponseEnum.OpenGame_Failure);
         }
+        return new Response(ResponseEnum.OpenGame_Failure);
     }
 
     /**
@@ -179,9 +172,8 @@ public class UserController extends HttpServlet {
         // 查询数据库 判断是否开启游戏
         if (userUtil.isOpenGame()) {
             return new Response(ResponseEnum.Has_OpenGame);
-        } else {
-            return new Response(ResponseEnum.Not_OpenGame);
         }
+        return new Response(ResponseEnum.Not_OpenGame);
     }
 
 }

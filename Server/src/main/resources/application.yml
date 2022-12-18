@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://www.baize.live:3306/testDB
+    url: jdbc:mysql://www.baize.live:3306/BaiZeDB
     username: root
     password: SS111827jj!
     type: com.alibaba.druid.pool.DruidDataSource
@@ -16,7 +16,7 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
 
-#logging:
-#  config: classpath:log4j2.xml
+logging:
+  config: classpath:log4j2.xml
 
 

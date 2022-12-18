@@ -1,7 +1,8 @@
 package live.baize.server.service.user;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import live.baize.server.bean.business.User;
-import org.apache.ibatis.session.SqlSession;
+import live.baize.server.mapper.user.UserMapper;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.List;
 
 @Service
 @PropertySource("classpath:config.properties")
@@ -22,41 +22,85 @@ public class UserUtil {
     private HttpServletRequest request;
     @Resource
     private HttpServletResponse response;
-
+    @Resource
+    private UserMapper userMapper;
 
     /**
      * 检查邮箱是否已经注册
      */
     public boolean checkEmail(String email) {
-        return true;
+        return userMapper.selectOne(
+                new QueryWrapper<User>()
+                        .eq("email", email)
+                        .select("UID")
+        ) != null;
     }
 
     /**
      * 添加用户
      */
     public boolean addUser(String username, String password, String email) {
-        return true;
+        return userMapper.insert(
+                new User(email).setUsername(username).setPassword(password)
+        ) == 1;
+    }
+
+    /**
+     * 删除用户
+     */
+    public boolean delUser(String email) {
+        // TODO: 删除用户
+//          需要考虑
+//          1. 先删除所有业务表中的数据
+//          2. 再删除用户表
+        return userMapper.delete(
+                new QueryWrapper<User>()
+                        .eq("email", email)
+        ) == 1;
     }
 
     /**
      * 查找用户
      */
     public boolean findUser(String email, String password) {
-        return true;
+        return userMapper.selectOne(
+                new QueryWrapper<User>()
+                        .eq("email", email)
+                        .eq("password", password)
+                        .select("UID")
+        ) != null;
     }
 
     /**
      * 是否开通网盘
      */
     public boolean isOpenDisk() {
-        return false;
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return false;
+        }
+        return "1".equals(userMapper.selectOne(
+                new QueryWrapper<User>()
+                        .eq("email", user.getEmail())
+                        .eq("password", user.getPassword())
+                        .select("isOpenDisk")
+        ).getIsOpenDisk());
     }
 
     /**
      * 是否开通游戏
      */
     public boolean isOpenGame() {
-        return false;
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return false;
+        }
+        return "1".equals(userMapper.selectOne(
+                new QueryWrapper<User>()
+                        .eq("email", user.getEmail())
+                        .eq("password", user.getPassword())
+                        .select("isOpenGame")
+        ).getIsOpenGame());
     }
 
     /**
@@ -98,21 +142,6 @@ public class UserUtil {
      */
     public boolean openGame() {
         return false;
-//        boolean flag = false;
-//        try {
-//            MyBatis myBatis = new MyBatis();
-//            SqlSession sqlSession = myBatis.getSqlSession();
-//            // 获取 UserMapper 接口的代理对象
-//            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-//            userMapper.updateUser(new User(email).setIsOpenYou("1"));
-//            // 关闭资源
-//            myBatis.closeSqlSession();
-//            flag = true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            log.error("开通游戏异常");
-//        }
-//        return flag;
     }
 
     // ========================================================= //
@@ -140,6 +169,9 @@ public class UserUtil {
      */
     public void delCookies() {
         Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return;
+        }
         for (Cookie cookie : cookies) {
             cookie.setMaxAge(0);
             response.addCookie(cookie);
@@ -157,11 +189,11 @@ public class UserUtil {
      * 从Cookies中拿到User
      */
     public User getUserFromCookies() {
-        User user = null;
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
             return null;
         }
+        User user = null;
         for (Cookie cookie : cookies) {
             if (Cookie_Name.equals(cookie.getName())) {
                 String[] params = cookie.getValue().split("#");

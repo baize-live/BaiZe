@@ -48,5 +48,6 @@ public class ResponseEnum {
     // ============================================= 通用 ============================================= //
 
     public static final ResponseEnum SYSTEM_UNKNOWN = new ResponseEnum(500000, "您的网络不好, 请重试");
+    public static final ResponseEnum Hello_World = new ResponseEnum(100000, "你好, 世界! 你好, 朋友!");
 
 }

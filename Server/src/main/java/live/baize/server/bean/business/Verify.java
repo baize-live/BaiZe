@@ -1,8 +1,11 @@
 package live.baize.server.bean.business;
 
+import lombok.Getter;
+
 /**
  * @author CodeXS
  */
+@Getter
 public class Verify {
     private final String email;
     private final String verifyCode;

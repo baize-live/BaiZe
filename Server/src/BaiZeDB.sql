@@ -13,8 +13,8 @@ create table User
     phone      varchar(20) DEFAULT NULL COMMENT '手机',
     IDCard     varchar(20) DEFAULT NULL COMMENT '身份证号',
     realName   varchar(20) DEFAULT NULL COMMENT '真实姓名',
-    isOpenYou  char        DEFAULT '0' COMMENT '是否开通游戏账号',
-    isOpenPan  char        DEFAULT '0' COMMENT '是否开通网盘账号',
+    isOpenGame char        DEFAULT '0' COMMENT '是否开通游戏账号',
+    isOpenDisk char        DEFAULT '0' COMMENT '是否开通网盘账号',
     createTime datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     CONSTRAINT PriKeyUid PRIMARY KEY (UID),
     CONSTRAINT UniqueEmail UNIQUE (email)

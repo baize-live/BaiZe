@@ -1,14 +1,22 @@
 package live.baize.server.service.user;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import live.baize.server.bean.business.Verify;
+import live.baize.server.mapper.user.VerifyMapper;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Random;
 
 @Service
 public class VerifyUtil {
 
+    @Resource
+    VerifyMapper verifyMapper;
+
     /**
      * 生成验证码
+     *
      * @return String 6位数字验证码
      */
     public String generateVerifyCode() {
@@ -27,28 +35,22 @@ public class VerifyUtil {
     /**
      * 保存验证码
      */
-    public void saveVerifyCode(String email, String verifyCode) {
-//        verifyMapper.insertVerify(new Verify(email, verifyCode));
+    public boolean saveVerifyCode(String email, String verifyCode) {
+        return verifyMapper.insert(
+                new Verify(email, verifyCode)
+        ) == 1;
     }
 
     /**
      * 检查验证码
      */
     public boolean checkVerifyCode(String email, String verifyCode) {
-//        Verify flag = null;
-//        try {
-//            MyBatis myBatis = new MyBatis();
-//            SqlSession sqlSession = myBatis.getSqlSession();
-//            VerifyMapper verifyMapper = sqlSession.getMapper(VerifyMapper.class);
-//            flag = verifyMapper.selectVerify(new Verify(email, verifyCode));
-//            myBatis.closeSqlSession();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            log.error("检查验证码异常");
-//        }
-//        return flag != null;
-        return true;
+        return verifyMapper.selectOne(
+                new QueryWrapper<Verify>()
+                        .eq("email", email)
+                        .eq("verifyCode", verifyCode)
+                        .select("vid")
+        ) != null;
     }
-
 
 }

@@ -22,6 +22,8 @@ class ServerApplicationTests {
             System.out.println("Success sendVerifyCode");
             mailUtil.sendKeepAliveMail(0);
             System.out.println("Success sendKeepAliveMail");
+            mailUtil.sendExceptionMail("test sendExceptionMail");
+            System.out.println("Success sendExceptionMail");
         } catch (Exception e) {
             e.printStackTrace();
         }

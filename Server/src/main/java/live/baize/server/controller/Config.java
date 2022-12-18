@@ -28,7 +28,7 @@ public class Config {
     /**
      * 一天一次保活
      */
-    @Scheduled(initialDelay = 0, fixedRate = 86400000)
+    @Scheduled(initialDelay = 86400000, fixedRate = 86400000)
     public void keepAlive() {
         mailUtil.sendKeepAliveMail(++days);
     }

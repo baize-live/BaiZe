@@ -75,7 +75,7 @@ public class MailUtil {
 
     public void sendKeepAliveMail(Integer day) {
         String subject = "BaiZe 服务器保活邮件";
-        String content = "服务器已经稳定运行了" + day + "天.\n每天都要保持开心呀... ";
+        String content = (day == 0) ? "保活测试" : "服务器已经稳定运行了" + day + "天.";
         try {
             sendMail(sendMail, subject, content);
         } catch (Exception e) {
@@ -83,5 +83,14 @@ public class MailUtil {
         }
     }
 
+    public void sendExceptionMail(String exception) {
+        String subject = "BaiZe 服务器异常邮件";
+        String content = "服务器出现异常, 异常为: \n" + exception + "\n请尽快检查.";
+        try {
+            sendMail(sendMail, subject, content);
+        } catch (Exception e) {
+            log.error("邮件系统出现异常.\n" + e.getMessage());
+        }
+    }
 }
 

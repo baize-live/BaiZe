@@ -19,7 +19,9 @@ class ServerApplicationTests {
         System.out.println("======================== start testMailUtil ========================");
         try {
             mailUtil.sendVerifyCode("baize_live@163.com", "123456");
-            System.out.println("Test Success");
+            System.out.println("Success sendVerifyCode");
+            mailUtil.sendKeepAliveMail(0);
+            System.out.println("Success sendKeepAliveMail");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,9 +2,6 @@ package live.baize.server.bean.business;
 
 import lombok.Getter;
 
-/**
- * @author CodeXS
- */
 @Getter
 public class Verify {
     private final String email;
@@ -15,13 +12,5 @@ public class Verify {
     public Verify(String email, String verifyCode) {
         this.email = email;
         this.verifyCode = verifyCode;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getVerifyCode() {
-        return verifyCode;
     }
 }

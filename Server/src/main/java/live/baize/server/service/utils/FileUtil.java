@@ -6,9 +6,6 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 
-/**
- * @author CodeXS
- */
 @Slf4j
 public class FileUtil {
     /**

@@ -3,9 +3,6 @@ package live.baize.server.bean.business.disk;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-/**
- * @author CodeXS
- */
 @Data
 @Accessors(chain = true)
 public class PanData {

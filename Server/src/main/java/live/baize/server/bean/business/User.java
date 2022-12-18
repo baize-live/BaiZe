@@ -3,9 +3,6 @@ package live.baize.server.bean.business;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-/**
- * @author CodeXS
- */
 @Data
 @Accessors(chain = true)
 public class User {

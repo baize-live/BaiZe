@@ -36,14 +36,14 @@ public class ResponseEnum {
     public static final ResponseEnum OpenDisk_Failure = new ResponseEnum(200070, "开通白泽网盘失败");
     public static final ResponseEnum OpenDisk_Success = new ResponseEnum(200071, "开通白泽网盘成功");
 
-    public static final ResponseEnum Not_OpenDisk = new ResponseEnum(200080,"白泽网盘暂未开通");
-    public static final ResponseEnum Has_OpenDisk = new ResponseEnum(200081,"白泽网盘已经开通");
+    public static final ResponseEnum Not_OpenDisk = new ResponseEnum(200080, "白泽网盘暂未开通");
+    public static final ResponseEnum Has_OpenDisk = new ResponseEnum(200081, "白泽网盘已经开通");
 
-    public static final ResponseEnum OpenGame_Failure = new ResponseEnum(200090,"开通白泽游戏失败");
-    public static final ResponseEnum OpenGame_Success = new ResponseEnum(200091,"开通白泽游戏成功");
+    public static final ResponseEnum OpenGame_Failure = new ResponseEnum(200090, "开通白泽游戏失败");
+    public static final ResponseEnum OpenGame_Success = new ResponseEnum(200091, "开通白泽游戏成功");
 
-    public static final ResponseEnum Not_OpenGame = new ResponseEnum(200100,"白泽游戏暂未开通");
-    public static final ResponseEnum Has_OpenGame = new ResponseEnum(200101,"白泽游戏已经开通");
+    public static final ResponseEnum Not_OpenGame = new ResponseEnum(200100, "白泽游戏暂未开通");
+    public static final ResponseEnum Has_OpenGame = new ResponseEnum(200101, "白泽游戏已经开通");
 
     // ============================================= 通用 ============================================= //
 

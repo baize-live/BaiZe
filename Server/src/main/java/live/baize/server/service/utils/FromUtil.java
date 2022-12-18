@@ -8,9 +8,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/**
- * @author CodeXS
- */
 public class FromUtil {
     public static FromMap parseParam(HttpServletRequest req) {
         FromMap result = new FromMap();

@@ -5,9 +5,6 @@ import org.apache.commons.fileupload.FileItem;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author CodeXS
- */
 public class FromMap {
 
     private final Map<String, String> paramMap;

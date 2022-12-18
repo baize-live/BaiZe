@@ -30,6 +30,7 @@ img/
 .run/
 .gradle/
 build/
+resources/
 
 cmake-build-debug/
 cmake-build-release/

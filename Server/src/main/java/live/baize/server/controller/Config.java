@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.time.LocalTime;
 
 @Configuration
 @RestController
@@ -26,11 +27,13 @@ public class Config {
     }
 
     /**
-     * 一天一次保活
+     * 一天一次保活 每天晚上10点发一条
      */
-    @Scheduled(initialDelay = 86400000, fixedRate = 86400000)
+    @Scheduled(initialDelay = 0, fixedRate = 3600000)
     public void keepAlive() {
-        mailUtil.sendKeepAliveMail(++days);
+        if (LocalTime.now().getHour() == 22) {
+            mailUtil.sendKeepAliveMail(++days);
+        }
     }
 
 }

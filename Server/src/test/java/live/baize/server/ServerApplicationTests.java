@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.time.LocalTime;
 
 @SpringBootTest
 class ServerApplicationTests {
@@ -57,5 +58,9 @@ class ServerApplicationTests {
         System.out.println(verifyUtil.saveVerifyCode(email, code));
         System.out.println(verifyUtil.checkVerifyCode(email, code));
         System.out.println("======================== end   testVerifyUtil ========================");
+    }
+
+    @Test
+    void test() {
     }
 }

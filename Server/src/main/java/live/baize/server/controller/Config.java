@@ -8,6 +8,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.Resource;
 import java.time.LocalTime;
@@ -15,11 +17,13 @@ import java.time.LocalTime;
 @Configuration
 @RestController
 @RequestMapping("/")
-public class Config {
+public class Config implements WebMvcConfigurer {
 
     Integer days = 0;
     @Resource
     MailUtil mailUtil;
+    @Resource
+    private Interceptor interceptor;
 
     @GetMapping
     public Response helloWorld() {
@@ -35,6 +39,12 @@ public class Config {
             mailUtil.sendKeepAliveMail(++days);
         }
     }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(interceptor).addPathPatterns("/**");
+    }
+
 
 }
 

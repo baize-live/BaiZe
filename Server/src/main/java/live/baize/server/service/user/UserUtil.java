@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import live.baize.server.bean.business.User;
 import live.baize.server.bean.business.disk.DiskData;
+import live.baize.server.bean.exception.BusinessException;
 import live.baize.server.bean.exception.SystemException;
 import live.baize.server.bean.response.ResponseEnum;
 import live.baize.server.mapper.disk.DiskDataMapper;
@@ -93,6 +94,11 @@ public class UserUtil {
      */
     @Transactional(rollbackFor = SystemException.class)
     public boolean openDisk(String email) {
+        // 检验是否已经开通
+        if (isOpenDisk(email)) {
+            throw new BusinessException(ResponseEnum.Has_OpenDisk);
+        }
+
         int ret;
         // 1. 修改user表中用户的isOpenDisk字段
         ret = userMapper.update(null,

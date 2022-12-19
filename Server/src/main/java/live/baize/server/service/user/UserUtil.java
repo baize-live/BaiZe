@@ -1,29 +1,35 @@
 package live.baize.server.service.user;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import live.baize.server.bean.business.User;
+import live.baize.server.bean.business.disk.DiskData;
+import live.baize.server.bean.exception.SystemException;
+import live.baize.server.bean.response.ResponseEnum;
+import live.baize.server.mapper.disk.DiskDataMapper;
 import live.baize.server.mapper.user.UserMapper;
+import live.baize.server.service.utils.FileUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
+@Slf4j
 @Service
 @PropertySource("classpath:config.properties")
 public class UserUtil {
-    private final String Cookie_Name = "loginInfo";
+    @Value("${filepath.user}")
+    String userFilePath;
+    @Value("${filepath.share}")
+    String shareFilePath;
 
     @Resource
-    private HttpServletRequest request;
-    @Resource
-    private HttpServletResponse response;
-    @Resource
     private UserMapper userMapper;
+    @Resource
+    private DiskDataMapper diskDataMapper;
 
     /**
      * 检查邮箱是否已经注册
@@ -74,141 +80,71 @@ public class UserUtil {
     /**
      * 是否开通网盘
      */
-    public boolean isOpenDisk() {
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            return false;
-        }
+    public boolean isOpenDisk(String email) {
         return "1".equals(userMapper.selectOne(
                 new QueryWrapper<User>()
-                        .eq("email", user.getEmail())
-                        .eq("password", user.getPassword())
+                        .eq("email", email)
                         .select("isOpenDisk")
         ).getIsOpenDisk());
     }
 
     /**
-     * 是否开通游戏
+     * 开通网盘
      */
-    public boolean isOpenGame() {
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
+    @Transactional(rollbackFor = SystemException.class)
+    public boolean openDisk(String email) {
+        int ret;
+        // 1. 修改user表中用户的isOpenDisk字段
+        ret = userMapper.update(null,
+                new UpdateWrapper<User>()
+                        .eq("email", email)
+                        .set("isOpenDisk", "1")
+        );
+        if (ret == 0) {
+            log.info("modify isOpenDisk failure.");
             return false;
         }
+
+        // 2. 拿到 UID
+        Integer UId = userMapper.selectOne(
+                new QueryWrapper<User>()
+                        .eq("email", email)
+                        .select("UID")
+        ).getUid();
+
+        // 3. 在DiskData表中添加用户信息
+        ret = diskDataMapper.insert(new DiskData(UId));
+        if (ret == 0) {
+            log.info("insert DiskData failure.");
+            throw new SystemException(ResponseEnum.SYSTEM_UNKNOWN);
+        }
+
+        // 4. 创建的文件目录
+        String path = userFilePath + "User" + UId;
+        if (!FileUtil.createDir(path)) {
+            log.info("createDir failure.");
+            throw new SystemException(ResponseEnum.SYSTEM_UNKNOWN);
+        }
+
+        return true;
+    }
+
+    /**
+     * 是否开通游戏
+     */
+    public boolean isOpenGame(String email) {
         return "1".equals(userMapper.selectOne(
                 new QueryWrapper<User>()
-                        .eq("email", user.getEmail())
-                        .eq("password", user.getPassword())
+                        .eq("email", email)
                         .select("isOpenGame")
         ).getIsOpenGame());
     }
 
     /**
-     * 开通网盘
-     */
-    public boolean openDisk() {
-        return false;
-//        // TODO: 事务管理
-//        boolean flag = false;
-//        try {
-//            MyBatis myBatis = new MyBatis();
-//            SqlSession sqlSession = myBatis.getSqlSession();
-//            // 1. 修改user表中用户的isOpenPan字段
-//            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-//            userMapper.updateUser(new User(email).setIsOpenPan("1"));
-//            List<User> userList = userMapper.selectUser(new User(email));
-//            Integer uid = null;
-//            if (!userList.isEmpty()) {
-//                uid = userList.get(0).getUid();
-//            }
-//            // 2. 在panData表中添加用户信息
-//            PanDataMapper panDataMapper = sqlSession.getMapper(PanDataMapper.class);
-//            panDataMapper.insertPanData(new PanData(uid));
-//            // 3. 创建的文件目录
-//            String path = ConfigUtil.getUserFilePath() + "User" + uid;
-//            FileUtil.createDir(path);
-//            // 关闭资源
-//            myBatis.closeSqlSession();
-//            flag = true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            log.error("开通网盘异常");
-//        }
-//        return flag;
-    }
-
-    /**
      * 开通游戏
      */
-    public boolean openGame() {
+    public boolean openGame(String email) {
         return false;
-    }
-
-    // ========================================================= //
-
-    /**
-     * 添加cookies
-     */
-    public void setCookies(String email, String password) {
-        email = Base64.getEncoder().encodeToString(email.getBytes());
-        password = Base64.getEncoder().encodeToString(password.getBytes());
-        Cookie cookie = new Cookie(Cookie_Name, email + "#" + password);
-        cookie.setMaxAge(2592000);
-        response.addCookie(cookie);
-    }
-
-    /**
-     * 设置session
-     */
-    public void setSession(String email, String password) {
-        request.getSession().setAttribute("user", new User(email).setPassword(password));
-    }
-
-    /**
-     * 删除cookies
-     */
-    public void delCookies() {
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
-            return;
-        }
-        for (Cookie cookie : cookies) {
-            cookie.setMaxAge(0);
-            response.addCookie(cookie);
-        }
-    }
-
-    /**
-     * 删除cookies
-     */
-    public void delSession() {
-        request.getSession().setAttribute("user", null);
-    }
-
-    /**
-     * 从Cookies中拿到User
-     */
-    public User getUserFromCookies() {
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
-            return null;
-        }
-        User user = null;
-        for (Cookie cookie : cookies) {
-            if (Cookie_Name.equals(cookie.getName())) {
-                String[] params = cookie.getValue().split("#");
-                user = new User(new String(Base64.getDecoder().decode(params[0]), StandardCharsets.UTF_8))
-                        .setPassword(new String(Base64.getDecoder().decode(params[1]), StandardCharsets.UTF_8));
-            }
-        }
-        return user;
-    }
-
-    /**
-     * 从Session中拿到User
-     */
-    public User getUserFromSession() {
-        return (User) request.getSession().getAttribute("user");
     }
 
 }

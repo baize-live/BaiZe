@@ -1,6 +1,7 @@
 package live.baize.server;
 
 import live.baize.server.service.user.UserUtil;
+import live.baize.server.service.user.VerifyUtil;
 import live.baize.server.service.utils.MailUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,12 +14,16 @@ class ServerApplicationTests {
     MailUtil mailUtil;
     @Resource
     UserUtil userUtil;
+    @Resource
+    VerifyUtil verifyUtil;
+
+    final String email = "baize_live@163.com";
 
     @Test
     void testMailUtil() {
         System.out.println("======================== start testMailUtil ========================");
         try {
-            mailUtil.sendVerifyCode("baize_live@163.com", "123456");
+            mailUtil.sendVerifyCode(email, "123456");
             System.out.println("Success sendVerifyCode");
             mailUtil.sendKeepAliveMail(0);
             System.out.println("Success sendKeepAliveMail");
@@ -32,7 +37,6 @@ class ServerApplicationTests {
 
     @Test
     void testUserUtil() {
-        String email = "12345@baize.com";
         String username = "Test";
         String password = "Test";
         System.out.println("======================== start testUserUtil ========================");
@@ -45,4 +49,13 @@ class ServerApplicationTests {
         System.out.println("======================== end   testUserUtil ========================");
     }
 
+    @Test
+    void testVerifyUtil() {
+        System.out.println("======================== start testVerifyUtil ========================");
+        String code = verifyUtil.generateVerifyCode();
+        System.out.println(verifyUtil.checkVerifyCode(email, code));
+        System.out.println(verifyUtil.saveVerifyCode(email, code));
+        System.out.println(verifyUtil.checkVerifyCode(email, code));
+        System.out.println("======================== end   testVerifyUtil ========================");
+    }
 }

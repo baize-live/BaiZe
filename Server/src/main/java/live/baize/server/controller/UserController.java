@@ -4,6 +4,7 @@ import live.baize.server.bean.business.User;
 import live.baize.server.bean.exception.SystemException;
 import live.baize.server.bean.response.Response;
 import live.baize.server.bean.response.ResponseEnum;
+import live.baize.server.service.user.SessionUtil;
 import live.baize.server.service.user.UserUtil;
 import live.baize.server.service.user.VerifyUtil;
 import live.baize.server.service.utils.MailUtil;
@@ -25,6 +26,8 @@ public class UserController extends HttpServlet {
     private UserUtil userUtil;
     @Resource
     private VerifyUtil verifyUtil;
+    @Resource
+    private SessionUtil sessionUtil;
 
     // TODO: 负责参数 校验
 
@@ -95,8 +98,8 @@ public class UserController extends HttpServlet {
     @GetMapping("/login")
     public Response login(@RequestParam("email") String email, @RequestParam("password") String password) {
         if (userUtil.findUser(email, password)) {
-            userUtil.setCookies(email, password);
-            userUtil.setSession(email, password);
+            sessionUtil.setCookies(email, password);
+            sessionUtil.setSession(email, password);
             return new Response(ResponseEnum.Login_Success);
         }
         return new Response(ResponseEnum.Login_Failure);
@@ -107,13 +110,13 @@ public class UserController extends HttpServlet {
      */
     @GetMapping("/isLogin")
     public Response isLogin() {
-        if (userUtil.getUserFromSession() != null) {
+        if (sessionUtil.getUserFromSession() != null) {
             return new Response(ResponseEnum.Has_Login);
         }
-        User user = userUtil.getUserFromCookies();
+        User user = sessionUtil.getUserFromCookies();
         if (user != null) {
             if (userUtil.findUser(user.getEmail(), user.getPassword())) {
-                userUtil.setSession(user.getEmail(), user.getPassword());
+                sessionUtil.setSession(user.getEmail(), user.getPassword());
                 return new Response(ResponseEnum.Has_Login);
             }
         }
@@ -125,8 +128,8 @@ public class UserController extends HttpServlet {
      */
     @GetMapping("/logout")
     public Response logout() {
-        userUtil.delCookies();
-        userUtil.delSession();
+        sessionUtil.delCookies();
+        sessionUtil.delSession();
         return new Response(ResponseEnum.Logout_Success);
     }
 
@@ -135,7 +138,7 @@ public class UserController extends HttpServlet {
      */
     @GetMapping("/openDisk")
     public Response openDisk() {
-        if (userUtil.openDisk()) {
+        if (userUtil.openDisk(sessionUtil.getUserFromSession().getEmail())) {
             return new Response(ResponseEnum.OpenDisk_Success);
         }
         return new Response(ResponseEnum.OpenDisk_Failure);
@@ -146,8 +149,7 @@ public class UserController extends HttpServlet {
      */
     @GetMapping("/isOpenDisk")
     public Response isOpenDisk() {
-        // 查询数据库 判断是否开启白泽网盘
-        if (userUtil.isOpenDisk()) {
+        if (userUtil.isOpenDisk(sessionUtil.getUserFromSession().getEmail())) {
             return new Response(ResponseEnum.Has_OpenDisk);
         }
         return new Response(ResponseEnum.Not_OpenDisk);
@@ -158,7 +160,7 @@ public class UserController extends HttpServlet {
      */
     @GetMapping("/openGame")
     public Response openGame() {
-        if (userUtil.openGame()) {
+        if (userUtil.openGame(sessionUtil.getUserFromSession().getEmail())) {
             return new Response(ResponseEnum.OpenGame_Success);
         }
         return new Response(ResponseEnum.OpenGame_Failure);
@@ -169,8 +171,7 @@ public class UserController extends HttpServlet {
      */
     @GetMapping("/isOpenGame")
     public Response isOpenGame() {
-        // 查询数据库 判断是否开启游戏
-        if (userUtil.isOpenGame()) {
+        if (userUtil.isOpenGame(sessionUtil.getUserFromSession().getEmail())) {
             return new Response(ResponseEnum.Has_OpenGame);
         }
         return new Response(ResponseEnum.Not_OpenGame);

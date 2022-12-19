@@ -5,9 +5,9 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class PanData {
+public class DiskData {
     private final Integer uid;
-    private Integer pid;
+    private Integer did;
     private String icon;
     private Integer grade;
     private Integer outOfDate;
@@ -15,7 +15,7 @@ public class PanData {
     private Integer maxStorage;
     private String createTime;
 
-    public PanData(Integer uid) {
+    public DiskData(Integer uid) {
         this.uid = uid;
     }
 }

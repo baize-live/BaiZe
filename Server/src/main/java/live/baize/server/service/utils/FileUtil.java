@@ -13,14 +13,16 @@ public class FileUtil {
      *
      * @param path 文件夹路径
      */
-    public static void createDir(String path) {
+    public static boolean createDir(String path) {
         File dir = new File(path);
         if (!dir.exists()) {
             boolean flag = dir.mkdirs();
             if (!flag) {
                 log.error("创建文件夹异常！");
+                return false;
             }
         }
+        return true;
     }
 
     /**

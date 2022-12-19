@@ -25,29 +25,29 @@ alter table
 
 -- 创建用户网盘数据表
 # 用来记录用户所有网盘相关的数据
-DROP TABLE IF EXISTS PanData;
-create table PanData
+DROP TABLE IF EXISTS DiskData;
+create table DiskData
 (
-    PID        int AUTO_INCREMENT COMMENT 'PID',
+    DID        int AUTO_INCREMENT COMMENT 'DID',
     UID        int COMMENT '用户ID',
     grade      int         DEFAULT 1 COMMENT '会员等级',
     icon       varchar(50) DEFAULT '192.png' COMMENT '头像',
     OutOfDate  int         DEFAULT 30 COMMENT '过期时间',
     nowStorage int         DEFAULT 0 COMMENT '当前存储',
     maxStorage int         DEFAULT 1024 COMMENT '最大存储',
-    CONSTRAINT PriKeyUid PRIMARY KEY (PID),
+    CONSTRAINT PriKeyUid PRIMARY KEY (DID),
     foreign key (UID) references User (UID)
 ) COMMENT '网盘数据';
 
 -- 创建用户网盘数据表
 # 用来记录用户所有与游戏相关的数据
-DROP TABLE IF EXISTS YouData;
-create table YouData
+DROP TABLE IF EXISTS GameData;
+create table GameData
 (
-    YID      int AUTO_INCREMENT COMMENT 'YID',
+    GID      int AUTO_INCREMENT COMMENT 'GID',
     UID      int COMMENT '用户ID',
     username varchar(20) DEFAULT ' ' NOT NULL COMMENT '游戏id',
-    CONSTRAINT PriKeyUid PRIMARY KEY (YID),
+    CONSTRAINT PriKeyUid PRIMARY KEY (GID),
     foreign key (UID) references User (UID)
 ) COMMENT '游戏数据';
 
@@ -130,24 +130,23 @@ create event clearVerifyOver5min on schedule every 60 second
     from Verify
     where createTime < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 300 second);
 
--- 创建一个存储过程
-create procedure setNowStorage(in ID int, in Storage int)
-BEGIN
-    update PanData set nowStorage = Storage where uid = ID;
-END;
+# -- 创建一个存储过程
+# create procedure setNowStorage(in ID int, in Storage int)
+# BEGIN
+#     update DiskData set nowStorage = Storage where uid = ID;
+# END;
+#
+# call setNowStorage(10000000, 0);
+# commit;
 
-call setNowStorage(10000000, 0);
-commit;
+# # 关闭事件  clearVerifyOver5min ---> eventName
+# alter event clearVerifyOver5min disable;
+# # 开启事件
+# alter event clearVerifyOver5min enable;
+# # 删除事件
+# drop event if exists clearVerifyOver5min;
+# # 查看事件
+# show events;
 
-
--- # 关闭事件  clearVerifyOver5min ---> eventName
--- alter event clearVerifyOver5min disable;
--- # 开启事件
--- alter event clearVerifyOver5min enable;
--- # 删除事件
--- drop event if exists clearVerifyOver5min;
--- # 查看事件
--- show events;
-
--- insert into Verify (email, verifyCode) value ('192176794@qq.com', '123456');
--- insert into Verify (email, verifyCode) value ('164613454@qq.com', '123456');
+# insert into Verify (email, verifyCode) value ('192176794@qq.com', '123456');
+# insert into Verify (email, verifyCode) value ('164613454@qq.com', '123456');

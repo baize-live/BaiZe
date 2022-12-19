@@ -13,6 +13,7 @@ public class User {
     private String phone;
     private String idCard;
     private String realName;
+    private String passwdSalt;
     private String isOpenGame;
     private String isOpenDisk;
     private String createTime;

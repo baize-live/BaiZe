@@ -8,11 +8,12 @@ create table User
 (
     UID        int AUTO_INCREMENT COMMENT 'UID',
     username   varchar(20) DEFAULT NULL COMMENT '用户名',
-    password   varchar(30) DEFAULT NULL COMMENT '密码',
+    password   char(64) DEFAULT NULL COMMENT '密码',
     email      varchar(30) NOT NULL COMMENT '电子邮件',
     phone      varchar(20) DEFAULT NULL COMMENT '手机',
     IDCard     varchar(20) DEFAULT NULL COMMENT '身份证号',
     realName   varchar(20) DEFAULT NULL COMMENT '真实姓名',
+    passwdSalt char(16) DEFAULT NULL COMMENT '密码盐',
     isOpenGame char        DEFAULT '0' COMMENT '是否开通游戏账号',
     isOpenDisk char        DEFAULT '0' COMMENT '是否开通网盘账号',
     createTime datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

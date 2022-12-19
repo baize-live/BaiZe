@@ -1,13 +1,13 @@
 package live.baize.server;
 
 import live.baize.server.service.user.UserUtil;
-import live.baize.server.service.user.VerifyUtil;
 import live.baize.server.service.utils.MailUtil;
+import live.baize.server.service.utils.PasswdUtil;
+import live.baize.server.service.utils.RandomUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-import java.time.LocalTime;
 
 @SpringBootTest
 class ServerApplicationTests {
@@ -16,9 +16,29 @@ class ServerApplicationTests {
     @Resource
     UserUtil userUtil;
     @Resource
-    VerifyUtil verifyUtil;
+    RandomUtil randomUtil;
+    @Resource
+    PasswdUtil passwdUtil;
 
     final String email = "baize_live@163.com";
+
+    @Test
+    void testUserUtil() {
+        String username = "Test";
+        String password = "Test";
+        String code = randomUtil.generateVerifyCode();
+        System.out.println("======================== start testUserUtil ========================");
+        System.out.println("checkEmailIsRegister: " + userUtil.checkEmailIsRegister(email));
+        System.out.println("addUser: " + userUtil.addUser(username, password, email));
+        System.out.println("checkEmailIsRegister: " + userUtil.checkEmailIsRegister(email));
+        System.out.println("findUser: " + userUtil.findUser(email, password));
+        System.out.println("delUser: " + userUtil.delUser(email));
+        System.out.println("checkEmailIsRegister: " + userUtil.checkEmailIsRegister(email));
+        System.out.println("checkVerifyCode: " + userUtil.checkVerifyCode(email, code));
+        System.out.println("saveVerifyCode: " + userUtil.saveVerifyCode(email, code));
+        System.out.println("checkVerifyCode: " + userUtil.checkVerifyCode(email, code));
+        System.out.println("======================== end   testUserUtil ========================");
+    }
 
     @Test
     void testMailUtil() {
@@ -37,30 +57,18 @@ class ServerApplicationTests {
     }
 
     @Test
-    void testUserUtil() {
-        String username = "Test";
-        String password = "Test";
-        System.out.println("======================== start testUserUtil ========================");
-        System.out.println("checkEmail: " + userUtil.checkEmail(email));
-        System.out.println("addUser: " + userUtil.addUser(username, password, email));
-        System.out.println("checkEmail: " + userUtil.checkEmail(email));
-        System.out.println("findUser: " + userUtil.findUser(email, password));
-        System.out.println("delUser: " + userUtil.delUser(email));
-        System.out.println("checkEmail: " + userUtil.checkEmail(email));
-        System.out.println("======================== end   testUserUtil ========================");
+    void testRandomUtil() {
+        System.out.println("======================== start testRandomUtil ========================");
+        System.out.println("generateVerifyCode: " + randomUtil.generateVerifyCode());
+        System.out.println("generatePasswdSalt: " + randomUtil.generatePasswdSalt());
+        System.out.println("======================== end   testRandomUtil ========================");
     }
 
     @Test
-    void testVerifyUtil() {
-        System.out.println("======================== start testVerifyUtil ========================");
-        String code = verifyUtil.generateVerifyCode();
-        System.out.println(verifyUtil.checkVerifyCode(email, code));
-        System.out.println(verifyUtil.saveVerifyCode(email, code));
-        System.out.println(verifyUtil.checkVerifyCode(email, code));
-        System.out.println("======================== end   testVerifyUtil ========================");
-    }
-
-    @Test
-    void test() {
+    void testPasswdUtil() {
+        System.out.println("======================== start testPasswdUtil ========================");
+        String passwdSalt = randomUtil.generatePasswdSalt();
+        System.out.println(passwdUtil.generatePassword("SS111827jj!", passwdSalt));
+        System.out.println("======================== end   testPasswdUtil ========================");
     }
 }

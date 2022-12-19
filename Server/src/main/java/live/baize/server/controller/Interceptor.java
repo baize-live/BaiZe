@@ -30,7 +30,7 @@ public class Interceptor implements HandlerInterceptor {
     }
 
     @Resource
-    SessionUtil sessionUtil;
+    private SessionUtil sessionUtil;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws BusinessException {

@@ -24,7 +24,7 @@ import java.util.Set;
 public class Handler {
 
     @Resource
-    MailUtil mailUtil;
+    private MailUtil mailUtil;
 
     @ExceptionHandler(MissingRequestValueException.class)
     public Response handleMissingRequestValueException(MissingRequestValueException missingRequestValueException) {

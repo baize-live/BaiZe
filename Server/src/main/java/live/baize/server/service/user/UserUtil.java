@@ -3,13 +3,17 @@ package live.baize.server.service.user;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import live.baize.server.bean.business.User;
+import live.baize.server.bean.business.Verify;
 import live.baize.server.bean.business.disk.DiskData;
 import live.baize.server.bean.exception.BusinessException;
 import live.baize.server.bean.exception.SystemException;
 import live.baize.server.bean.response.ResponseEnum;
 import live.baize.server.mapper.disk.DiskDataMapper;
 import live.baize.server.mapper.user.UserMapper;
+import live.baize.server.mapper.user.VerifyMapper;
 import live.baize.server.service.utils.FileUtil;
+import live.baize.server.service.utils.PasswdUtil;
+import live.baize.server.service.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -23,19 +27,26 @@ import javax.annotation.Resource;
 @PropertySource("classpath:config.properties")
 public class UserUtil {
     @Value("${filepath.user}")
-    String userFilePath;
+    private String userFilePath;
     @Value("${filepath.share}")
-    String shareFilePath;
+    private String shareFilePath;
 
     @Resource
     private UserMapper userMapper;
     @Resource
+    private VerifyMapper verifyMapper;
+    @Resource
     private DiskDataMapper diskDataMapper;
+
+    @Resource
+    RandomUtil randomUtil;
+    @Resource
+    PasswdUtil passwdUtil;
 
     /**
      * 检查邮箱是否已经注册
      */
-    public boolean checkEmail(String email) {
+    public boolean checkEmailIsRegister(String email) {
         return userMapper.selectOne(
                 new QueryWrapper<User>()
                         .eq("email", email)
@@ -47,8 +58,10 @@ public class UserUtil {
      * 添加用户
      */
     public boolean addUser(String username, String password, String email) {
+        String passwdSalt = randomUtil.generatePasswdSalt();
+        String password64 = passwdUtil.generatePassword(password, passwdSalt);
         return userMapper.insert(
-                new User(email).setUsername(username).setPassword(password)
+                new User(email).setUsername(username).setPassword(password64).setPasswdSalt(passwdSalt)
         ) == 1;
     }
 
@@ -70,12 +83,16 @@ public class UserUtil {
      * 查找用户
      */
     public boolean findUser(String email, String password) {
-        return userMapper.selectOne(
+        User user = userMapper.selectOne(
                 new QueryWrapper<User>()
                         .eq("email", email)
-                        .eq("password", password)
-                        .select("UID")
-        ) != null;
+                        .select("password", "passwdSalt")
+        );
+        if (user == null) {
+            return false;
+        }
+        String password64 = passwdUtil.generatePassword(password, user.getPasswdSalt());
+        return password64.equals(user.getPassword());
     }
 
     /**
@@ -153,4 +170,24 @@ public class UserUtil {
         return false;
     }
 
+    /**
+     * 保存验证码
+     */
+    public boolean saveVerifyCode(String email, String verifyCode) {
+        return verifyMapper.insert(
+                new Verify(email, verifyCode)
+        ) == 1;
+    }
+
+    /**
+     * 检查验证码
+     */
+    public boolean checkVerifyCode(String email, String verifyCode) {
+        return verifyMapper.selectOne(
+                new QueryWrapper<Verify>()
+                        .eq("email", email)
+                        .eq("verifyCode", verifyCode)
+                        .select("vid")
+        ) != null;
+    }
 }

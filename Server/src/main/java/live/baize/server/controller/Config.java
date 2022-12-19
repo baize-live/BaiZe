@@ -21,7 +21,7 @@ public class Config implements WebMvcConfigurer {
 
     Integer days = 0;
     @Resource
-    MailUtil mailUtil;
+    private MailUtil mailUtil;
     @Resource
     private Interceptor interceptor;
 

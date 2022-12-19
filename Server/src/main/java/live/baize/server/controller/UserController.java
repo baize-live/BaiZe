@@ -6,7 +6,7 @@ import live.baize.server.bean.response.Response;
 import live.baize.server.bean.response.ResponseEnum;
 import live.baize.server.service.user.SessionUtil;
 import live.baize.server.service.user.UserUtil;
-import live.baize.server.service.user.VerifyUtil;
+import live.baize.server.service.utils.RandomUtil;
 import live.baize.server.service.utils.MailUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Length;
@@ -29,7 +29,7 @@ public class UserController extends HttpServlet {
     @Resource
     private UserUtil userUtil;
     @Resource
-    private VerifyUtil verifyUtil;
+    private RandomUtil randomUtil;
     @Resource
     private SessionUtil sessionUtil;
 
@@ -42,7 +42,7 @@ public class UserController extends HttpServlet {
     @GetMapping("/checkEmail")
     public Response checkEmail(@Email @RequestParam("email") String email) {
         // 判断是否存在此邮箱
-        if (userUtil.checkEmail(email)) {
+        if (userUtil.checkEmailIsRegister(email)) {
             return new Response(ResponseEnum.Has_Email);
         } else {
             return new Response(ResponseEnum.Not_Email);
@@ -58,9 +58,9 @@ public class UserController extends HttpServlet {
     @GetMapping("/sendVerifyCode")
     public Response sendVerifyCode(@Email @RequestParam("email") String email) {
         // 获取验证码
-        String verifyCode = verifyUtil.generateVerifyCode();
+        String verifyCode = randomUtil.generateVerifyCode();
         // 保存验证码
-        if (verifyUtil.saveVerifyCode(email, verifyCode)) {
+        if (userUtil.saveVerifyCode(email, verifyCode)) {
             // 发送邮件
             try {
                 mailUtil.sendVerifyCode(email, verifyCode);
@@ -87,7 +87,7 @@ public class UserController extends HttpServlet {
             @Length(min = 1, max = 20, message = "username 长度必须在{min}和{max}之间") @RequestParam("username") String username,
             @Length(min = 10, max = 30, message = "password 长度必须在{min}和{max}之间") @RequestParam("password") String password,
             @Length(min = 6, max = 6, message = "verifyCode 长度必须为6") @RequestParam("verifyCode") String verifyCode) {
-        if (verifyUtil.checkVerifyCode(email, verifyCode)) {
+        if (userUtil.checkVerifyCode(email, verifyCode)) {
             if (userUtil.addUser(username, password, email)) {
                 return new Response(ResponseEnum.Register_Success);
             }

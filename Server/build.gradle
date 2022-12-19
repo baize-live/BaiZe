@@ -34,11 +34,9 @@ dependencies {
     implementation 'commons-io:commons-io:2.11.0'                               // io工具类
     implementation 'commons-fileupload:commons-fileupload:1.4'                   // 封装的文件上传类
     implementation 'javax.mail:mail:1.4.7'                                      // 邮件mail
-//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-//    implementation 'org.springframework.session:spring-session-data-redis'
+    implementation 'commons-codec:commons-codec'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
-
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 

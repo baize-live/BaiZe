@@ -9,12 +9,16 @@ import live.baize.server.service.user.UserUtil;
 import live.baize.server.service.user.VerifyUtil;
 import live.baize.server.service.utils.MailUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServlet;
+import javax.validation.constraints.Email;
 
 @Slf4j
+@Validated
 @CrossOrigin
 @RestController
 @RequestMapping("/user")
@@ -29,8 +33,6 @@ public class UserController extends HttpServlet {
     @Resource
     private SessionUtil sessionUtil;
 
-    // TODO: 负责参数 校验
-
     /**
      * 检查邮箱
      *
@@ -38,7 +40,7 @@ public class UserController extends HttpServlet {
      * @return Response 是否可用
      */
     @GetMapping("/checkEmail")
-    public Response checkEmail(@RequestParam("email") String email) {
+    public Response checkEmail(@Email @RequestParam("email") String email) {
         // 判断是否存在此邮箱
         if (userUtil.checkEmail(email)) {
             return new Response(ResponseEnum.Has_Email);
@@ -54,7 +56,7 @@ public class UserController extends HttpServlet {
      * @return Response 是否可用
      */
     @GetMapping("/sendVerifyCode")
-    public Response sendVerifyCode(@RequestParam("email") String email) {
+    public Response sendVerifyCode(@Email @RequestParam("email") String email) {
         // 获取验证码
         String verifyCode = verifyUtil.generateVerifyCode();
         // 保存验证码
@@ -80,10 +82,11 @@ public class UserController extends HttpServlet {
      * @return Response 注册成功
      */
     @GetMapping("/register")
-    public Response register(@RequestParam("email") String email,
-                             @RequestParam("username") String username,
-                             @RequestParam("password") String password,
-                             @RequestParam("verifyCode") String verifyCode) {
+    public Response register(
+            @Email @RequestParam("email") String email,
+            @Length(min = 1, max = 20, message = "username 长度必须在{min}和{max}之间") @RequestParam("username") String username,
+            @Length(min = 10, max = 30, message = "password 长度必须在{min}和{max}之间") @RequestParam("password") String password,
+            @Length(min = 6, max = 6, message = "verifyCode 长度必须为6") @RequestParam("verifyCode") String verifyCode) {
         if (verifyUtil.checkVerifyCode(email, verifyCode)) {
             if (userUtil.addUser(username, password, email)) {
                 return new Response(ResponseEnum.Register_Success);
@@ -96,7 +99,9 @@ public class UserController extends HttpServlet {
      * 登录
      */
     @GetMapping("/login")
-    public Response login(@RequestParam("email") String email, @RequestParam("password") String password) {
+    public Response login(
+            @Email @RequestParam("email") String email,
+            @Length(min = 10, max = 30, message = "password 长度必须在{min}和{max}之间") @RequestParam("password") String password) {
         if (userUtil.findUser(email, password)) {
             sessionUtil.setCookies(email, password);
             sessionUtil.setSession(email, password);

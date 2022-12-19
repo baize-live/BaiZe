@@ -49,5 +49,7 @@ public class ResponseEnum {
 
     public static final ResponseEnum SYSTEM_UNKNOWN = new ResponseEnum(500000, "您的网络不好, 请重试");
     public static final ResponseEnum Hello_World = new ResponseEnum(100000, "你好, 世界! 你好, 朋友!");
+    public static final ResponseEnum Param_Check = new ResponseEnum(40000, "参数有误, 请检查");
+    public static final ResponseEnum Param_Missing = new ResponseEnum(40001, "参数缺少, 请检查");
 
 }

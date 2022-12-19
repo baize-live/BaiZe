@@ -46,6 +46,8 @@ public class Interceptor implements HandlerInterceptor {
             return true;
         }
 
+        // TODO: 可以考虑重定向
+
         // 否则返回未登录
         throw new BusinessException(ResponseEnum.Not_Login);
     }

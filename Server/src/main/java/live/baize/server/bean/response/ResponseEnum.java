@@ -45,9 +45,22 @@ public class ResponseEnum {
     public static final ResponseEnum Not_OpenGame = new ResponseEnum(200100, "白泽游戏暂未开通");
     public static final ResponseEnum Has_OpenGame = new ResponseEnum(200101, "白泽游戏已经开通");
 
+    // ============================================= DiskController ============================================= //
+    public static final ResponseEnum GetUserFileList_Success = new ResponseEnum(600001, "用户文件列表获取成功");
+    public static final ResponseEnum GetUserDiskData_Success = new ResponseEnum(600011, "用户网盘数据获取成功");
+
+    public static final ResponseEnum CreateFileDir_Failure = new ResponseEnum(600020, "创建文件夹失败");
+    public static final ResponseEnum FileNameIsNull = new ResponseEnum(600030, "文件名为null");
+    public static final ResponseEnum WriteFile_Failure = new ResponseEnum(600040, "保存文件失败");
+    public static final ResponseEnum UploadFile_Success = new ResponseEnum(600051, "上传文件成功");
+    public static final ResponseEnum StorageNotEnough = new ResponseEnum(600060, "用户存储空间不足");
+
+    public static final ResponseEnum Not_ThisFile = new ResponseEnum(600070, "没有这个文件");
+
+
     // ============================================= 通用 ============================================= //
 
-    public static final ResponseEnum SYSTEM_UNKNOWN = new ResponseEnum(500000, "您的网络不好, 请重试");
+    public static final ResponseEnum SYSTEM_UNKNOWN = new ResponseEnum(500000, "系统繁忙");
     public static final ResponseEnum Hello_World = new ResponseEnum(100000, "你好, 世界! 你好, 朋友!");
     public static final ResponseEnum Param_Check = new ResponseEnum(40000, "参数有误, 请检查");
     public static final ResponseEnum Param_Missing = new ResponseEnum(40001, "参数缺少, 请检查");

@@ -23,7 +23,6 @@ import javax.validation.constraints.Email;
 @RestController
 @RequestMapping("/user")
 public class UserController extends HttpServlet {
-
     @Resource
     private MailUtil mailUtil;
     @Resource
@@ -103,8 +102,8 @@ public class UserController extends HttpServlet {
             @Email @RequestParam("email") String email,
             @Length(min = 10, max = 30, message = "password 长度必须在{min}和{max}之间") @RequestParam("password") String password) {
         if (userUtil.findUser(email, password)) {
+            sessionUtil.setSession(email);
             sessionUtil.setCookies(email, password);
-            sessionUtil.setSession(email, password);
             return new Response(ResponseEnum.Login_Success);
         }
         return new Response(ResponseEnum.Login_Failure);
@@ -121,7 +120,7 @@ public class UserController extends HttpServlet {
         User user = sessionUtil.getUserFromCookies();
         if (user != null) {
             if (userUtil.findUser(user.getEmail(), user.getPassword())) {
-                sessionUtil.setSession(user.getEmail(), user.getPassword());
+                sessionUtil.setSession(user.getEmail());
                 return new Response(ResponseEnum.Has_Login);
             }
         }

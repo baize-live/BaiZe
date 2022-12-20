@@ -12,6 +12,7 @@ public class ParamCheck {
 
     @Pointcut("execution(* live.baize.server.controller.*Controller.*(..))")
     private void trimParam() {
+        // 去掉前后空格
     }
 
     @Before("trimParam()")

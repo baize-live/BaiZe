@@ -3,25 +3,28 @@ package live.baize.server.bean.business.disk;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
+
 @Data
 @Accessors(chain = true)
 public class UserFile {
-    private Integer uid;
-    private String fileName;
+    private Integer UId;
+    private Integer UFId;
     private String fileDir;
-    private Integer ufId;
+    private String fileName;
+    private String realPath;
     private String fileType;
-    private Integer fileSize;
     private String fileState;
-    private String deleteTime;
+    private Long fileSize;
+    private Date deleteTime;
 
     public UserFile() {
     }
 
     // 唯一标识一个文件
-    public UserFile(Integer uid, String fileName, String fileDir) {
-        this.uid = uid;
-        this.fileName = fileName;
+    public UserFile(Integer UId, String fileDir, String fileName) {
+        this.UId = UId;
         this.fileDir = fileDir;
+        this.fileName = fileName;
     }
 }

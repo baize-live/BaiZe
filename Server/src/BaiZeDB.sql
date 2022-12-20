@@ -8,12 +8,12 @@ create table User
 (
     UID        int AUTO_INCREMENT COMMENT 'UID',
     username   varchar(20) DEFAULT NULL COMMENT '用户名',
-    password   char(64) DEFAULT NULL COMMENT '密码',
+    password   char(64)    DEFAULT NULL COMMENT '密码',
     email      varchar(30) NOT NULL COMMENT '电子邮件',
     phone      varchar(20) DEFAULT NULL COMMENT '手机',
     IDCard     varchar(20) DEFAULT NULL COMMENT '身份证号',
     realName   varchar(20) DEFAULT NULL COMMENT '真实姓名',
-    passwdSalt char(16) DEFAULT NULL COMMENT '密码盐',
+    passwdSalt char(16)    DEFAULT NULL COMMENT '密码盐',
     isOpenGame char        DEFAULT '0' COMMENT '是否开通游戏账号',
     isOpenDisk char        DEFAULT '0' COMMENT '是否开通网盘账号',
     createTime datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -31,11 +31,10 @@ create table DiskData
 (
     DID        int AUTO_INCREMENT COMMENT 'DID',
     UID        int COMMENT '用户ID',
-    grade      int         DEFAULT 1 COMMENT '会员等级',
-    icon       varchar(50) DEFAULT '192.png' COMMENT '头像',
-    OutOfDate  int         DEFAULT 30 COMMENT '过期时间',
-    nowStorage int         DEFAULT 0 COMMENT '当前存储',
-    maxStorage int         DEFAULT 1024 COMMENT '最大存储',
+    grade      int DEFAULT 1 COMMENT '会员等级',
+    outOfDate  int DEFAULT 30 COMMENT '过期时间',
+    nowStorage int DEFAULT 0 COMMENT '当前存储',
+    maxStorage int DEFAULT 1024 COMMENT '最大存储',
     CONSTRAINT PriKeyUid PRIMARY KEY (DID),
     foreign key (UID) references User (UID)
 ) COMMENT '网盘数据';
@@ -58,11 +57,12 @@ create table UserFile
 (
     UFID       int AUTO_INCREMENT COMMENT 'UFID',
     UID        int COMMENT '用户ID',
-    fileName   varchar(50)  DEFAULT ' ' NOT NULL COMMENT '文件名',
+    fileDir    varchar(500) DEFAULT ''  NOT NULL COMMENT '文件目录',
+    fileName   varchar(50)  DEFAULT ''  NOT NULL COMMENT '文件名字',
+    realPath   char(40)     DEFAULT ''  NOT NULL COMMENT '真实路径',
     fileType   char(1)      DEFAULT '-' NOT NULL COMMENT '文件类型',
     fileSize   int          DEFAULT 0   NOT NULL COMMENT '文件大小',
     fileState  char(1)      DEFAULT 'Y' NOT NULL COMMENT '文件状态',
-    fileDir    varchar(500) DEFAULT ' ' NOT NULL COMMENT '完整目录',
     deleteTime datetime     DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间',
     # TODO: 目前认为只要更新就是改fileState 因此同步修改删除时间
 

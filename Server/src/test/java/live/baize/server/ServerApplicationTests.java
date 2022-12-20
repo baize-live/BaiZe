@@ -24,14 +24,16 @@ class ServerApplicationTests {
 
     @Test
     void testUserUtil() {
-        String username = "Test";
-        String password = "Test";
+        String username = "TestUserUtil";
+        String password = "TestUserUtil";
         String code = randomUtil.generateVerifyCode();
         System.out.println("======================== start testUserUtil ========================");
         System.out.println("checkEmailIsRegister: " + userUtil.checkEmailIsRegister(email));
         System.out.println("addUser: " + userUtil.addUser(username, password, email));
         System.out.println("checkEmailIsRegister: " + userUtil.checkEmailIsRegister(email));
         System.out.println("findUser: " + userUtil.findUser(email, password));
+        System.out.println("getUserBasicInfoByEmail: " + userUtil.getUserBasicInfoByEmail(email));
+        System.out.println("getUserIdByEmail: " + userUtil.getUserIdByEmail(email));
         System.out.println("delUser: " + userUtil.delUser(email));
         System.out.println("checkEmailIsRegister: " + userUtil.checkEmailIsRegister(email));
         System.out.println("checkVerifyCode: " + userUtil.checkVerifyCode(email, code));
@@ -68,6 +70,7 @@ class ServerApplicationTests {
     void testPasswdUtil() {
         System.out.println("======================== start testPasswdUtil ========================");
         String passwdSalt = randomUtil.generatePasswdSalt();
+        System.out.println(passwdUtil.generateFileName(1, "/", "test.jpg"));
         System.out.println(passwdUtil.generatePassword("SS111827jj!", passwdSalt));
         System.out.println("======================== end   testPasswdUtil ========================");
     }

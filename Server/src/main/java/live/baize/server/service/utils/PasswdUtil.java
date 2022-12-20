@@ -9,21 +9,27 @@ import java.security.NoSuchAlgorithmException;
 
 @Component
 public class PasswdUtil {
+    final String SHA_128 = "SHA-1";
+    final String SHA_256 = "SHA-256";
 
-    private String getSHA256Str(String str) {
+    private String getEncryptStr(String algorithm, String str) {
         MessageDigest messageDigest;
-        String SHA256Str = null;
+        String encryptStr = null;
         try {
-            messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest = MessageDigest.getInstance(algorithm);
             byte[] hash = messageDigest.digest(str.getBytes(StandardCharsets.UTF_8));
-            SHA256Str = Hex.encodeHexString(hash);
+            encryptStr = Hex.encodeHexString(hash);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return SHA256Str;
+        return encryptStr;
+    }
+
+    public String generateFileName(Integer UId, String fileDir, String fileName) {
+        return getEncryptStr(SHA_128, UId + fileDir + fileName);
     }
 
     public String generatePassword(String password, String passwdSalt) {
-        return getSHA256Str(password + passwdSalt);
+        return getEncryptStr(SHA_256, password + passwdSalt);
     }
 }

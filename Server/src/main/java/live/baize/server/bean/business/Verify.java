@@ -2,15 +2,17 @@ package live.baize.server.bean.business;
 
 import lombok.Getter;
 
+import java.util.Date;
+
 @Getter
 public class Verify {
-    private Integer vid;
+    private Integer VId;
     private String email;
     private String verifyCode;
-    private String createTime;
+    private Date createTime;
 
-    public Verify(Integer vid) {
-        this.vid = vid;
+    public Verify(Integer VId) {
+        this.VId = VId;
     }
 
     public Verify(String email, String verifyCode) {

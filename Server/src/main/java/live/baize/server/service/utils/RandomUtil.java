@@ -30,6 +30,11 @@ public class RandomUtil {
         return generateRandomString(String_Seed_Number, 6);
     }
 
+    /**
+     * 生成密码盐
+     *
+     * @return String 16位随机密码盐
+     */
     public String generatePasswdSalt() {
         return generateRandomString(String_Seed_ASCII, 16);
     }

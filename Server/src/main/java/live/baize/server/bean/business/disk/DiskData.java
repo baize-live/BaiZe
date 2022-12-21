@@ -1,5 +1,7 @@
 package live.baize.server.bean.business.disk;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -11,6 +13,7 @@ import java.util.Date;
 @TableName("DiskData")
 public class DiskData {
     private Integer UId;
+    @TableId(type = IdType.AUTO)
     private Integer DId;
     private Integer grade;
     private Integer outOfDate;

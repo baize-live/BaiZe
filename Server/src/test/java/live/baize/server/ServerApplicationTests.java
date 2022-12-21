@@ -1,5 +1,10 @@
 package live.baize.server;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import live.baize.server.bean.business.disk.DiskData;
+import live.baize.server.mapper.disk.DiskDataMapper;
+import live.baize.server.mapper.user.UserMapper;
+import live.baize.server.mapper.user.VerifyMapper;
 import live.baize.server.service.user.UserUtil;
 import live.baize.server.service.utils.MailUtil;
 import live.baize.server.service.utils.PasswdUtil;
@@ -73,5 +78,17 @@ class ServerApplicationTests {
         System.out.println(passwdUtil.generateFileName(1, "/", "test.jpg"));
         System.out.println(passwdUtil.generatePassword("SS111827jj!", passwdSalt));
         System.out.println("======================== end   testPasswdUtil ========================");
+    }
+
+    @Resource
+    UserMapper userMapper;
+    @Resource
+    VerifyMapper verifyMapper;
+    @Resource
+    DiskDataMapper diskDataMapper;
+
+    @Test
+    void databaseScript() {
+
     }
 }

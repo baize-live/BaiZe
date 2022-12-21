@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Validated
@@ -35,12 +37,15 @@ public class DiskController {
     public Response getUserDiskData() {
         User user = userUtil.getUserBasicInfoByEmail(sessionUtil.getUserFromSession().getEmail());
         DiskData diskData = diskUtil.getDiskDataByUId(user.getUId());
-        Object[] data = {user, diskData};
+        Map<String, Object> data = new HashMap<>();
+        data.put("userData", user);
+        data.put("diskData", diskData);
         return new Response(ResponseEnum.GetUserDiskData_Success, data);
     }
 
     @GetMapping("/getUserFileList")
     public Response getUserFileList(@RequestParam String fileDir) {
+        // TODO：考虑分页
         Integer UId = userUtil.getUserIdByEmail(sessionUtil.getUserFromSession().getEmail());
         List<UserFile> fileList = diskUtil.getUserFileAtDir(UId, fileDir);
         return new Response(ResponseEnum.GetUserFileList_Success, fileList);
@@ -83,5 +88,5 @@ public class DiskController {
             throw new SystemException(ResponseEnum.SYSTEM_UNKNOWN, null);
         }
     }
-    
+
 }

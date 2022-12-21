@@ -54,8 +54,9 @@ public class ResponseEnum {
     public static final ResponseEnum WriteFile_Failure = new ResponseEnum(600040, "保存文件失败");
     public static final ResponseEnum UploadFile_Success = new ResponseEnum(600051, "上传文件成功");
     public static final ResponseEnum StorageNotEnough = new ResponseEnum(600060, "用户存储空间不足");
+    public static final ResponseEnum MaxUploadSizeExceeded = new ResponseEnum(600070, "网页端无法上传大文件");
 
-    public static final ResponseEnum Not_ThisFile = new ResponseEnum(600070, "没有这个文件");
+    public static final ResponseEnum Not_ThisFile = new ResponseEnum(600080, "没有这个文件");
 
 
     // ============================================= 通用 ============================================= //
@@ -63,6 +64,9 @@ public class ResponseEnum {
     public static final ResponseEnum SYSTEM_UNKNOWN = new ResponseEnum(500000, "系统繁忙");
     public static final ResponseEnum Hello_World = new ResponseEnum(100000, "你好, 世界! 你好, 朋友!");
     public static final ResponseEnum Param_Check = new ResponseEnum(40000, "参数有误, 请检查");
-    public static final ResponseEnum Param_Missing = new ResponseEnum(40001, "参数缺少, 请检查");
+    public static final ResponseEnum Param_Missing = new ResponseEnum(40010, "参数缺少, 请检查");
+    public static final ResponseEnum MethodNotSupported = new ResponseEnum(40020, "请求方法不支持");
+    public static final ResponseEnum Not_IsMultipart = new ResponseEnum(40030, "不是一个Multipart 请求");
+    public static final ResponseEnum Request_Part_Missing = new ResponseEnum(40040, "请求体参数缺少, 请检查");
 
 }

@@ -33,8 +33,8 @@ create table DiskData
     UID        int COMMENT '用户ID',
     grade      int      DEFAULT 1 COMMENT '会员等级',
     outOfDate  int      DEFAULT 30 COMMENT '过期时间',
-    nowStorage int      DEFAULT 0 COMMENT '当前存储',
-    maxStorage int      DEFAULT 1024 COMMENT '最大存储',
+    nowStorage bigint   DEFAULT 0 COMMENT '当前存储',
+    maxStorage bigint   DEFAULT 1073741824 COMMENT '最大存储',
     createTime datetime DEFAULT CURRENT_TIMESTAMP COMMENT '开通时间',
     CONSTRAINT PriKeyUid PRIMARY KEY (DID),
     foreign key (UID) references User (UID)

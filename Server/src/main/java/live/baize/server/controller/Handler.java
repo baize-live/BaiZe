@@ -6,11 +6,16 @@ import live.baize.server.bean.response.Response;
 import live.baize.server.bean.response.ResponseEnum;
 import live.baize.server.service.utils.MailUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
@@ -25,11 +30,35 @@ public class Handler {
     @Resource
     private MailUtil mailUtil;
 
-    @ExceptionHandler(MissingRequestValueException.class)
-    public Response handleMissingRequestValueException(MissingRequestValueException missingRequestValueException) {
-        return new Response(ResponseEnum.Param_Missing, missingRequestValueException.getMessage());
+    // 请求方法不支持
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public Response handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+        log.info(e.getMessage());
+        return new Response(ResponseEnum.MethodNotSupported, null);
     }
 
+    @ExceptionHandler(MultipartException.class)
+    public Response handleMultipartException(MultipartException multipartException) {
+        log.info(multipartException.getMessage());
+        if (multipartException instanceof MaxUploadSizeExceededException) {
+            return new Response(ResponseEnum.MaxUploadSizeExceeded, null);
+        }
+        return new Response(ResponseEnum.Not_IsMultipart, null);
+    }
+
+    // 参数校验缺失
+    @ExceptionHandler(ServletException.class)
+    public Response handleMissingRequestValueException(ServletException servletException) {
+        log.info(servletException.getMessage());
+        if (servletException instanceof MissingRequestValueException) {
+            return new Response(ResponseEnum.Param_Missing, servletException.getMessage());
+        } else if (servletException instanceof MissingServletRequestPartException) {
+            return new Response(ResponseEnum.Request_Part_Missing, servletException.getMessage());
+        }
+        return new Response(ResponseEnum.Param_Missing, servletException.getMessage());
+    }
+
+    // 参数异常
     @ExceptionHandler(ValidationException.class)
     public Response handleValidationException(ValidationException validationException) {
         List<String> errorList = new ArrayList<>();
@@ -47,6 +76,7 @@ public class Handler {
 
     @ExceptionHandler(BusinessException.class)
     public Response handleBusinessException(BusinessException businessException) {
+        log.info(businessException.getMessage());
         // 直接返回即可
         return new Response(businessException.getCode(), null, businessException.getMessage());
     }

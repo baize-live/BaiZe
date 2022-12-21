@@ -9,12 +9,14 @@ spring:
     password: SS111827jj!
     type: com.alibaba.druid.pool.DruidDataSource
   jackson:
+    default-property-inclusion: non_null
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+
   servlet:
     multipart:
-      max-file-size: 10GB
-      max-request-size: 10GB
+      max-file-size: 1GB
+      max-request-size: 1GB
 
 mybatis-plus:
   configuration:

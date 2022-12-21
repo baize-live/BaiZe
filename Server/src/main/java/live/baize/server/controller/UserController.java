@@ -86,6 +86,11 @@ public class UserController extends HttpServlet {
             @Length(min = 1, max = 20, message = "username 长度必须在{min}和{max}之间") @RequestParam("username") String username,
             @Length(min = 10, max = 30, message = "password 长度必须在{min}和{max}之间") @RequestParam("password") String password,
             @Length(min = 6, max = 6, message = "verifyCode 长度必须为6") @RequestParam("verifyCode") String verifyCode) {
+        // 先判断是否存在此邮箱
+        if (userUtil.checkEmailIsRegister(email)) {
+            return new Response(ResponseEnum.Has_Email);
+        }
+        // 在检查验证码
         if (userUtil.checkVerifyCode(email, verifyCode)) {
             if (userUtil.addUser(username, password, email)) {
                 return new Response(ResponseEnum.Register_Success);

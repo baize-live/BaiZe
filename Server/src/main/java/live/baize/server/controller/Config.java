@@ -3,21 +3,26 @@ package live.baize.server.controller;
 import live.baize.server.bean.response.Response;
 import live.baize.server.bean.response.ResponseEnum;
 import live.baize.server.service.utils.MailUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalTime;
 
+@Slf4j
 @Configuration
 @RestController
 @RequestMapping("/")
-public class Config implements WebMvcConfigurer {
+public class Config implements HandlerInterceptor, WebMvcConfigurer {
 
     Integer days = 0;
     @Resource
@@ -41,10 +46,22 @@ public class Config implements WebMvcConfigurer {
     }
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(interceptor).addPathPatterns("/**");
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        // 总入口
+        log.info(request.getRequestURI());
+        return true;
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(this)
+                .addPathPatterns("/**");
+
+        registry.addInterceptor(interceptor)
+                .addPathPatterns("/user/open*")
+                .addPathPatterns("/user/isOpen*")
+                .addPathPatterns("/baize*/*");
+    }
 
 }
 

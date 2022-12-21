@@ -24,7 +24,7 @@ import java.util.Map;
 @Validated
 @CrossOrigin
 @RestController
-@RequestMapping("/disk")
+@RequestMapping("/baizeDisk")
 public class DiskController {
     @Resource
     private UserUtil userUtil;

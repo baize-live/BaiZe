@@ -12,25 +12,13 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Component
 public class Interceptor implements HandlerInterceptor {
-    // 允许不登录的URI
-    static List<String> AllowNotLoginURI = new ArrayList<>();
-
-    static {
-        AllowNotLoginURI.add("/");
-        AllowNotLoginURI.add("/user/checkEmail");
-        AllowNotLoginURI.add("/user/sendVerifyCode");
-        AllowNotLoginURI.add("/user/register");
-        AllowNotLoginURI.add("/user/login");
-        AllowNotLoginURI.add("/user/isLogin");
-        AllowNotLoginURI.add("/user/logout");
-    }
-
     @Resource
     private UserUtil userUtil;
 
@@ -39,13 +27,6 @@ public class Interceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws BusinessException {
-        log.info("request: " + request.getRequestURI());
-
-        // 首先检查是否需要登录
-        if (AllowNotLoginURI.contains(request.getRequestURI())) {
-            return true;
-        }
-
         // 已经登录则放行
         if (sessionUtil.getUserFromSession() != null) {
             return true;
@@ -59,8 +40,6 @@ public class Interceptor implements HandlerInterceptor {
                 return true;
             }
         }
-
-        // TODO: 可以考虑重定向
 
         // 否则返回未登录
         throw new BusinessException(ResponseEnum.Not_Login);

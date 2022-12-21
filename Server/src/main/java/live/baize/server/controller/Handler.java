@@ -6,27 +6,37 @@ import live.baize.server.bean.response.Response;
 import live.baize.server.bean.response.ResponseEnum;
 import live.baize.server.service.utils.MailUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
+import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
+@RestController
 @RestControllerAdvice
-public class Handler {
+public class Handler extends BasicErrorController {
 
     @Resource
     private MailUtil mailUtil;
@@ -104,6 +114,24 @@ public class Handler {
         mailUtil.sendExceptionMail("SYSTEM_UNKNOWN, " + exception.getMessage());
         // 返回前端信息
         return new Response(ResponseEnum.SYSTEM_UNKNOWN, null);
+    }
+
+    // ============================================ Error ============================================ //
+    @Autowired
+    public Handler(ErrorAttributes errorAttributes, ServerProperties serverProperties, List<ErrorViewResolver> errorViewResolvers) {
+        super(errorAttributes, serverProperties.getError(), errorViewResolvers);
+    }
+
+    @Override
+    public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
+        return new ModelAndView("/error.html", new HashMap<>(), getStatus(request));
+    }
+
+    @Override
+    public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {
+        HttpStatus status = getStatus(request);
+        Map<String, Object> body = getErrorAttributes(request, getErrorAttributeOptions(request, MediaType.ALL));
+        return new ResponseEntity<>(body, status);
     }
 
 }

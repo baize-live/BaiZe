@@ -64,8 +64,12 @@ public class DiskUtil {
         String realPath = passwdUtil.generateFileName(UId, fileDir, fileName);
 
         // 1. 插入 UserFile表
-        if (userFileMapper.insert(new UserFile(UId, fileDir, fileName).setRealPath(realPath).setFileSize(fileSize)) != 1) {
-            return false;
+        try {
+            if (userFileMapper.insert(new UserFile(UId, fileDir, fileName).setRealPath(realPath).setFileSize(fileSize)) != 1) {
+                return false;
+            }
+        } catch (Exception e) {
+            throw new BusinessException(ResponseEnum.File_Has_Exist, e.getCause());
         }
 
         // 2. 更新 DiskData表 TODO: 容易发生脏读
@@ -87,8 +91,8 @@ public class DiskUtil {
         // 4. 保存文件
         try {
             file.transferTo(new File(folder, realPath));
-        } catch (IOException e) {
-            // 通知开发者
+        } catch (
+                IOException e) {
             throw new SystemException(ResponseEnum.WriteFile_Failure, e.getCause());
         }
 

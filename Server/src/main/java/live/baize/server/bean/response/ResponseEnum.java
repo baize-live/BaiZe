@@ -55,8 +55,9 @@ public class ResponseEnum {
     public static final ResponseEnum UploadFile_Success = new ResponseEnum(600051, "上传文件成功");
     public static final ResponseEnum StorageNotEnough = new ResponseEnum(600060, "用户存储空间不足");
     public static final ResponseEnum MaxUploadSizeExceeded = new ResponseEnum(600070, "网页端无法上传大文件");
+    public static final ResponseEnum File_Has_Exist = new ResponseEnum(600080, "该文件已经存在");
 
-    public static final ResponseEnum Not_ThisFile = new ResponseEnum(600080, "没有这个文件");
+    public static final ResponseEnum Not_ThisFile = new ResponseEnum(600090, "没有这个文件");
 
 
     // ============================================= 通用 ============================================= //

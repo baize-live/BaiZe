@@ -121,6 +121,7 @@ public class DiskUtil {
         } else {
             // 设置相应头，控制浏览器下载该文件，这里就是会出现当你点击下载后，出现的下载地址框
             response.setContentType("application/octet-stream");
+            response.addHeader("Content-Length", "" + file.length());
             response.addHeader("Content-Disposition", "attachment;filename=" + fileName + ";filename*=UTF-8");
             try {
                 OutputStream os = response.getOutputStream();

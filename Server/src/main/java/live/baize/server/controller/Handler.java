@@ -58,8 +58,8 @@ public class Handler {
     }
 
     @ExceptionHandler(ServletException.class)
-    public Response handleMissingRequestValueException(ServletException servletException) {
-        log.info(servletException.getMessage());
+    public Response handleServletException(ServletException servletException) {
+        log.info(servletException.getMessage(), servletException);
         // 请求方法不支持
         if (servletException instanceof HttpRequestMethodNotSupportedException) {
             return new Response(ResponseEnum.MethodNotSupported, null);
@@ -88,28 +88,20 @@ public class Handler {
 
     @ExceptionHandler(SystemException.class)
     public Response handleSystemException(SystemException systemException) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (StackTraceElement error : systemException.getStackTrace()) {
-            stringBuilder.append(error.toString()).append('\n');
-        }
         // 记录日志
-        log.error(systemException.getMessage() + stringBuilder);
+        log.error(systemException.getMessage(), systemException);
         // 发送信息给运维
-        mailUtil.sendExceptionMail("systemException, " + systemException.getMessage() + stringBuilder);
+        mailUtil.sendExceptionMail("systemException, " + systemException.getMessage());
         // 返回前端信息
         return new Response(systemException.getCode(), null, systemException.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
     public Response handleException(Exception exception) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (StackTraceElement error : exception.getStackTrace()) {
-            stringBuilder.append(error.toString()).append('\n');
-        }
         // 记录日志
-        log.error(exception.getMessage() + stringBuilder);
+        log.error(exception.getMessage(), exception);
         // 发送信息给运维
-        mailUtil.sendExceptionMail("SYSTEM_UNKNOWN, " + exception.getMessage() + stringBuilder);
+        mailUtil.sendExceptionMail("SYSTEM_UNKNOWN, " + exception.getMessage());
         // 返回前端信息
         return new Response(ResponseEnum.SYSTEM_UNKNOWN, null);
     }

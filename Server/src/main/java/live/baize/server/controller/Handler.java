@@ -20,6 +20,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -30,13 +31,7 @@ public class Handler {
     @Resource
     private MailUtil mailUtil;
 
-    // 请求方法不支持
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public Response handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        log.info(e.getMessage());
-        return new Response(ResponseEnum.MethodNotSupported, null);
-    }
-
+    // 文件上传异常
     @ExceptionHandler(MultipartException.class)
     public Response handleMultipartException(MultipartException multipartException) {
         log.info(multipartException.getMessage());
@@ -44,18 +39,6 @@ public class Handler {
             return new Response(ResponseEnum.MaxUploadSizeExceeded, null);
         }
         return new Response(ResponseEnum.Not_IsMultipart, null);
-    }
-
-    // 参数校验缺失
-    @ExceptionHandler(ServletException.class)
-    public Response handleMissingRequestValueException(ServletException servletException) {
-        log.info(servletException.getMessage());
-        if (servletException instanceof MissingRequestValueException) {
-            return new Response(ResponseEnum.Param_Missing, servletException.getMessage());
-        } else if (servletException instanceof MissingServletRequestPartException) {
-            return new Response(ResponseEnum.Request_Part_Missing, servletException.getMessage());
-        }
-        return new Response(ResponseEnum.Param_Missing, servletException.getMessage());
     }
 
     // 参数异常
@@ -72,6 +55,28 @@ public class Handler {
             errorList.add(validationException.getMessage());
         }
         return new Response(ResponseEnum.Param_Check, errorList);
+    }
+
+    @ExceptionHandler(ServletException.class)
+    public Response handleMissingRequestValueException(ServletException servletException) {
+        log.info(servletException.getMessage());
+        // 请求方法不支持
+        if (servletException instanceof HttpRequestMethodNotSupportedException) {
+            return new Response(ResponseEnum.MethodNotSupported, null);
+        }
+
+        // 参数校验缺失
+        if (servletException instanceof MissingRequestValueException) {
+            return new Response(ResponseEnum.Param_Missing, servletException.getMessage());
+        }
+
+        // 请求体参数缺失
+        if (servletException instanceof MissingServletRequestPartException) {
+            return new Response(ResponseEnum.Request_Part_Missing, servletException.getMessage());
+        }
+
+        mailUtil.sendExceptionMail("SYSTEM_UNKNOWN, " + servletException.getMessage() + Arrays.toString(servletException.getStackTrace()));
+        return new Response(ResponseEnum.SYSTEM_UNKNOWN, servletException.getMessage());
     }
 
     @ExceptionHandler(BusinessException.class)

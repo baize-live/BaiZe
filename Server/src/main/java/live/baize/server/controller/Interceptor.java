@@ -1,8 +1,10 @@
 package live.baize.server.controller;
 
+import live.baize.server.bean.business.User;
 import live.baize.server.bean.exception.BusinessException;
 import live.baize.server.bean.response.ResponseEnum;
 import live.baize.server.service.user.SessionUtil;
+import live.baize.server.service.user.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -30,6 +32,9 @@ public class Interceptor implements HandlerInterceptor {
     }
 
     @Resource
+    private UserUtil userUtil;
+
+    @Resource
     private SessionUtil sessionUtil;
 
     @Override
@@ -44,6 +49,15 @@ public class Interceptor implements HandlerInterceptor {
         // 已经登录则放行
         if (sessionUtil.getUserFromSession() != null) {
             return true;
+        }
+
+        // 未登录尝试登录
+        User user = sessionUtil.getUserFromCookies();
+        if (user != null) {
+            if (userUtil.findUser(user.getEmail(), user.getPassword())) {
+                sessionUtil.setSession(user.getEmail());
+                return true;
+            }
         }
 
         // TODO: 可以考虑重定向

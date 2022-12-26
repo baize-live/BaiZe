@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
+import java.io.IOException;
 import java.util.*;
 
 @Slf4j
@@ -41,6 +42,12 @@ public class Handler extends BasicErrorController {
     @Resource
     private MailUtil mailUtil;
 
+    @Autowired
+    public Handler(ErrorAttributes errorAttributes, ServerProperties serverProperties, List<ErrorViewResolver> errorViewResolvers) {
+        super(errorAttributes, serverProperties.getError(), errorViewResolvers);
+    }
+
+    // ========================================== Exception ========================================== //
     // 文件上传异常
     @ExceptionHandler(MultipartException.class)
     public Response handleMultipartException(MultipartException multipartException) {
@@ -89,6 +96,13 @@ public class Handler extends BasicErrorController {
         return new Response(ResponseEnum.SYSTEM_UNKNOWN, servletException.getMessage());
     }
 
+    @ExceptionHandler(IOException.class)
+    public Response handleIOException(IOException ioException) {
+        // 记录日志
+        log.error(ioException.getMessage(), ioException);
+        return new Response(ResponseEnum.SYSTEM_UNKNOWN, null);
+    }
+
     @ExceptionHandler(BusinessException.class)
     public Response handleBusinessException(BusinessException businessException) {
         log.info(businessException.getMessage());
@@ -117,11 +131,6 @@ public class Handler extends BasicErrorController {
     }
 
     // ============================================ Error ============================================ //
-    @Autowired
-    public Handler(ErrorAttributes errorAttributes, ServerProperties serverProperties, List<ErrorViewResolver> errorViewResolvers) {
-        super(errorAttributes, serverProperties.getError(), errorViewResolvers);
-    }
-
     @Override
     public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
         return new ModelAndView("/error.html", new HashMap<>(), getStatus(request));

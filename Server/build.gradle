@@ -24,17 +24,17 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
 
     runtimeOnly 'com.mysql:mysql-connector-j'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-aop'
-    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.0'
-    implementation 'com.baomidou:mybatis-plus-boot-starter:3.1.0'
-    implementation 'com.alibaba:druid:1.2.15'
+    implementation 'org.springframework.boot:spring-boot-starter-web'           // Web
+    implementation 'org.springframework.boot:spring-boot-starter-aop'           // AOP
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'        // 日志框架(注意排除spring自带的logging)
+    implementation 'org.springframework.boot:spring-boot-starter-validation'    // 参数校验
+    implementation 'org.springframework.boot:spring-boot-starter-freemarker'    // 解析MVC视图
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.0'  // mybatis
+    implementation 'com.baomidou:mybatis-plus-boot-starter:3.1.0'               // mybatis-plus
+    implementation 'com.alibaba:druid:1.2.15'                                   // druid数据源
     implementation 'commons-io:commons-io:2.11.0'                               // io工具类
-    implementation 'commons-fileupload:commons-fileupload:1.4'                   // 封装的文件上传类
     implementation 'javax.mail:mail:1.4.7'                                      // 邮件mail
-    implementation 'commons-codec:commons-codec'
+    implementation 'commons-codec:commons-codec'                                // 加解密
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 

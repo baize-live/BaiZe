@@ -91,8 +91,7 @@ public class DiskUtil {
         // 4. 保存文件
         try {
             file.transferTo(new File(folder, realPath));
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
             throw new SystemException(ResponseEnum.WriteFile_Failure, e.getCause());
         }
 

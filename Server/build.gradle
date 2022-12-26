@@ -28,7 +28,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'           // AOP
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'        // 日志框架(注意排除spring自带的logging)
     implementation 'org.springframework.boot:spring-boot-starter-validation'    // 参数校验
-    implementation 'org.springframework.boot:spring-boot-starter-freemarker'    // 解析MVC视图
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.0'  // mybatis
     implementation 'com.baomidou:mybatis-plus-boot-starter:3.1.0'               // mybatis-plus
     implementation 'com.alibaba:druid:1.2.15'                                   // druid数据源

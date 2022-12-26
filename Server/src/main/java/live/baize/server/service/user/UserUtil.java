@@ -74,18 +74,23 @@ public class UserUtil {
 
     /**
      * 查找用户
+     * <p>
+     * return UId
      */
-    public boolean findUser(String email, String password) {
+    public Integer findUser(String email, String password) {
         User user = userMapper.selectOne(
                 new QueryWrapper<User>()
                         .eq("email", email)
-                        .select("password", "passwdSalt")
+                        .select("UID", "password", "passwdSalt")
         );
         if (user == null) {
-            return false;
+            return null;
         }
         String password64 = passwdUtil.generatePassword(password, user.getPasswdSalt());
-        return password64.equals(user.getPassword());
+        if (password64.equals(user.getPassword())) {
+            return user.getUId();
+        }
+        return null;
     }
 
     /**
@@ -100,15 +105,13 @@ public class UserUtil {
     }
 
     /**
-     * 获得用户ID
+     * 修改用户数据
      */
-    public Integer getUserIdByEmail(String email) {
-        User user = userMapper.selectOne(
-                new QueryWrapper<User>()
-                        .eq("email", email)
-                        .select("UID")
-        );
-        return user == null ? null : user.getUId();
+    public boolean modifyUserData(Integer UId, String idCard, String realName, String phone) {
+        return userMapper.update(null,
+                new UpdateWrapper<User>().eq("UID", UId)
+                        .set("IDCard", idCard).set("realName", realName).set("phone", phone))
+                == 1;
     }
 
     /**

@@ -32,8 +32,9 @@ public class Interceptor implements HandlerInterceptor {
         // 未登录尝试登录
         User user = sessionUtil.getUserFromCookies();
         if (user != null) {
-            if (userUtil.findUser(user.getEmail(), user.getPassword())) {
-                sessionUtil.setSession(user.getEmail());
+            Integer UId = userUtil.findUser(user.getEmail(), user.getPassword());
+            if (UId != null) {
+                sessionUtil.setSession(UId, user.getEmail());
                 return true;
             }
         }

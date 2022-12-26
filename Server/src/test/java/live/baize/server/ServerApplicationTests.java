@@ -1,7 +1,5 @@
 package live.baize.server;
 
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import live.baize.server.bean.business.disk.DiskData;
 import live.baize.server.mapper.disk.DiskDataMapper;
 import live.baize.server.mapper.user.UserMapper;
 import live.baize.server.mapper.user.VerifyMapper;
@@ -36,9 +34,8 @@ class ServerApplicationTests {
         System.out.println("checkEmailIsRegister: " + userUtil.checkEmailIsRegister(email));
         System.out.println("addUser: " + userUtil.addUser(username, password, email));
         System.out.println("checkEmailIsRegister: " + userUtil.checkEmailIsRegister(email));
-        System.out.println("findUser: " + userUtil.findUser(email, password));
+        System.out.println("findUser: " + (userUtil.findUser(email, password) == null));
         System.out.println("getUserBasicInfoByEmail: " + userUtil.getUserBasicInfoByEmail(email));
-        System.out.println("getUserIdByEmail: " + userUtil.getUserIdByEmail(email));
         System.out.println("delUser: " + userUtil.delUser(email));
         System.out.println("checkEmailIsRegister: " + userUtil.checkEmailIsRegister(email));
         System.out.println("checkVerifyCode: " + userUtil.checkVerifyCode(email, code));

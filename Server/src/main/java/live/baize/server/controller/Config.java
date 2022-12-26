@@ -58,8 +58,7 @@ public class Config implements HandlerInterceptor, WebMvcConfigurer {
                 .addPathPatterns("/**");
 
         registry.addInterceptor(interceptor)
-                .addPathPatterns("/user/open*")
-                .addPathPatterns("/user/isOpen*")
+                .addPathPatterns("/user/hasLogin/*")
                 .addPathPatterns("/baize*/*");
     }
 

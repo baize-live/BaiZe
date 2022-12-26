@@ -34,8 +34,8 @@ public class SessionUtil {
     /**
      * 设置session
      */
-    public void setSession(String email) {
-        request.getSession().setAttribute("user", new User(email));
+    public void setSession(Integer UId, String email) {
+        request.getSession().setAttribute("user", new User(email).setUId(UId));
     }
 
     /**

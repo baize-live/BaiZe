@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Email;
 
 @Slf4j
@@ -106,8 +108,9 @@ public class UserController extends HttpServlet {
     public Response login(
             @Email @RequestParam("email") String email,
             @Length(min = 10, max = 30, message = "password 长度必须在{min}和{max}之间") @RequestParam("password") String password) {
-        if (userUtil.findUser(email, password)) {
-            sessionUtil.setSession(email);
+        Integer UId = userUtil.findUser(email, password);
+        if (UId != null) {
+            sessionUtil.setSession(UId, email);
             sessionUtil.setCookies(email, password);
             return new Response(ResponseEnum.Login_Success);
         }
@@ -124,8 +127,9 @@ public class UserController extends HttpServlet {
         }
         User user = sessionUtil.getUserFromCookies();
         if (user != null) {
-            if (userUtil.findUser(user.getEmail(), user.getPassword())) {
-                sessionUtil.setSession(user.getEmail());
+            Integer UId = userUtil.findUser(user.getEmail(), user.getPassword());
+            if (UId != null) {
+                sessionUtil.setSession(UId, user.getEmail());
                 return new Response(ResponseEnum.Has_Login);
             }
         }
@@ -143,9 +147,21 @@ public class UserController extends HttpServlet {
     }
 
     /**
+     * 修改用户属性
+     */
+    @GetMapping("/hasLogin/modifyUserData")
+    public Response modifyUserData(@RequestParam("phone") String phone, @RequestParam("idCard") String idCard, @RequestParam("realName") String realName) {
+        Integer UId = sessionUtil.getUserFromSession().getUId();
+        if (!userUtil.modifyUserData(UId, idCard, realName, phone)) {
+            return new Response(ResponseEnum.SYSTEM_UNKNOWN, null);
+        }
+        return new Response(ResponseEnum.ModifyUserData_Success, null);
+    }
+
+    /**
      * 开通网盘
      */
-    @GetMapping("/openDisk")
+    @GetMapping("/hasLogin/openDisk")
     public Response openDisk() {
         if (userUtil.openDisk(sessionUtil.getUserFromSession().getEmail())) {
             return new Response(ResponseEnum.OpenDisk_Success);
@@ -156,7 +172,7 @@ public class UserController extends HttpServlet {
     /**
      * 返回是否开通网盘
      */
-    @GetMapping("/isOpenDisk")
+    @GetMapping("/hasLogin/isOpenDisk")
     public Response isOpenDisk() {
         if (userUtil.isOpenDisk(sessionUtil.getUserFromSession().getEmail())) {
             return new Response(ResponseEnum.Has_OpenDisk);
@@ -167,7 +183,7 @@ public class UserController extends HttpServlet {
     /**
      * 开通游戏
      */
-    @GetMapping("/openGame")
+    @GetMapping("/hasLogin/openGame")
     public Response openGame() {
         if (userUtil.openGame(sessionUtil.getUserFromSession().getEmail())) {
             return new Response(ResponseEnum.OpenGame_Success);
@@ -178,7 +194,7 @@ public class UserController extends HttpServlet {
     /**
      * 返回是否开通游戏
      */
-    @GetMapping("/isOpenGame")
+    @GetMapping("/hasLogin/isOpenGame")
     public Response isOpenGame() {
         if (userUtil.isOpenGame(sessionUtil.getUserFromSession().getEmail())) {
             return new Response(ResponseEnum.Has_OpenGame);

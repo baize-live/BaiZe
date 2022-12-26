@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,12 +78,11 @@ public class DiskController {
      * 下载文件
      */
     @PostMapping("/downloadFile")
-    private void downloadFile(@RequestParam("fileDir") String fileDir,
-                              @RequestParam("fileName") String fileName,
-                              HttpServletResponse response) {
+    public void downloadFile(@RequestParam("fileDir") String fileDir,
+                             @RequestParam("fileName") String fileName) {
         Integer UId = userUtil.getUserIdByEmail(sessionUtil.getUserFromSession().getEmail());
 
-        if (!diskUtil.downloadFile(UId, fileDir, fileName, response)) {
+        if (!diskUtil.downloadFile(UId, fileDir, fileName, sessionUtil.getResponse())) {
             throw new SystemException(ResponseEnum.SYSTEM_UNKNOWN, null);
         }
     }

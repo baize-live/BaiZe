@@ -84,4 +84,12 @@ public class SessionUtil {
     public User getUserFromSession() {
         return (User) request.getSession().getAttribute("user");
     }
+
+    public HttpServletRequest getRequest() {
+        return request;
+    }
+
+    public HttpServletResponse getResponse() {
+        return response;
+    }
 }

@@ -6,6 +6,7 @@ import live.baize.server.service.utils.MailUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ import java.time.LocalTime;
 @Configuration
 @RestController
 @RequestMapping("/")
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 3600) // 分布式session实现
 public class Config implements HandlerInterceptor, WebMvcConfigurer {
 
     Integer days = 0;
@@ -36,12 +38,12 @@ public class Config implements HandlerInterceptor, WebMvcConfigurer {
     }
 
     /**
-     * 一天一次保活 每天晚上10点发一条
+     * 七天一次保活 晚上10点发一条
      */
     @Scheduled(initialDelay = 0, fixedRate = 3600000)
     public void keepAlive() {
-        if (LocalTime.now().getHour() == 22) {
-            mailUtil.sendKeepAliveMail(++days);
+        if (days++ % 7 == 0 && LocalTime.now().getHour() == 22) {
+            mailUtil.sendKeepAliveMail(days);
         }
     }
 

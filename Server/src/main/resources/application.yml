@@ -12,6 +12,12 @@ spring:
     default-property-inclusion: non_null
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  redis:
+    host: www.baize.live
+    port: 6379
+    timeout: 20000
+    password: SS111827jj!
+
 
   servlet:
     multipart:

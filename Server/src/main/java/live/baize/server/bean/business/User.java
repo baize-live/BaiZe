@@ -6,12 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @Accessors(chain = true)
 @TableName("User")
-public class User {
+public class User implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer UId;
     private String username;

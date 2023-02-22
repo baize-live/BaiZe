@@ -1,0 +1,19 @@
+.el-header {
+    background-color: #B3C0D1;
+    color: #333;
+    line-height: 60px;
+}
+
+.el-aside {
+    color: #333;
+}
+
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 400px;
+}
+
+#selectForm >>> .el-form-item__label {
+    font-size: 16px;
+}
+

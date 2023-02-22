@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>ByZeYOU</title>
+    <link href="static/img/32.png" rel="icon" sizes="32x32"/>
+    <link href="static/img/192.png" rel="icon" sizes="192x192"/>
+    <link href="./static/thirdLib/element-ui/lib/theme-chalk/index.css" rel="stylesheet">
+    <script src="./static/thirdLib/vue.js"></script>
+    <script src="./static/thirdLib/axios.js"></script>
+    <script src="./static/thirdLib/element-ui/lib/index.js"></script>
+
+</head>
+<body>
+
+<div id="you">
+    <div class="demo-image__placeholder">
+        <div class="block">
+            <el-image :src="bg"></el-image>
+        </div>
+    </div>
+    <el-container>
+        <el-main>
+            <el-button @click="" round type="primary">下载白泽游戏</el-button>
+        </el-main>
+    </el-container>
+</div>
+
+<script src="./static/js/Var.js"></script>
+<script>
+    new Vue({
+        el: "#you",
+        data: {
+            email: "",
+            password: "",
+            url: basePath + "/login",
+            bg: "./static/img/index/wallpaper2.png",
+        },
+        methods: {}
+    });
+</script>
+</body>
+</html>

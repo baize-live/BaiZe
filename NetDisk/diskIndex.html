@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>ByZePAN</title>
+    <link href="static/img/32.png" rel="icon" sizes="32x32"/>
+    <link href="static/img/192.png" rel="icon" sizes="192x192"/>
+    <link href="./static/thirdLib/element-ui/lib/theme-chalk/index.css" rel="stylesheet">
+    <script src="./static/thirdLib/vue.js"></script>
+    <script src="./static/thirdLib/axios.js"></script>
+    <script src="./static/thirdLib/element-ui/lib/index.js"></script>
+
+</head>
+<body>
+
+<div id="diskIndex">
+    <div class="demo-image__placeholder">
+        <div class="block">
+            <el-image :src="bg"></el-image>
+        </div>
+    </div>
+    <el-container>
+        <el-main>
+            <el-button @click="enterPan" round type="primary">进入网盘</el-button>
+        </el-main>
+    </el-container>
+</div>
+
+<script src="./static/js/Var.js"></script>
+<script src="./static/js/diskIndex.js"></script>
+</body>
+</html>

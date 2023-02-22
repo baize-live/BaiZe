@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>BaiZe</title>
+    <link href="static/img/32.png" rel="icon" sizes="32x32"/>
+    <link href="static/img/192.png" rel="icon" sizes="192x192"/>
+    <link href="./static/css/index.css" rel="stylesheet">
+    <link href="./static/thirdLib/element-ui/lib/theme-chalk/index.css" rel="stylesheet">
+    <script src="./static/thirdLib/vue.js"></script>
+    <script src="./static/thirdLib/axios.js"></script>
+    <script src="./static/thirdLib/element-ui/lib/index.js"></script>
+</head>
+
+<body>
+
+<div id="app">
+    <div style="text-align: left">
+        <el-button @click="handleSelect(2)">白泽网盘</el-button>
+        <el-button @click="handleSelect(3)">白泽游戏</el-button>
+        <el-button @click="handleSelect(4)">关于作者</el-button>
+        <el-button @click="handleSelect(5)" v-if="!isLoginBoolean">登录/注册</el-button>
+        <el-button @click="handleSelect(6)" v-if="isLoginBoolean">退出登录</el-button>
+    </div>
+    <br>
+    <div class="demo-image__placeholder">
+        <div class="block">
+            <el-image :src="bg"></el-image>
+        </div>
+    </div>
+    <div style="text-align: center; width:100%; height:auto">
+        <p>{{ Quotes }}</p>
+    </div>
+</div>
+
+<script src="./static/js/Var.js"></script>
+<script src="./static/js/index.js"></script>
+</body>
+</html>

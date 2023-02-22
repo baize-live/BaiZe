@@ -1,0 +1,133 @@
+
+.el-carousel__item h3 {
+    color: #475669;
+    font-size: 14px;
+    opacity: 0.75;
+    line-height: 150px;
+    margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+    background-color: #d3dce6;
+}
+
+
+/*body {*/
+/*    background: url("../src/pic/background/2.jpg") no-repeat;*/
+/*    background-size: 80% 80%;*/
+/*}*/
+
+body {
+    /*100%窗口高度*/
+    height: 100%;
+    /*弹性布局 水平+垂直居中*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*背景*/
+    background-color: #FFFFFF;
+    font-size: 18px;
+    font-family: Inter, "-apple-system", BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "noto sans", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif
+}
+
+
+.content .main {
+    display: flex;
+    flex-direction: column;
+    width: 1400px;
+    zoom: 1;
+    transition: all ease 0.38s;
+    transform-origin: 50% 50%;
+    align-items: center;
+    justify-content: center
+}
+
+.date-time-view {
+    text-align: center;
+    position: relative
+}
+
+.date-time-view .time {
+    font-size: 120px;
+    color: #fefefe;
+    padding-bottom: 16px;
+    text-shadow: 0 8px 12px rgba(0, 0, 0, 0.1)
+}
+
+.date-time-view .date {
+    padding-bottom: 16px;
+    vertical-align: baseline;
+    font-size: 20px;
+    color: #fff;
+    line-height: 1.5
+}
+
+.date-time-view .time-type {
+    position: absolute;
+    top: 0;
+    right: -50px;
+    color: #fff;
+    font-size: 25px
+}
+
+.small-weather {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 16px;
+    cursor: pointer
+}
+
+.small-weather .city-name {
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 22px;
+    margin-right: 28px
+}
+
+.small-weather .city-temp {
+    display: flex;
+    align-items: center;
+    margin-right: 16px
+}
+
+.small-weather .city-temp img {
+    width: 16px;
+    height: 16px;
+    user-select: none;
+    pointer-events: none;
+    margin-right: 8px
+}
+
+.small-weather .city-temp span {
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 17px
+}
+
+.small-weather .cur-temp {
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 22px
+}
+
+.el-carousel__item h3 {
+    color: #475669;
+    font-size: 14px;
+    opacity: 0.75;
+    line-height: 200px;
+    margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+    background-color: #d3dce6;
+}

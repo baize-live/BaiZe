@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://www.baize.live:3306/BaiZeDB
+    url: jdbc:mysql://39.105.127.244:3306/baizeDB
     username: root
     password: SS111827jj!
     type: com.alibaba.druid.pool.DruidDataSource
@@ -13,7 +13,7 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   redis:
-    host: www.baize.live
+    host: 39.105.127.244
     port: 6379
     timeout: 20000
     password: SS111827jj!

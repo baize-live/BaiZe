@@ -64,18 +64,19 @@ new Vue({
         },
 
         handleSelect(key, keyPath) {
-            if (key === 0) {
+            if (key == 0) {
                 this.getUserFileList();
-            } else if (key === 1) {
+            } else if (key == 1) {
                 this.lookupAllFilesFromBin();
-            } else if (key === 2) {
+            } else if (key == 2) {
                 this.getFriendList();
-            } else if (key === 3) {
+            } else if (key == 3) {
                 this.getUserDiskData()
             }
             for (let i = 0; i < this.isShow.length; ++i) {
                 this.isShow[i] = (i == key);
             }
+            console.log(this.isShow)
         },
 
         handleSelectionChange(val) {
@@ -167,7 +168,7 @@ new Vue({
             axios.get(diskAPI + "/lookupAllFilesFromBin")
                 .then(function (res) {
                     if (res.data.code === LookupAllFilesFromBin_Success.code) {
-                        that.fileList = res.data.data
+                        that.binList = res.data.data
                         that.$notify({
                             type: 'info',
                             message: res.data.msg
@@ -199,6 +200,7 @@ new Vue({
             let that = this
             axios.get(diskAPI + "/getFriendList")
                 .then(function (res) {
+                    that.friendList = [{"username": "好友系统暂未完善", group: ""}]
                     that.$notify({
                         type: 'info',
                         message: res.data.msg

@@ -15,22 +15,31 @@
 <body>
 
 <div id="app">
-    <div style="text-align: left">
-        <el-button @click="handleSelect(2)">白泽网盘</el-button>
-        <el-button @click="handleSelect(3)">白泽游戏</el-button>
-        <el-button @click="handleSelect(4)">关于作者</el-button>
-        <el-button @click="handleSelect(5)" v-if="!isLoginBoolean">登录/注册</el-button>
-        <el-button @click="handleSelect(6)" v-if="isLoginBoolean">退出登录</el-button>
-    </div>
-    <br>
-    <div class="demo-image__placeholder">
-        <div class="block">
-            <el-image :src="bg"></el-image>
-        </div>
-    </div>
-    <div style="text-align: center; width:100%; height:auto">
-        <p>{{ Quotes }}</p>
-    </div>
+    <el-container style="height:1000px;">
+        <el-main>
+            <div style="text-align: left">
+                <el-button @click="handleSelect(2)">白泽网盘</el-button>
+                <el-button @click="handleSelect(3)">白泽游戏</el-button>
+                <el-button @click="handleSelect(4)">关于作者</el-button>
+                <el-button @click="handleSelect(5)" v-if="!isLoginBoolean">登录/注册</el-button>
+                <el-button @click="handleSelect(6)" v-if="isLoginBoolean">退出登录</el-button>
+            </div>
+            <br>
+            <div class="demo-image__placeholder">
+                <div class="block">
+                    <el-image :src="bg"></el-image>
+                </div>
+            </div>
+            <div style="text-align: center; width:100%; height:auto">
+                <p>{{ Quotes }}</p>
+            </div>
+        </el-main>
+
+        <el-footer style="text-align: center">
+            <a href="https://beian.miit.gov.cn/">晋ICP备2023003612号-1</a>
+        </el-footer>
+    </el-container>
+
 </div>
 
 <script src="./static/js/Var.js"></script>

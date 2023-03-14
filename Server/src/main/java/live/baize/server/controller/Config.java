@@ -17,7 +17,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.time.LocalTime;
 
 @Slf4j
 @Configuration
@@ -40,9 +39,9 @@ public class Config implements HandlerInterceptor, WebMvcConfigurer {
     /**
      * 七天一次保活 晚上10点发一条
      */
-    @Scheduled(initialDelay = 0, fixedRate = 3600000)
+    @Scheduled(initialDelay = 0, fixedRate = 3600000 * 24)
     public void keepAlive() {
-        if (days++ % 7 == 0 && LocalTime.now().getHour() == 22) {
+        if (days++ % 7 == 0) {
             mailUtil.sendKeepAliveMail(days);
         }
     }

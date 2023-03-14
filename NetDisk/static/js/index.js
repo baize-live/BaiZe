@@ -14,7 +14,7 @@ new Vue({
             // 我自己的数据
             isLoginBoolean: false,
             Quotes: "",
-            bg: "./static/img/index/wallpaper2.png",
+            bg: "./static/img/index/wallpaper2.jpg",
         }
     },
 

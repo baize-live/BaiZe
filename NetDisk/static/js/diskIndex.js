@@ -3,7 +3,7 @@ new Vue({
     data: {
         email: "",
         password: "",
-        bg: "./static/img/index/wallpaper2.png",
+        bg: "./static/img/index/wallpaper2.jpg",
     },
     methods: {
         enterPan: function () {

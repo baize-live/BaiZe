@@ -34,3 +34,7 @@ resources/
 
 cmake-build-debug/
 cmake-build-release/
+application.yml
+application.yaml
+application.properties
+config.properties

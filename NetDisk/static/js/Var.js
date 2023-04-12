@@ -1,4 +1,4 @@
-let basePath = 'http://www.baize.live/baizeServer'
+let basePath = 'https://www.baize.live/baizeServer'
 let userAPI = basePath + "/user"
 let userAPI_hasLogin = userAPI + "/hasLogin"
 let diskAPI = basePath + "/baizeDisk"

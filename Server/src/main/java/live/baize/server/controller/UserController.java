@@ -14,9 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Email;
 
 @Slf4j
@@ -24,7 +21,7 @@ import javax.validation.constraints.Email;
 @CrossOrigin
 @RestController
 @RequestMapping("/user")
-public class UserController extends HttpServlet {
+public class UserController {
     @Resource
     private MailUtil mailUtil;
     @Resource

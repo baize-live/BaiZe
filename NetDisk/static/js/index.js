@@ -26,22 +26,22 @@ new Vue({
             switch (key) {
                 case 2:
                     setTimeout(() => {
-                        location.href = "../../diskIndex.html";
+                        location.href = "diskIndex.html";
                     }, 500)
                     break;
                 case 3:
                     setTimeout(() => {
-                        location.href = "../../gameIndex.html";
+                        location.href = "gameIndex.html";
                     }, 500)
                     break;
                 case 4:
                     setTimeout(() => {
-                        location.href = "./person.html";
+                        location.href = "person.html";
                     }, 500)
                     break;
                 case 5:
                     setTimeout(() => {
-                        location.href = "./login.html";
+                        location.href = "login.html";
                     }, 500)
                     break;
                 case 6:

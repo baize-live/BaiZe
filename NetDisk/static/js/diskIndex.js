@@ -12,7 +12,7 @@ new Vue({
                 .then(function (res) {
                     if (res.data.code === Has_OpenDisk.code) {
                         setTimeout(() => {
-                            location.href = "/disk.html";
+                            location.href = "disk.html";
                         }, 1000)
                     } else if (res.data.code === Not_OpenDisk.code) {
                         // 弹出对话框
